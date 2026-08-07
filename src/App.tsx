@@ -19,9 +19,11 @@ import { CampusApplicationRecordsPage } from './pages/recruitment/CampusApplicat
 import { MassClawPage } from './pages/massclaw/MassClawPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
+const ROUTER_BASENAME = import.meta.env.BASE_URL.replace(/\/+$/, '');
+
 export default function App() {
   return (
-    <Router>
+    <Router basename={ROUTER_BASENAME}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
