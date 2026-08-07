@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
@@ -40,6 +40,9 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          # 若仓库尚未开通 GitHub Pages，用 token 自动开通（需要 pages:write 权限）
+          enablement: true
 
       # BrowserRouter 深链接在 GH Pages 上没有 SPA 回退，把 index.html 复制为
       # 404.html 后，未知路径会返回它，由前端路由接管渲染
