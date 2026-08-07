@@ -5,6 +5,9 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // 部署到 GitHub Pages 项目站点（/gamstek-h5/）时需设置 base，
+    // 由部署 workflow 注入 BASE_PATH 环境变量；本地开发保持默认 '/'。
+    base: process.env.BASE_PATH || '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
