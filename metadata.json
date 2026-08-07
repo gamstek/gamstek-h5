@@ -1,0 +1,6 @@
+{
+  "name": "GAMSTEK H5",
+  "description": "Mobile-first responsive H5 website for GAMSTEK mass spectrometers and scientific instruments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,273 @@
+import React, { useEffect, useState } from 'react';
+import { motion } from 'motion/react';
+import { Search, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { BottomSheet } from '../../components/BottomSheet';
+import { useCampusStore } from '../../store/useCampusStore';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+
+export function CampusRecruitmentPage() {
+  useDocumentTitle('校园招聘');
+  const [isProjectFilterOpen, setIsProjectFilterOpen] = useState(false);
+  const [isCategoryFilterOpen, setIsCategoryFilterOpen] = useState(false);
+  const [isCityFilterOpen, setIsCityFilterOpen] = useState(false);
+
+  const [selectedProject, setSelectedProject] = useState('全部');
+  const [selectedCategory, setSelectedCategory] = useState('全部');
+  const [selectedCity, setSelectedCity] = useState('全部');
+
+  const [tempProject, setTempProject] = useState('全部');
+  const [tempCategory, setTempCategory] = useState('全部');
+  const [tempCity, setTempCity] = useState('全部');
+
+  const { jobs, isLoading, error, fetchJobs } = useCampusStore();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (jobs.length === 0) {
+      fetchJobs();
+    }
+  }, [jobs.length, fetchJobs]);
+
+  const projectNames = ['全部', ...Array.from(new Set(jobs.map(j => j.projectName).filter(Boolean)))];
+  const categories = ['全部', ...Array.from(new Set(jobs.map(j => j.category).filter(Boolean)))];
+  const cities = ['全部', ...Array.from(new Set(jobs.map(j => j.city).filter(Boolean)))];
+
+  const filteredJobs = jobs.filter(job => {
+    if (selectedProject !== '全部' && job.projectName !== selectedProject) return false;
+    if (selectedCategory !== '全部' && job.category !== selectedCategory) return false;
+    if (selectedCity !== '全部' && job.city !== selectedCity) return false;
+    return true;
+  });
+
+  return (
+    <div className="bg-[#f5f5f5] min-h-screen pb-12 font-sans">
+      {/* Hero Section */}
+      <div className="relative w-full overflow-hidden bg-black flex flex-col items-center pb-6 pt-[76px]">
+        <div className="absolute inset-0 z-0">
+           {/* Fallback gradient/image representing the space/ring */}
+           <div className="absolute top-0 left-0 w-64 h-64 rounded-full border-[20px] border-[#3b82f6]/30 blur-sm -translate-x-1/4 -translate-y-1/4"></div>
+           <div className="absolute top-10 left-10 w-48 h-48 rounded-full border-[10px] border-[#60a5fa]/40 blur-md"></div>
+           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
+        </div>
+        
+        <div className="relative z-10 pt-10 pb-8 px-6 text-center w-full">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-white/90 text-sm tracking-widest mb-4 font-medium"
+          >
+            GAMSTEK <span className="text-pink-500">ONE</span> TEAM
+          </motion.div>
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl font-bold text-white tracking-wider mb-2"
+          >
+            引力波智谱
+          </motion.h1>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="text-[2.5rem] font-bold text-[#8ba3ff] tracking-wider mb-6 leading-tight"
+          >
+            整机青年计划
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-[#facc15] text-lg font-medium tracking-widest"
+          >
+            入场，成为关键<span className="text-[#a78bfa]">变量</span>
+          </motion.div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative z-20 w-full px-6 mt-2">
+          <div className="bg-white rounded flex items-center px-4 py-3 shadow-md">
+            <Search className="w-5 h-5 text-gray-400 mr-2 shrink-0" />
+            <input 
+              type="text" 
+              placeholder="搜索职位" 
+              className="flex-1 bg-transparent border-none outline-none text-[15px] text-gray-900 placeholder:text-gray-400"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="bg-[#f5f5f5] px-6 py-4 flex gap-3 overflow-x-auto hide-scrollbar sticky top-[76px] z-30">
+        <button 
+          onClick={() => { setTempProject(selectedProject); setIsProjectFilterOpen(true); }}
+          className="flex items-center gap-1 bg-white px-4 py-1.5 rounded-full text-[14px] text-gray-700 shadow-sm whitespace-nowrap"
+        >
+          招聘项目 <ChevronDown className="w-4 h-4 text-gray-500" />
+        </button>
+        <button 
+          onClick={() => { setTempCategory(selectedCategory); setIsCategoryFilterOpen(true); }}
+          className="flex items-center gap-1 bg-white px-4 py-1.5 rounded-full text-[14px] text-gray-700 shadow-sm whitespace-nowrap"
+        >
+          职位类别({selectedCategory !== '全部' ? '1' : '0'}) <ChevronDown className="w-4 h-4 text-gray-500" />
+        </button>
+        <button 
+          onClick={() => { setTempCity(selectedCity); setIsCityFilterOpen(true); }}
+          className="flex items-center gap-1 bg-white px-4 py-1.5 rounded-full text-[14px] text-gray-700 shadow-sm whitespace-nowrap"
+        >
+          城市 <ChevronDown className="w-4 h-4 text-gray-500" />
+        </button>
+      </div>
+
+      {/* Job List */}
+      <div className="px-5 pb-8 space-y-4">
+        {isLoading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="w-8 h-8 border-2 border-[#e60012] border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : error ? (
+          <div className="text-center py-12 text-red-500 text-sm">
+            {error}
+            <button 
+              onClick={() => fetchJobs()}
+              className="block mx-auto mt-4 px-4 py-2 bg-gray-100 text-gray-900 rounded-full text-sm font-medium"
+            >
+              重试
+            </button>
+          </div>
+        ) : filteredJobs.length > 0 ? (
+          filteredJobs.map((job, idx) => (
+            <Link to={`/campus-recruitment/job/${job.id}`} key={job.id} className="block">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.05 }}
+                className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{job.title}</h3>
+                <div className="text-[14px] text-gray-600 mb-5 flex items-center gap-2">
+                  <span>{job.city}</span>
+                  <span className="text-gray-300">|</span>
+                  <span>{job.category}</span>
+                  <span className="text-gray-300">|</span>
+                  <span>{job.projectName}</span>
+                </div>
+                <div className="text-[15px] text-[#444] leading-relaxed whitespace-pre-wrap line-clamp-3">
+                  {job.description?.join('\n')}
+                </div>
+              </motion.div>
+            </Link>
+          ))
+        ) : (
+          <div className="text-center py-12 text-gray-400 text-sm">
+            暂无职位
+          </div>
+        )}
+      </div>
+      
+      {/* Project Filter Bottom Sheet */}
+      <BottomSheet
+        isOpen={isProjectFilterOpen}
+        onClose={() => setIsProjectFilterOpen(false)}
+        title="招聘项目"
+        variant="action"
+        onConfirm={() => { setSelectedProject(tempProject); setIsProjectFilterOpen(false); }}
+        heightClass="max-h-[60vh]"
+      >
+        <div className="py-2">
+          {projectNames.map(project => (
+            <div 
+              key={project}
+              className="flex items-center gap-3 py-4 border-b border-gray-100 last:border-0 cursor-pointer"
+              onClick={() => setTempProject(project)}
+            >
+              <div className="flex shrink-0 mt-0.5">
+                {tempProject === project ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#d32f2f"/>
+                    <path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="11" stroke="#9ca3af" strokeWidth="1"/>
+                  </svg>
+                )}
+              </div>
+              <span className="text-[16px] text-gray-900 flex-1">{project}</span>
+            </div>
+          ))}
+        </div>
+      </BottomSheet>
+
+      {/* Category Filter Bottom Sheet */}
+      <BottomSheet
+        isOpen={isCategoryFilterOpen}
+        onClose={() => setIsCategoryFilterOpen(false)}
+        title="职位类别"
+        variant="action"
+        onConfirm={() => { setSelectedCategory(tempCategory); setIsCategoryFilterOpen(false); }}
+        heightClass="max-h-[60vh]"
+      >
+        <div className="py-2">
+          {categories.map((category) => (
+            <div 
+              key={category}
+              className="flex items-center gap-3 py-4 border-b border-gray-100 last:border-0 cursor-pointer"
+              onClick={() => setTempCategory(category)}
+            >
+              <div className="flex shrink-0 mt-0.5">
+                {tempCategory === category ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#d32f2f"/>
+                    <path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="11" stroke="#9ca3af" strokeWidth="1"/>
+                  </svg>
+                )}
+              </div>
+              <span className="text-[16px] text-gray-900 flex-1">{category}</span>
+            </div>
+          ))}
+        </div>
+      </BottomSheet>
+
+      {/* City Filter Bottom Sheet */}
+      <BottomSheet
+        isOpen={isCityFilterOpen}
+        onClose={() => setIsCityFilterOpen(false)}
+        title="城市"
+        variant="action"
+        onConfirm={() => { setSelectedCity(tempCity); setIsCityFilterOpen(false); }}
+        heightClass="max-h-[60vh]"
+      >
+        <div className="py-2">
+          {cities.map((city) => (
+            <div 
+              key={city}
+              className="flex items-center gap-3 py-4 border-b border-gray-100 last:border-0 cursor-pointer"
+              onClick={() => setTempCity(city)}
+            >
+              <div className="flex shrink-0 mt-0.5">
+                {tempCity === city ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#d32f2f"/>
+                    <path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="11" stroke="#9ca3af" strokeWidth="1"/>
+                  </svg>
+                )}
+              </div>
+              <span className="text-[16px] text-gray-900 flex-1">{city}</span>
+            </div>
+          ))}
+        </div>
+      </BottomSheet>
+    </div>
+  );
+}
