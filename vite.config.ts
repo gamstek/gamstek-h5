@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
+import pkg from './package.json';
 
 export default defineConfig(() => {
   return {
@@ -9,6 +10,10 @@ export default defineConfig(() => {
     // 由部署 workflow 注入 BASE_PATH 环境变量；本地开发保持默认 '/'。
     base: process.env.BASE_PATH || '/',
     plugins: [react(), tailwindcss()],
+    define: {
+      // 构建时从 package.json 注入版本号，供全局展示（Footer 等）
+      __APP_VERSION__: JSON.stringify(pkg.version),
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

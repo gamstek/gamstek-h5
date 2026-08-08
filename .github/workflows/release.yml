@@ -1,0 +1,85 @@
+name: Release
+
+# 推送 v* 版本标签（如 v1.0.0）时触发；也可手动触发
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (类型检查)
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+        env:
+          # 站点部署在 https://<owner>.github.io/<repo>/
+          BASE_PATH: /${{ github.event.repository.name }}/
+
+      # BrowserRouter 深链接 SPA 回退
+      - name: SPA fallback (404.html)
+        run: cp dist/index.html dist/404.html
+
+      # 读取版本号（v1.0.0 → 1.0.0）
+      - name: Resolve version
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      # 打 changelog：本次 tag 相对上一个 tag 的提交信息
+      - name: Generate changelog
+        id: changelog
+        run: |
+          if [ -n "$(git tag --sort=-version:refname | sed -n 2p)" ]; then
+            PREV=$(git tag --sort=-version:refname | sed -n 2p)
+            LOG=$(git log --oneline "$PREV"..HEAD --no-decorate || true)
+          else
+            LOG=$(git log --oneline --no-decorate || true)
+          fi
+          echo "## 变更内容" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "$LOG" >> CHANGELOG.md
+          echo "changelog written"
+
+      # 打包 dist 为 zip 附件（随 GitHub Release 提供下载）
+      - name: Package dist
+        run: |
+          cd dist && zip -r ../gamstek-h5-${{ steps.version.outputs.VERSION }}.zip . -x '.*'
+          cd ..
+
+      # 同时作为 Actions artifact 保存（Actions run 页面也可下载）
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gamstek-h5-dist
+          path: dist
+          if-no-files-found: error
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body_path: CHANGELOG.md
+          files: |
+            gamstek-h5-${{ steps.version.outputs.VERSION }}.zip
+          draft: false
+          prerelease: false
