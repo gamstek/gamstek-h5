@@ -6,6 +6,12 @@ import {
 } from 'recharts';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import ms8100Hero from '../../assets/ms8100/hero.jpg';
+import ms8100Quadrupole from '../../assets/ms8100/quadrupole.jpg';
+import ms8100IonSource from '../../assets/ms8100/ion-source.jpg';
+import ms8100Stability from '../../assets/ms8100/stability.jpg';
+import ms8100Comparison from '../../assets/ms8100/comparison.jpg';
+import ms8100Software from '../../assets/ms8100/software.jpg';
 
 // Dummy data for charts
 const generateStabilityData = () => {
@@ -81,7 +87,7 @@ export function MS8100Details() {
             className="w-full px-4"
           >
             <img 
-              src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=800" 
+              src={ms8100Hero}
               alt="MS8100 System" 
               className="w-full max-w-sm mx-auto object-contain drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)]"
             />
@@ -97,7 +103,7 @@ export function MS8100Details() {
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>表面镀金，抗污染、抗氧化</li>
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>陶瓷底座，绝缘、抗干扰</li>
         </ul>
-        <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?auto=format&fit=crop&q=80&w=800" alt="Quadrupole" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
+        <img src={ms8100Quadrupole} alt="Quadrupole" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
       </div>
 
       {/* 离子源 (Ion Source) */}
@@ -109,7 +115,7 @@ export function MS8100Details() {
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>ESI/APCI 灵活切换，操作便捷</li>
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>无需卸真空，拆卸方便</li>
         </ul>
-        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" alt="Ion Source" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
+        <img src={ms8100IonSource} alt="Ion Source" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
       </div>
 
       {/* 核心亮点 (Core Highlights) */}
@@ -192,7 +198,7 @@ export function MS8100Details() {
           {/* Row 1: MS8100 */}
           <div className="grid grid-cols-[1.2fr_1fr_1fr] border-b border-gray-800 items-stretch bg-[#111]">
             <div className="p-3 flex flex-col items-center justify-center">
-              <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=200" alt="MS8100" className="w-20 h-14 object-contain mb-2 rounded bg-white/5 p-1" />
+              <img src={ms8100Hero} alt="MS8100" className="w-20 h-14 object-contain mb-2 rounded bg-white/5 p-1" />
               <span className="text-xs font-medium text-gray-200">MS8100</span>
             </div>
             <div className="border-l border-gray-800 p-2 text-[11px] flex flex-col justify-center text-center text-gray-300 gap-0.5">
@@ -208,7 +214,7 @@ export function MS8100Details() {
           {/* Row 2: MS7000 */}
           <div className="grid grid-cols-[1.2fr_1fr_1fr] border-b border-gray-800 items-stretch bg-[#1a1a1a]">
             <div className="p-3 flex flex-col items-center justify-center">
-              <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=200" alt="MS7000" className="w-20 h-14 object-cover mb-2 rounded bg-white/5 p-1" />
+              <img src={ms8100Comparison} alt="MS7000" className="w-20 h-14 object-cover mb-2 rounded bg-white/5 p-1" />
               <span className="text-xs font-medium text-gray-200">MS7000</span>
             </div>
             <div className="border-l border-gray-800 p-2 text-[11px] flex items-center justify-center text-center text-gray-300">
@@ -222,7 +228,7 @@ export function MS8100Details() {
           {/* Row 3: MS6000 */}
           <div className="grid grid-cols-[1.2fr_1fr_1fr] items-stretch bg-[#111]">
             <div className="p-3 flex flex-col items-center justify-center">
-              <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=200" alt="MS6000" className="w-20 h-14 object-cover mb-2 rounded bg-white/5 p-1" />
+              <img src={ms8100Stability} alt="MS6000" className="w-20 h-14 object-cover mb-2 rounded bg-white/5 p-1" />
               <span className="text-xs font-medium text-gray-200">MS6000</span>
             </div>
             <div className="border-l border-gray-800 p-2 text-[11px] flex items-center justify-center text-center text-gray-300">
@@ -271,8 +277,8 @@ export function MS8100Details() {
         <h3 className="text-3xl font-bold mb-16 tracking-wider text-white">MassNova 2.0</h3>
         
         <div className="relative w-full max-w-md h-[240px] mb-20">
-           <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="Software UI Background" className="absolute top-0 right-2 w-[85%] rounded-lg shadow-2xl border border-gray-700 opacity-60 mix-blend-screen" />
-           <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="Software UI Foreground" className="absolute bottom-0 left-2 w-[85%] rounded-lg shadow-2xl border border-gray-600 z-10 mix-blend-screen" />
+           <img src={ms8100Software} alt="Software UI Background" className="absolute top-0 right-2 w-[85%] rounded-lg shadow-2xl border border-gray-700 opacity-60 mix-blend-screen" />
+           <img src={ms8100Software} alt="Software UI Foreground" className="absolute bottom-0 left-2 w-[85%] rounded-lg shadow-2xl border border-gray-600 z-10 mix-blend-screen" />
         </div>
 
         <ul className="text-left space-y-5 inline-block text-[15px] text-gray-200">

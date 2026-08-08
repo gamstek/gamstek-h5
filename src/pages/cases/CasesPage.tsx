@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { caseCategories, casesData } from '../../data/config';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import casesBg from '../../assets/cases/bg.png';
 
 export function CasesPage() {
   useDocumentTitle('应用案例');
@@ -16,10 +17,9 @@ export function CasesPage() {
 
   return (
     <div className="bg-[#f5f5f7] min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[400px] w-full">
+      <section className="relative aspect-[9/16] w-full">
         <img 
-          src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=800" 
+          src={casesBg} 
           alt="Laboratory" 
           className="w-full h-full object-cover"
         />
@@ -30,36 +30,41 @@ export function CasesPage() {
             <h1 className="text-3xl font-bold mb-3 tracking-wide">引力波智谱应用中心</h1>
             <p className="text-base font-medium opacity-90">帮助客户更高效地运用科学，获得成功</p>
           </div>
-          
-          <div className="text-center px-6 pb-2 text-sm opacity-90 font-light tracking-wide leading-relaxed">
-            在应用中心，您可以查询到引力波智谱<br/>产品在相关领域的应用案例
-          </div>
         </div>
       </section>
 
-      {/* Tabs */}
+      {/* Tabs - 除"全部"外的分类暂不可点击 */}
       <section className="bg-white sticky top-[76px] z-30 border-b border-gray-100">
         <div className="flex items-center px-4 h-14">
           <div className="text-gray-900 font-medium mr-4 flex-shrink-0 text-[15px]">
             应用案例
           </div>
           <div className="flex-1 overflow-x-auto hide-scrollbar flex items-center space-x-6 relative h-full">
-            {caseCategories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`whitespace-nowrap text-[15px] transition-colors relative h-full flex flex-col justify-center ${
-                  activeCategory === cat 
-                    ? 'text-[#e60012] font-medium' 
-                    : 'text-gray-500 hover:text-gray-800'
-                }`}
-              >
-                {cat}
-                {activeCategory === cat && (
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] bg-[#e60012] rounded-full" />
-                )}
-              </button>
-            ))}
+            {caseCategories.map(cat => {
+              const isDisabled = cat !== '全部';
+              return (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    if (isDisabled) return;
+                    setActiveCategory(cat);
+                  }}
+                  disabled={isDisabled}
+                  className={`whitespace-nowrap text-[15px] transition-colors relative h-full flex flex-col justify-center ${
+                    isDisabled
+                      ? 'text-gray-300 cursor-not-allowed'
+                      : activeCategory === cat 
+                        ? 'text-[#e60012] font-medium' 
+                        : 'text-gray-500 hover:text-gray-800'
+                  }`}
+                >
+                  {cat}
+                  {activeCategory === cat && (
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] bg-[#e60012] rounded-full" />
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>

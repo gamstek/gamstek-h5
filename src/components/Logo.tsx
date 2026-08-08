@@ -9,8 +9,6 @@ interface LogoProps {
 export function Logo({ isLightMode, className = "" }: LogoProps) {
   return (
     <motion.svg
-      id="_图层_1"
-      data-name="图层 1"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 145.21 44.08"
       className={className}

@@ -1,5 +1,15 @@
 import { FlaskConical, Soup, Stethoscope, Pill, Factory, LucideIcon } from 'lucide-react';
 import React from 'react';
+import homeProductLcmsms from '../assets/home/product-lcmsms.jpg';
+import homeProductFtms from '../assets/home/product-ftms.jpg';
+import homeProductMassclaw from '../assets/home/product-massclaw.jpg';
+import homeProductSupport from '../assets/home/product-support.jpg';
+import carouselSlide1 from '../assets/home/carousel/slide-1.png';
+import carouselSlide2 from '../assets/home/carousel/slide-2.png';
+import carouselSlide3 from '../assets/home/carousel/slide-3.png';
+import homeCase1 from '../assets/home/cases/case-1.jpg';
+import homeCase2 from '../assets/home/cases/case-2.jpg';
+import homeCase3 from '../assets/home/cases/case-3.jpg';
 
 // Contact Info
 export const contactInfo = {
@@ -112,19 +122,19 @@ export const homeApplicationCases = [
   {
     id: 'case-1',
     tag: '医疗诊断',
-    image: 'https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?auto=format&fit=crop&q=80&w=400',
+    image: homeCase1,
     width: 140,
   },
   {
     id: 'case-2',
     tag: '食品安全',
-    image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&q=80&w=400',
+    image: homeCase2,
     width: 180,
   },
   {
     id: 'case-3',
     tag: '环境检测',
-    image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=400',
+    image: homeCase3,
     width: 140,
   }
 ];
@@ -135,29 +145,30 @@ export const homeProducts = [
     title: "LC-MS/MS",
     subtitle: "三重四极杆串联质谱联用仪",
     links: [{ label: "了解更多 >", href: "/products/ms8100" }, { label: "购买咨询 >", href: "#" }],
-    image: "https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=800",
-    imageClassName: "rounded-xl h-[160px] object-cover"
+    image: homeProductLcmsms,
+    // 图片实际比例 690x792，卡片高度按此比例自适应
+    imageClassName: "aspect-[690/792]"
   },
   {
     title: "FTMS / FTMS+",
     subtitle: "全新高分辨质谱仪",
     links: [{ label: "了解更多 >", href: "/products/ftms" }, { label: "购买咨询 >", href: "#" }],
-    image: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?auto=format&fit=crop&q=80&w=800",
-    imageClassName: "rounded-xl h-[160px] object-cover"
+    image: homeProductFtms,
+    imageClassName: "aspect-[690/792]"
   },
   {
     title: "MassClaw",
     subtitle: "解谱智能体",
     links: [{ label: "了解更多 >", href: "/massclaw" }],
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=800",
-    imageClassName: "rounded-xl h-[240px] object-cover"
+    image: homeProductMassclaw,
+    imageClassName: "aspect-[690/792]"
   },
   {
     title: "服务与支持",
     subtitle: "帮助客户更高效地运用科学获得成功",
     links: [{ label: "立即获取 >", href: "#" }],
-    image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&q=80&w=800",
-    imageClassName: "rounded-xl h-[160px] object-cover"
+    image: homeProductSupport,
+    imageClassName: "aspect-[690/792]"
   }
 ];
 
@@ -168,16 +179,19 @@ export const homeCarouselSlides = [
     title: 'GAMSTEK ONE TEAM',
     subtitle: '引力波智谱 整机青年计划',
     description: '入场，成为关键变量',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800',
+    image: carouselSlide1,
     primaryButtonText: '查看职位',
+    primaryLink: '/campus-recruitment',
     hideSecondaryButton: true,
+    // 图片本身已含标题文字，隐藏叠加的 HTML 文字与按钮
+    hideContent: true,
   },
   {
     id: 'ms8100',
     title: 'MS8100',
     subtitle: '高端质谱全新旗舰',
     description: '三重四极杆串联质谱联用仪',
-    image: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=800',
+    image: carouselSlide2,
     detailsLink: '/products/ms8100'
   },
   {
@@ -185,7 +199,7 @@ export const homeCarouselSlides = [
     title: 'FTMS / FTMS+',
     subtitle: '突破分辨率天花板',
     description: '全新高分辨质谱仪',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800',
+    image: carouselSlide3,
     detailsLink: '/products/ftms'
   }
 ];

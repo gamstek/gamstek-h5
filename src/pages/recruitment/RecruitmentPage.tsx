@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import recruitmentBg from '../../assets/recruitment/bg.png';
 
 const techJobs = [
   {
@@ -128,12 +129,12 @@ export function RecruitmentPage() {
   }, []);
 
   return (
-    <div className="bg-[#f9fafb] min-h-screen pt-[76px] pb-12">
-      {/* Hero Section */}
-      <div className="relative h-[300px] w-full">
+    <div className="bg-[#f9fafb] min-h-screen pb-12">
+      {/* Hero Section - 背景图 750x1334 (9:16)，容器按同比例自适应，从页面顶部开始 */}
+      <div className="relative aspect-[9/16] w-full">
         <div className="absolute inset-0 bg-black/40 z-10"></div>
         <img 
-          src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800" 
+          src={recruitmentBg} 
           alt="加入我们" 
           className="w-full h-full object-cover"
         />
@@ -157,23 +158,21 @@ export function RecruitmentPage() {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="bg-white z-30 relative">
-        <div className="flex px-6 py-4 items-center sticky top-[76px] bg-white z-30 shadow-sm">
-          <span className="text-gray-900 font-medium text-lg mr-6">招聘岗位</span>
-          <button 
-            onClick={() => setActiveTab('tech')}
-            className={`mr-6 text-[16px] transition-colors ${activeTab === 'tech' ? 'text-[#e60012] font-medium' : 'text-gray-500'}`}
-          >
-            技术
-          </button>
-          <button 
-            onClick={() => setActiveTab('biz')}
-            className={`text-[16px] transition-colors ${activeTab === 'biz' ? 'text-[#e60012] font-medium' : 'text-gray-500'}`}
-          >
-            业务
-          </button>
-        </div>
+      {/* Tabs - sticky 吸顶 */}
+      <div className="flex px-6 py-4 items-center sticky top-[76px] bg-white z-30 shadow-sm">
+        <span className="text-gray-900 font-medium text-lg mr-6">招聘岗位</span>
+        <button 
+          onClick={() => setActiveTab('tech')}
+          className={`mr-6 text-[16px] transition-colors ${activeTab === 'tech' ? 'text-[#e60012] font-medium' : 'text-gray-500'}`}
+        >
+          技术
+        </button>
+        <button 
+          onClick={() => setActiveTab('biz')}
+          className={`text-[16px] transition-colors ${activeTab === 'biz' ? 'text-[#e60012] font-medium' : 'text-gray-500'}`}
+        >
+          业务
+        </button>
       </div>
 
       {/* Content */}

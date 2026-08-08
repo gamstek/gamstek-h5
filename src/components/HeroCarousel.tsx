@@ -12,6 +12,10 @@ export interface HeroSlide {
   secondaryButtonText?: string;
   detailsLink?: string;
   hideSecondaryButton?: boolean;
+  // 主按钮跳转链接（未设置时默认跳转在线咨询）
+  primaryLink?: string;
+  // 图片本身已含文字时置 true，隐藏叠加的标题/副标题/描述/按钮
+  hideContent?: boolean;
 }
 
 interface HeroCarouselProps {
@@ -25,13 +29,14 @@ export function HeroCarousel({
   autoPlay = true, 
   interval = 5000, 
   transitionType = 'slide', 
-  className = 'h-[100dvh]',
+  className = 'aspect-[9/16] w-full',
   contentClassName = 'pt-32',
   titleClassName = 'text-[2.5rem]',
 }: HeroCarouselProps & { transitionType?: 'slide' | 'fade', className?: string, contentClassName?: string, titleClassName?: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [lastInteraction, setLastInteraction] = useState(Date.now());
+  const [isDragging, setIsDragging] = useState(false);
   const navigate = useNavigate();
 
   const paginate = (newDirection: number, absoluteIndex?: number, isManual = false) => {
@@ -47,15 +52,21 @@ export function HeroCarousel({
   };
 
   useEffect(() => {
-    if (!autoPlay || slides.length <= 1) return;
+    // 拖动中暂停自动轮播，松手后重新计时
+    if (!autoPlay || slides.length <= 1 || isDragging) return;
     const timer = setInterval(() => {
       paginate(1);
     }, interval);
     return () => clearInterval(timer);
-  }, [slides.length, autoPlay, interval, lastInteraction]);
+  }, [slides.length, autoPlay, interval, lastInteraction, isDragging]);
 
   // Handlers for manual swipe if needed
+  const handleDragStart = () => {
+    setIsDragging(true);
+  };
+
   const handleDragEnd = (event: any, info: any) => {
+    setIsDragging(false);
     if (info.offset.x < -50) {
       paginate(1, undefined, true);
     } else if (info.offset.x > 50) {
@@ -98,6 +109,7 @@ export function HeroCarousel({
           className="absolute inset-0 w-full h-full"
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
+          onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
           {/* Background Image / Floor Gradient */}
@@ -113,30 +125,33 @@ export function HeroCarousel({
           
           {/* Content */}
           <div className={`absolute inset-0 flex flex-col items-center justify-start px-4 z-10 ${contentClassName}`}>
-            <motion.h1 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className={`${titleClassName} font-bold text-white mb-3 tracking-wider text-center`}
-            >
-              {slides[currentIndex].title}
-            </motion.h1>
-            <motion.p 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="text-lg font-medium text-white mb-2 tracking-widest text-center"
-            >
-              {slides[currentIndex].subtitle}
-            </motion.p>
-            <motion.p 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="text-sm text-gray-300 mb-8 tracking-widest text-center"
-            >
-              {slides[currentIndex].description}
-            </motion.p>
+            {/* 文字区域：hideContent 时 invisible（保留占位，按钮仍落在原文字下方位置） */}
+            <div className={slides[currentIndex].hideContent ? 'invisible' : ''}>
+              <motion.h1 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className={`${titleClassName} font-bold text-white mb-3 tracking-wider text-center`}
+              >
+                {slides[currentIndex].title}
+              </motion.h1>
+              <motion.p 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="text-lg font-medium text-white mb-2 tracking-widest text-center"
+              >
+                {slides[currentIndex].subtitle}
+              </motion.p>
+              <motion.p 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+                className="text-sm text-gray-300 mb-8 tracking-widest text-center"
+              >
+                {slides[currentIndex].description}
+              </motion.p>
+            </div>
             
             <motion.div 
               initial={{ y: 20, opacity: 0 }}
@@ -145,7 +160,7 @@ export function HeroCarousel({
               className="flex gap-4"
             >
               <button 
-                onClick={() => navigate(`/inquiry?product=${encodeURIComponent(slides[currentIndex].title)}`)}
+                onClick={() => navigate(slides[currentIndex].primaryLink || `/inquiry?product=${encodeURIComponent(slides[currentIndex].title)}`)}
                 className="bg-white text-black px-8 py-2.5 rounded-full font-medium text-sm hover:bg-gray-100 transition-colors w-32 shadow-lg"
               >
                 {slides[currentIndex].primaryButtonText || '购买咨询'}

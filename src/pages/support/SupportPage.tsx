@@ -3,6 +3,9 @@ import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import supportHeroBg from '../../assets/support/hero-bg.jpg';
+import supportBrochure from '../../assets/support/brochure.jpg';
+import supportService from '../../assets/support/service.jpg';
 
 export function SupportPage() {
   useDocumentTitle('服务与支持');
@@ -24,16 +27,9 @@ export function SupportPage() {
 
   return (
     <div className="w-full bg-[#f9fafb] pb-20">
-      {/* Hero Section */}
+      {/* Hero Section - 顶部 hero 切图尚未提供，暂用深色渐变占位 */}
       <div className="relative pt-24 pb-16 px-4 bg-gray-900 overflow-hidden min-h-[400px] flex items-center">
-        {/* Background image placeholder */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200" 
-            alt="Support" 
-            className="w-full h-full object-cover opacity-40"
-          />
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#111] to-[#1a1a1a]"></div>
         <div className="relative z-10 w-full text-center">
           <motion.h1 
             initial={{ y: 20, opacity: 0 }}
@@ -56,7 +52,16 @@ export function SupportPage() {
       {/* Downloads Section */}
       <div id="downloads" className="pt-16 px-4 scroll-mt-20">
         <h2 className="text-2xl font-bold text-center mb-10 text-gray-900 tracking-wider">下载中心</h2>
-        <div className="bg-white rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 overflow-hidden relative">
+        {/* 卡片背景图 hero-bg 为 690x542，容器按同比例自适应 */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 overflow-hidden relative aspect-[690/542]">
+           {/* 背景图：hero-bg */}
+           <div className="absolute inset-0 z-0">
+             <img 
+               src={supportHeroBg} 
+               alt="" 
+               className="w-full h-full object-cover"
+             />
+           </div>
            <div className="flex-1 z-10">
              <h3 className="text-xl font-medium text-gray-900 mb-6 leading-tight">
                三重四极杆<br/>串联质谱联用仪系列
@@ -65,15 +70,6 @@ export function SupportPage() {
                下载手册
              </button>
            </div>
-           <div className="w-full sm:w-1/2 relative z-10">
-              <img 
-                src="https://images.unsplash.com/photo-1568205612837-017257d2310a?auto=format&fit=crop&q=80&w=400" 
-                alt="Brochure" 
-                className="w-full h-auto rounded-lg shadow-md bg-gray-100"
-              />
-           </div>
-           {/* Decorative background element */}
-           <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-gray-50 rounded-full z-0"></div>
         </div>
       </div>
 
@@ -85,7 +81,7 @@ export function SupportPage() {
           {/* Online Support Card */}
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm relative h-40">
             <img 
-              src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80&w=800" 
+              src={supportBrochure} 
               alt="Online Support" 
               className="absolute inset-0 w-full h-full object-cover opacity-30"
             />
@@ -99,7 +95,7 @@ export function SupportPage() {
           {/* Hotline Card */}
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm relative h-40">
             <img 
-              src="https://images.unsplash.com/photo-1534536281715-e28d76689b4d?auto=format&fit=crop&q=80&w=800" 
+              src={supportService} 
               alt="Hotline Support" 
               className="absolute inset-0 w-full h-full object-cover opacity-30 object-right"
             />

@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
-import { GraduationCap, Cpu, Handshake } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { siteConfig } from '../../data/config';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import companyImg1 from '../../assets/about/company/1@2x.png';
+import companyImg2 from '../../assets/about/company/2@2x.png';
+import companyImg3 from '../../assets/about/company/3@2x.png';
+import companyBg from '../../assets/about/company/bg.png';
 
 export function CompanyIntroPage() {
   useDocumentTitle('公司介绍');
@@ -54,63 +57,50 @@ export function CompanyIntroPage() {
         <h2 className="text-2xl font-medium text-center mb-10">核心能力</h2>
         
         <div className="space-y-6 max-w-sm mx-auto">
-          {/* Card 1 */}
-          <div className="bg-white rounded-3xl p-8 flex flex-col items-center shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+          {/* Card 1 - 团队硕士以上学历 */}
+          <div className="bg-[#F5F5F5] rounded-3xl p-8 flex flex-col items-center shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
             <div className="text-[#e60012] font-bold mb-2 flex items-baseline">
               <span className="text-5xl">70</span>
               <span className="text-xl ml-1">%</span>
             </div>
             <p className="text-[15px] text-gray-700 mb-8 font-medium">团队硕士以上学历</p>
-            <div className="w-24 h-24 text-gray-200">
-              <GraduationCap className="w-full h-full text-gray-300 fill-gray-200 drop-shadow-md" strokeWidth={1} />
-              <div className="relative -mt-10 ml-12 text-[#e60012]">
-                <div className="w-1.5 h-10 bg-[#e60012] origin-top rotate-[25deg]" />
-              </div>
-            </div>
+            {/* @2x 图：缩小一倍显示 */}
+            <img src={companyImg1} alt="团队硕士以上学历" className="w-1/2 h-auto rounded-xl" />
           </div>
 
-          {/* Card 2 */}
-          <div className="bg-white rounded-3xl p-8 flex flex-col items-center shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+          {/* Card 2 - 零部件实现完全自主可控 */}
+          <div className="bg-[#F5F5F5] rounded-3xl p-8 flex flex-col items-center shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
             <div className="text-[#e60012] font-bold mb-2 flex items-baseline">
               <span className="text-5xl">95</span>
               <span className="text-xl ml-1">%</span>
             </div>
             <p className="text-[15px] text-gray-700 mb-8 font-medium">零部件实现完全自主可控</p>
-            <div className="w-24 h-24 relative flex items-center justify-center">
-              <div className="w-16 h-16 bg-gray-200 rounded-lg relative z-10 shadow-sm border border-gray-100" />
-              <div className="absolute left-0 w-8 h-2 bg-gray-300 top-8 rounded-full" />
-              <div className="absolute left-0 w-8 h-2 bg-gray-300 top-14 rounded-full" />
-              <div className="absolute right-0 w-8 h-2 bg-gray-300 top-8 rounded-full" />
-              <div className="absolute right-0 w-8 h-2 bg-gray-300 top-14 rounded-full" />
-              <div className="absolute left-4 top-10 w-2 h-2 rounded-full bg-[#e60012] z-20 shadow-sm" />
-            </div>
+            {/* @2x 图：缩小一倍显示 */}
+            <img src={companyImg2} alt="零部件实现完全自主可控" className="w-1/2 h-auto rounded-xl" />
           </div>
 
-          {/* Card 3 */}
-          <div className="bg-white rounded-3xl p-8 flex flex-col items-center shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+          {/* Card 3 - 生态合作伙伴 */}
+          <div className="bg-[#F5F5F5] rounded-3xl p-8 flex flex-col items-center shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
             <div className="text-[#e60012] font-bold mb-2 flex items-baseline">
               <span className="text-5xl">20</span>
               <span className="text-3xl ml-1">+</span>
             </div>
             <p className="text-[15px] text-gray-700 mb-8 font-medium">生态合作伙伴</p>
-            <div className="w-24 h-24 relative">
-              <Handshake className="w-full h-full text-gray-300 fill-gray-200 drop-shadow-sm" strokeWidth={1} />
-              <div className="absolute bottom-2 left-4 flex gap-1">
-                <div className="w-2 h-2 rounded-full bg-[#e60012]" />
-                <div className="w-2 h-2 rounded-full bg-[#e60012]" />
-                <div className="w-2 h-2 rounded-full bg-[#e60012]" />
-              </div>
-            </div>
+            {/* @2x 图：缩小一倍显示 */}
+            <img src={companyImg3} alt="生态合作伙伴" className="w-1/2 h-auto rounded-xl" />
           </div>
         </div>
       </section>
 
-      {/* Join Us Section */}
-      <section className="bg-[#f8f9fa] text-gray-900 pb-16 pt-8 px-6 relative overflow-hidden">
-        {/* Decorative background pattern */}
-        <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-        
-        <h2 className="text-2xl font-medium text-center mb-10 relative z-10">加入我们</h2>
+      {/* Join Us Section - 背景图 about/company/bg.png */}
+      <section className="relative bg-[#f8f9fa] text-gray-900 pb-16 pt-8 px-6 overflow-hidden">
+        <img 
+          src={companyBg} 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative z-10">
+        <h2 className="text-2xl font-medium text-center mb-10 mt-16">加入我们</h2>
         
         <div className="bg-white rounded-3xl p-10 text-center relative z-10 shadow-[0_8px_30px_rgba(0,0,0,0.06)] max-w-sm mx-auto">
           <p className="text-[16px] text-gray-800 leading-loose mb-10 font-medium whitespace-pre-line">
@@ -119,6 +109,7 @@ export function CompanyIntroPage() {
           <Link to="#" className="inline-block bg-[#e60012] text-white px-8 py-3 rounded-full text-[15px] font-medium hover:bg-red-700 transition-colors shadow-sm">
             查看所有职位
           </Link>
+        </div>
         </div>
       </section>
     </div>

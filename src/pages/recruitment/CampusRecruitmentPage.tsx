@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { BottomSheet } from '../../components/BottomSheet';
 import { useCampusStore } from '../../store/useCampusStore';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import campusBg from '../../assets/campus-recruitment/bg.png';
 
 export function CampusRecruitmentPage() {
   useDocumentTitle('校园招聘');
@@ -42,16 +43,19 @@ export function CampusRecruitmentPage() {
 
   return (
     <div className="bg-[#f5f5f5] min-h-screen pb-12 font-sans">
-      {/* Hero Section */}
-      <div className="relative w-full overflow-hidden bg-black flex flex-col items-center pb-6 pt-[76px]">
+      {/* Hero Section - 背景图 campus-recruitment/bg.png (750x490)，按同比例自适应 */}
+      <div className="relative w-full aspect-[750/490] overflow-hidden bg-black">
         <div className="absolute inset-0 z-0">
-           {/* Fallback gradient/image representing the space/ring */}
-           <div className="absolute top-0 left-0 w-64 h-64 rounded-full border-[20px] border-[#3b82f6]/30 blur-sm -translate-x-1/4 -translate-y-1/4"></div>
-           <div className="absolute top-10 left-10 w-48 h-48 rounded-full border-[10px] border-[#60a5fa]/40 blur-md"></div>
+           {/* 背景图铺满 */}
+           <img 
+             src={campusBg} 
+             alt="" 
+             className="w-full h-full object-cover"
+           />
            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
         </div>
         
-        <div className="relative z-10 pt-10 pb-8 px-6 text-center w-full">
+        <div className="relative z-10 pt-[76px] pb-6 px-6 text-center w-full h-full flex flex-col items-center justify-center">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -84,37 +88,37 @@ export function CampusRecruitmentPage() {
             入场，成为关键<span className="text-[#a78bfa]">变量</span>
           </motion.div>
         </div>
+      </div>
 
-        {/* Search Bar */}
-        <div className="relative z-20 w-full px-6 mt-2">
-          <div className="bg-white rounded flex items-center px-4 py-3 shadow-md">
-            <Search className="w-5 h-5 text-gray-400 mr-2 shrink-0" />
-            <input 
-              type="text" 
-              placeholder="搜索职位" 
-              className="flex-1 bg-transparent border-none outline-none text-[15px] text-gray-900 placeholder:text-gray-400"
-            />
-          </div>
+      {/* Search Bar - 用 translate 上移自身高度一半，精确骑跨在 hero 底部与 filters 顶部交界处 */}
+      <div className="relative z-20 px-6">
+        <div className="bg-white rounded flex items-center px-4 py-3 shadow-lg -translate-y-1/2">
+          <Search className="w-5 h-5 text-gray-400 mr-2 shrink-0" />
+          <input 
+            type="text" 
+            placeholder="搜索职位" 
+            className="flex-1 bg-transparent border-none outline-none text-[15px] text-gray-900 placeholder:text-gray-400"
+          />
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="bg-[#f5f5f5] px-6 py-4 flex gap-3 overflow-x-auto hide-scrollbar sticky top-[76px] z-30">
+      {/* Filters - 顶部留出搜索框下半部分空间；被选中的 filter 按钮背景变 #E8EBF0 */}
+      <div className="bg-[#f5f5f5] px-6 pt-[23.5px] pb-4 flex gap-3 overflow-x-auto hide-scrollbar sticky top-[76px] z-30">
         <button 
           onClick={() => { setTempProject(selectedProject); setIsProjectFilterOpen(true); }}
-          className="flex items-center gap-1 bg-white px-4 py-1.5 rounded-full text-[14px] text-gray-700 shadow-sm whitespace-nowrap"
+          className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-[14px] shadow-sm whitespace-nowrap ${selectedProject !== '全部' ? 'bg-[#E8EBF0] text-gray-900' : 'bg-white text-gray-700'}`}
         >
           招聘项目 <ChevronDown className="w-4 h-4 text-gray-500" />
         </button>
         <button 
           onClick={() => { setTempCategory(selectedCategory); setIsCategoryFilterOpen(true); }}
-          className="flex items-center gap-1 bg-white px-4 py-1.5 rounded-full text-[14px] text-gray-700 shadow-sm whitespace-nowrap"
+          className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-[14px] shadow-sm whitespace-nowrap ${selectedCategory !== '全部' ? 'bg-[#E8EBF0] text-gray-900' : 'bg-white text-gray-700'}`}
         >
           职位类别({selectedCategory !== '全部' ? '1' : '0'}) <ChevronDown className="w-4 h-4 text-gray-500" />
         </button>
         <button 
           onClick={() => { setTempCity(selectedCity); setIsCityFilterOpen(true); }}
-          className="flex items-center gap-1 bg-white px-4 py-1.5 rounded-full text-[14px] text-gray-700 shadow-sm whitespace-nowrap"
+          className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-[14px] shadow-sm whitespace-nowrap ${selectedCity !== '全部' ? 'bg-[#E8EBF0] text-gray-900' : 'bg-white text-gray-700'}`}
         >
           城市 <ChevronDown className="w-4 h-4 text-gray-500" />
         </button>

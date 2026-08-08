@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import ms8000Hero from '../../assets/ms8000/hero.jpg';
+import ms8000Performance from '../../assets/ms8000/performance.jpg';
+import ms8000Software from '../../assets/ms8000/software.jpg';
 
 export function MS8000Details() {
   useDocumentTitle('MS8000系列');
@@ -48,7 +51,7 @@ export function MS8000Details() {
             className="w-full px-4 relative"
           >
             <img 
-              src="https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=800" 
+              src={ms8000Hero} 
               alt="MS8000 System" 
               className="w-full max-w-sm mx-auto object-contain drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)] rounded-lg"
             />
@@ -69,7 +72,7 @@ export function MS8000Details() {
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>表面镀金，抗污染、抗氧化</li>
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>陶瓷底座，绝缘、抗干扰</li>
         </ul>
-        <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?auto=format&fit=crop&q=80&w=800" alt="Quadrupole" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
+        <img src={ms8000Hero} alt="Quadrupole" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
       </div>
 
       {/* 离子源 */}
@@ -81,14 +84,14 @@ export function MS8000Details() {
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>ESI/APCI 灵活切换，操作便捷</li>
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>无需卸真空，拆卸方便</li>
         </ul>
-        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" alt="Ion Source" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
+        <img src={ms8000Hero} alt="Ion Source" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
       </div>
 
       {/* 超强整机性能 */}
       <div className="py-20 px-6 bg-gradient-to-b from-[#111] to-[#1a1a1a] flex flex-col items-center text-center">
         <h3 className="text-2xl font-bold mb-6 tracking-widest">超强整机性能</h3>
         <p className="text-[13px] text-gray-300 mb-10 leading-relaxed max-w-xs">灵敏度达到国际先进水平，以卓越性能<br/>赋能痕量分析极限突破</p>
-        <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=800" alt="Machine Close up" className="w-full max-w-sm rounded-lg shadow-2xl" />
+        <img src={ms8000Performance} alt="Machine Close up" className="w-full max-w-sm rounded-lg shadow-2xl" />
       </div>
 
       {/* 核心亮点 */}
@@ -131,7 +134,7 @@ export function MS8000Details() {
               <h4 className="font-bold text-[15px] mb-3 text-gray-100 tracking-wider">核心部件可控</h4>
               <p className="text-[11px] text-gray-400 mb-6 leading-relaxed">核心部件完全自研，摆脱进口依赖，保障仪器长期稳定运行与高效售后响应</p>
               <div className="w-full h-24 relative mt-auto">
-                 <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?auto=format&fit=crop&q=80&w=400" alt="Core component" className="w-full h-full object-contain mix-blend-screen opacity-80 transform scale-110" />
+                 <img src={ms8000Performance} alt="Core component" className="w-full h-full object-contain mix-blend-screen opacity-80 transform scale-110" />
               </div>
             </div>
           </div>
@@ -145,8 +148,8 @@ export function MS8000Details() {
         {/* Block 1 */}
         <div className="w-full max-w-md mb-16 flex flex-col items-center">
            <div className="relative w-full h-[200px] mb-10">
-             <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="Software UI Background" className="absolute top-0 right-4 w-[85%] rounded-lg shadow-2xl border border-gray-700 opacity-80 object-cover h-[140px]" />
-             <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="Software UI Foreground" className="absolute bottom-0 left-4 w-[85%] rounded-lg shadow-2xl border border-gray-500 z-10 object-cover h-[140px]" />
+             <img src={ms8000Software} alt="Software UI Background" className="absolute top-0 right-4 w-[85%] rounded-lg shadow-2xl border border-gray-700 opacity-80 object-cover h-[140px]" />
+             <img src={ms8000Software} alt="Software UI Foreground" className="absolute bottom-0 left-4 w-[85%] rounded-lg shadow-2xl border border-gray-500 z-10 object-cover h-[140px]" />
           </div>
           <ul className="text-left space-y-4 inline-block text-[15px] text-gray-200">
             <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>设备实时状态监测</li>
@@ -157,8 +160,8 @@ export function MS8000Details() {
         {/* Block 2 */}
         <div className="w-full max-w-md flex flex-col items-center">
            <div className="relative w-full h-[200px] mb-10">
-             <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="Software UI Background" className="absolute top-0 right-4 w-[85%] rounded-lg shadow-2xl border border-gray-700 opacity-80 object-cover h-[140px]" />
-             <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="Software UI Foreground" className="absolute bottom-0 left-4 w-[85%] rounded-lg shadow-2xl border border-gray-500 z-10 object-cover h-[140px]" />
+             <img src={ms8000Software} alt="Software UI Background" className="absolute top-0 right-4 w-[85%] rounded-lg shadow-2xl border border-gray-700 opacity-80 object-cover h-[140px]" />
+             <img src={ms8000Software} alt="Software UI Foreground" className="absolute bottom-0 left-4 w-[85%] rounded-lg shadow-2xl border border-gray-500 z-10 object-cover h-[140px]" />
           </div>
           <ul className="text-left space-y-4 inline-block text-[15px] text-gray-200">
             <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#e60012] shadow-[0_0_8px_rgba(230,0,18,0.8)]"></div>Mass自动调谐功能</li>

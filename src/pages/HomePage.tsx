@@ -27,19 +27,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
   image, 
   imageClassName 
 }) => (
-  <div className="bg-[#f2f3f5] rounded-3xl p-8 flex flex-col items-center text-center">
-    <h3 className="text-2xl font-bold text-gray-900 mb-2">{title}</h3>
-    <p className="text-gray-600 mb-6">{subtitle}</p>
-    {links && (
-      <div className="flex gap-6 mb-8 text-sm text-gray-700">
-        {links.map((link, idx) => (
-          <Link key={idx} to={link.href} className="hover:text-black transition-colors">
-            {link.label}
-          </Link>
-        ))}
-      </div>
-    )}
-    <img src={image} alt={title} className={`w-full max-w-[280px] object-contain ${imageClassName || ''}`} />
+  <div className={`relative overflow-hidden rounded-3xl ${imageClassName}`}>
+    {/* 图片作为整个卡片的背景 */}
+    <img src={image} alt={title} className="absolute inset-0 w-full h-full object-cover" />
+    <div className="relative p-8 flex flex-col items-center text-center">
+      <h3 className="text-2xl font-bold text-gray-900 mb-2">{title}</h3>
+      <p className="text-gray-600 mb-6">{subtitle}</p>
+      {links && (
+        <div className="flex gap-6 text-sm text-gray-700">
+          {links.map((link, idx) => (
+            <Link key={idx} to={link.href} className="hover:text-black transition-colors">
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
   </div>
 );
 

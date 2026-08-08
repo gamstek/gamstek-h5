@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useNewsStore } from '../../store/useNewsStore';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import newsBg from '../../assets/news/bg.png';
 
 export function NewsPage() {
   useDocumentTitle('新闻动态');
@@ -32,16 +33,16 @@ export function NewsPage() {
 
   return (
     <div className="bg-[#f5f5f7] min-h-screen pb-12">
-      {/* Hero Section */}
-      <section className="relative h-[320px] w-full bg-[#050505] overflow-hidden flex flex-col items-center justify-center text-white pt-12">
+      {/* Hero Section - 背景图 750x1334 (9:16)，容器按同比例自适应 */}
+      <section className="relative aspect-[9/16] w-full bg-[#050505] overflow-hidden flex flex-col items-center justify-center text-white pt-12">
+        <img 
+          src={newsBg} 
+          alt="News Background" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
         <div className="relative z-10 text-center mb-10">
           <h1 className="text-3xl font-bold tracking-widest mb-4">新闻中心</h1>
           <p className="text-sm font-medium tracking-wide opacity-90">为您提供官方发布的第一手资讯</p>
-        </div>
-        
-        {/* Curved blue light effect at the bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 overflow-hidden">
-          <div className="absolute bottom-[-80px] left-1/2 -translate-x-1/2 w-[200%] h-[160px] rounded-[100%] border-t-[3px] border-blue-400/80 bg-gradient-to-b from-blue-500/30 via-blue-900/40 to-[#050505] shadow-[0_-15px_40px_rgba(59,130,246,0.4)]" />
         </div>
       </section>
 

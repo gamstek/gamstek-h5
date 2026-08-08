@@ -2,6 +2,10 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import ftmsHero from '../../assets/ftms/hero.jpg';
+import ftmsIonOptics from '../../assets/ftms/ion-optics.jpg';
+import ftmsMagnet from '../../assets/ftms/magnet.jpg';
+import ftmsControlSystem from '../../assets/ftms/control-system.jpg';
 
 export function FTMSDetails() {
   useDocumentTitle('FTMS/FTMS+');
@@ -57,7 +61,7 @@ export function FTMSDetails() {
             className="w-full px-4 relative"
           >
             <img 
-              src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&q=80&w=800" 
+              src={ftmsHero} 
               alt="FTMS System" 
               className="w-full max-w-sm mx-auto object-contain drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)] rounded-lg"
             />
@@ -120,15 +124,15 @@ export function FTMSDetails() {
         
         <div className="space-y-16 w-full max-w-sm">
           <div>
-            <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=600" alt="ESI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
+            <img src={ftmsIonOptics} alt="ESI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
             <p className="text-xl font-medium tracking-wider"><span className="text-[#00a8e8]">E</span>SI</p>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600" alt="APCI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
+            <img src={ftmsIonOptics} alt="APCI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
             <p className="text-xl font-medium tracking-wider"><span className="text-[#00a8e8]">AP</span>CI</p>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=600" alt="NanoESI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
+            <img src={ftmsIonOptics} alt="NanoESI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
             <p className="text-xl font-medium tracking-wider"><span className="text-[#00a8e8]">Nano</span>ESI</p>
           </div>
         </div>
@@ -146,7 +150,7 @@ export function FTMSDetails() {
               {/* Item 1 */}
               <div className="flex gap-6 relative">
                  <div className="w-16 h-16 shrink-0 relative z-10">
-                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
+                    <img src={ftmsIonOptics} className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
                  </div>
                  <div className="pt-2">
                     <div className="flex items-center gap-2 mb-1">
@@ -160,7 +164,7 @@ export function FTMSDetails() {
               {/* Item 2 */}
               <div className="flex gap-6 relative">
                  <div className="w-16 h-24 shrink-0 relative z-10">
-                    <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
+                    <img src={ftmsIonOptics} className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
                  </div>
                  <div className="pt-2">
                     <div className="flex items-center gap-2 mb-1">
@@ -178,7 +182,7 @@ export function FTMSDetails() {
               {/* Item 3 */}
               <div className="flex gap-6 relative">
                  <div className="w-16 h-32 shrink-0 relative z-10">
-                    <img src="https://images.unsplash.com/photo-1581093806997-124204d9fa9d?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
+                    <img src={ftmsIonOptics} className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
                  </div>
                  <div className="pt-4">
                     <div className="flex items-center gap-2 mb-1">
@@ -196,7 +200,7 @@ export function FTMSDetails() {
               {/* Item 4 */}
               <div className="flex gap-6 relative">
                  <div className="w-16 h-32 shrink-0 relative z-10">
-                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
+                    <img src={ftmsIonOptics} className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
                  </div>
                  <div className="pt-2">
                     <div className="flex items-center gap-2 mb-1">
@@ -215,7 +219,7 @@ export function FTMSDetails() {
               {/* Item 5 */}
               <div className="flex gap-6 relative">
                  <div className="w-16 h-28 shrink-0 relative z-10">
-                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
+                    <img src={ftmsHero} className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
                  </div>
                  <div className="pt-2">
                     <div className="flex items-center gap-2 mb-1">
@@ -233,7 +237,7 @@ export function FTMSDetails() {
               {/* Item 6 */}
               <div className="flex gap-6 relative">
                  <div className="w-16 h-24 shrink-0 relative z-10">
-                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
+                    <img src={ftmsIonOptics} className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
                  </div>
                  <div className="pt-2">
                     <div className="flex items-center gap-2 mb-1">
@@ -247,7 +251,7 @@ export function FTMSDetails() {
               {/* Item 7 */}
               <div className="flex gap-6 relative">
                  <div className="w-16 h-32 shrink-0 relative z-10">
-                    <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=150" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
+                    <img src={ftmsIonOptics} className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" alt="part" />
                  </div>
                  <div className="pt-2">
                     <div className="flex items-center gap-2 mb-1">
@@ -273,7 +277,7 @@ export function FTMSDetails() {
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#00a8e8] shadow-[0_0_8px_rgba(0,168,232,0.8)]"></div>低磁场漂移：优于50ppb/h</li>
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#00a8e8] shadow-[0_0_8px_rgba(0,168,232,0.8)]"></div>高均匀性：优于10ppm</li>
         </ul>
-        <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?auto=format&fit=crop&q=80&w=800" alt="Superconducting Magnet" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
+        <img src={ftmsMagnet} alt="Superconducting Magnet" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
       </div>
 
       {/* FTMS控制系统 */}
@@ -284,7 +288,7 @@ export function FTMSDetails() {
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#00a8e8] shadow-[0_0_8px_rgba(0,168,232,0.8)]"></div>在线FFT算法</li>
           <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[#00a8e8] shadow-[0_0_8px_rgba(0,168,232,0.8)]"></div>模块化设计</li>
         </ul>
-        <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&q=80&w=800" alt="Control System" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
+        <img src={ftmsControlSystem} alt="Control System" className="w-full max-w-sm rounded-lg opacity-80 mix-blend-screen" />
       </div>
 
       {/* FTMS软件 */}
@@ -295,8 +299,8 @@ export function FTMSDetails() {
         </p>
         
         <div className="relative w-full max-w-md h-[240px]">
-           <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="Software UI Background" className="absolute top-0 right-2 w-[85%] rounded-lg shadow-2xl border border-gray-700 opacity-60 mix-blend-screen" />
-           <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="Software UI Foreground" className="absolute bottom-0 left-2 w-[85%] rounded-lg shadow-2xl border border-gray-600 z-10 mix-blend-screen" />
+           <img src={ftmsControlSystem} alt="Software UI Background" className="absolute top-0 right-2 w-[85%] rounded-lg shadow-2xl border border-gray-700 opacity-60 mix-blend-screen" />
+           <img src={ftmsHero} alt="Software UI Foreground" className="absolute bottom-0 left-2 w-[85%] rounded-lg shadow-2xl border border-gray-600 z-10 mix-blend-screen" />
         </div>
       </div>
     </div>

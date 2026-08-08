@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { PrivacyPolicyModal } from '../../components/PrivacyPolicyModal';
 import { UserAgreementModal } from '../../components/UserAgreementModal';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import inquiryProduct from '../../assets/ms8100/hero.jpg';
 
 export function InquiryPage() {
   useDocumentTitle('在线咨询');
@@ -64,7 +65,7 @@ export function InquiryPage() {
           
           <div className="absolute right-0 bottom-[-20px] w-32 opacity-80 mix-blend-multiply">
             <img 
-              src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?auto=format&fit=crop&q=80&w=300" 
+              src={inquiryProduct} 
               alt="MS System" 
               className="w-full object-contain"
             />
