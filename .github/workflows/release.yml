@@ -54,7 +54,6 @@ jobs:
         run: |
           test -f dist/index.html || { echo "缺少 dist/index.html"; exit 1; }
           test -n "$(ls dist/assets/*.js 2>/dev/null)" || { echo "缺少 dist/assets/*.js"; exit 1; }
-          echo "dist 完整性校验通过"
 
       # 打 changelog：本次 tag 相对上一个 tag 的提交信息
       - name: Generate changelog
@@ -76,8 +75,6 @@ jobs:
         run: |
           cd dist && zip -r ../gamstek-h5-${{ steps.version.outputs.VERSION }}.zip . -x '.*'
           cd ..
-          ls -la gamstek-h5-${{ steps.version.outputs.VERSION }}.zip
-          unzip -l gamstek-h5-${{ steps.version.outputs.VERSION }}.zip | grep -E '\.js|\.css' | head -5
 
       # 同时作为 Actions artifact 保存（Actions run 页面也可下载）
       - name: Upload dist artifact
