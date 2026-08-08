@@ -32,17 +32,29 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # 站点部署在 https://<owner>.github.io/<repo>/
-          BASE_PATH: /${{ github.event.repository.name }}/
+          # Release 产物用于独立部署，base 路径为根路径 '/'
+          BASE_PATH: /
 
       # BrowserRouter 深链接 SPA 回退
       - name: SPA fallback (404.html)
         run: cp dist/index.html dist/404.html
 
-      # 读取版本号（v1.0.0 → 1.0.0）
+      # 读取版本号（v1.0.0 → 1.0.0；手动触发时回退到 latest）
       - name: Resolve version
         id: version
-        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$VERSION" = "${GITHUB_REF_NAME}" ]; then
+            VERSION="$(node -p "require('./package.json').version")"
+          fi
+          echo "VERSION=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      # 验证构建产物完整性（防止 dist 缺失 JS/CSS）
+      - name: Verify dist
+        run: |
+          test -f dist/index.html || { echo "缺少 dist/index.html"; exit 1; }
+          test -n "$(ls dist/assets/*.js 2>/dev/null)" || { echo "缺少 dist/assets/*.js"; exit 1; }
+          echo "dist 完整性校验通过"
 
       # 打 changelog：本次 tag 相对上一个 tag 的提交信息
       - name: Generate changelog
@@ -64,6 +76,8 @@ jobs:
         run: |
           cd dist && zip -r ../gamstek-h5-${{ steps.version.outputs.VERSION }}.zip . -x '.*'
           cd ..
+          ls -la gamstek-h5-${{ steps.version.outputs.VERSION }}.zip
+          unzip -l gamstek-h5-${{ steps.version.outputs.VERSION }}.zip | grep -E '\.js|\.css' | head -5
 
       # 同时作为 Actions artifact 保存（Actions run 页面也可下载）
       - name: Upload dist artifact
