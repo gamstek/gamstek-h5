@@ -67,7 +67,7 @@ export function Header() {
           boxShadow: isScrolled && !isMenuOpen ? '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' : 'none'
         }}
         initial={false}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        transition={{ duration: 0.1, ease: 'easeInOut' }}
         className="fixed top-0 left-0 right-0 max-w-md mx-auto w-full z-[100] flex flex-col h-[76px] justify-center"
       >
         <div className="flex items-center justify-between px-6 relative z-20">

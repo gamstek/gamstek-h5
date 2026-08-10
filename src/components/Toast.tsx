@@ -55,16 +55,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={{ showToast, toast }}>
       {children}
       {/* Fixed Toast Portal Overlay */}
-      <div className="fixed inset-x-0 top-1/2 -translate-y-1/2 z-[300] pointer-events-none flex flex-col items-center justify-center gap-3 px-6">
+      <div className="fixed inset-x-0 top-[88px] z-[300] pointer-events-none flex flex-col items-center justify-start gap-3 px-6">
         <AnimatePresence>
           {toasts.map(item => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, scale: 0.85, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
+              animate={{ opacity: 0.85, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.85, y: -10 }}
               transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-              className="bg-[#2b2b2b]/75 backdrop-blur-md text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-2.5 max-w-[85vw] pointer-events-auto"
+              className="bg-[#2b2b2b] backdrop-blur-md text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-2.5 max-w-[85vw] pointer-events-auto"
             >
               {item.type === 'success' && <CheckCircle2 className="w-5 h-5 text-white shrink-0 stroke-[1.8]" />}
               {item.type === 'error' && <AlertCircle className="w-5 h-5 text-white shrink-0 stroke-[1.8]" />}

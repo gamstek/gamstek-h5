@@ -5,8 +5,28 @@ import { Check, User, UserSearch, Mail, X } from 'lucide-react';
 import { fetchApplications, fetchApplicationDetails, ApplicationRecord, ApplicationHistory } from '../../api/campus';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
+export const CAMPUS_APPLICATION_STATUS = {
+  SUBMITTED: 'SUBMITTED',
+  RESUME_SCREENING: 'RESUME_SCREENING',
+  DEPARTMENT_SCREENING: 'DEPARTMENT_SCREENING',
+  FIRST_INTERVIEW: 'FIRST_INTERVIEW',
+  FINAL_INTERVIEW: 'FINAL_INTERVIEW',
+  OFFER: 'OFFER',
+  REJECTED_TO_TALENT_POOL: 'REJECTED_TO_TALENT_POOL',
+} as const;
+
+// 招聘节点列表，按流程先后顺序定义
+const FLOW_STEPS = [
+  { status: CAMPUS_APPLICATION_STATUS.SUBMITTED, defaultLabel: '投递成功', icon: Check },
+  { status: CAMPUS_APPLICATION_STATUS.RESUME_SCREENING, defaultLabel: '简历初筛', icon: User },
+  { status: CAMPUS_APPLICATION_STATUS.DEPARTMENT_SCREENING, defaultLabel: '用人部门筛选', icon: UserSearch },
+  { status: CAMPUS_APPLICATION_STATUS.FIRST_INTERVIEW, defaultLabel: '初面', icon: User },
+  { status: CAMPUS_APPLICATION_STATUS.FINAL_INTERVIEW, defaultLabel: '终面', icon: User },
+  { status: CAMPUS_APPLICATION_STATUS.OFFER, defaultLabel: 'Offer', icon: Mail },
+];
+
 export function CampusApplicationRecordsPage() {
-  useDocumentTitle('投递记录');
+  useDocumentTitle('应聘记录');
   const navigate = useNavigate();
   const [records, setRecords] = useState<ApplicationRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -77,16 +97,33 @@ export function CampusApplicationRecordsPage() {
     );
   }
 
-  const renderTimelineStatus = (record: ApplicationRecord, stepStatus: string, label: string, Icon: React.ElementType, isTopRow = false) => {
-    const historyItem = record.history?.find(h => h.toStatus === stepStatus || h.statusLabel === label);
-    const isCompleted = !!historyItem || record.status === stepStatus;
-    // Special case for REJECTED
-    const isRejected = record.status === 'REJECTED' && record.statusLabel === label;
+  const renderTimelineStatus = (record: ApplicationRecord, stepStatus: string, defaultLabel: string, Icon: React.ElementType, stepIndex: number) => {
+    // 寻找该环节在 history 中的变动记录
+    const historyItem = record.history?.find(h => h.toStatus === stepStatus);
     
-    const bgColor = isCompleted ? 'bg-[#10b981]' : (isRejected ? 'bg-[#e60012]' : 'bg-gray-200');
-    const iconColor = isCompleted || isRejected ? 'text-white' : 'text-gray-500';
+    // 获取当前记录在大流程中的索引（如果当前记录状态是 REJECTED_TO_TALENT_POOL，则在最后被淘汰）
+    const isRejected = record.status === CAMPUS_APPLICATION_STATUS.REJECTED_TO_TALENT_POOL || record.status === 'REJECTED';
     
-    let dateStr = 'YYY-MM';
+    // 计算当前记录在主流程中的步骤位置
+    const currentStepIndex = FLOW_STEPS.findIndex(s => s.status === record.status);
+    
+    // 该节点是否已通过或处于该节点
+    const isCompleted = historyItem || (currentStepIndex >= 0 && currentStepIndex >= stepIndex) || record.status === stepStatus;
+    // 如果流程被终止/淘汰，发生在哪个节点
+    const isFailedAtThisStep = isRejected && (record.history?.[record.history.length - 1]?.toStatus === stepStatus || currentStepIndex === stepIndex);
+
+    let bgColor = 'bg-gray-200';
+    let iconColor = 'text-gray-500';
+
+    if (isFailedAtThisStep) {
+      bgColor = 'bg-[#e60012]';
+      iconColor = 'text-white';
+    } else if (isCompleted) {
+      bgColor = 'bg-[#10b981]';
+      iconColor = 'text-white';
+    }
+
+    let dateStr = 'YYYY-MM';
     if (historyItem && historyItem.createdAt) {
       dateStr = new Date(historyItem.createdAt).toISOString().split('T')[0];
     } else if (isCompleted && record.createdAt) {
@@ -94,18 +131,18 @@ export function CampusApplicationRecordsPage() {
     }
 
     return (
-      <div className="flex flex-col items-center flex-1 relative z-10">
-        <div className={`w-10 h-10 rounded-full ${bgColor} flex items-center justify-center mb-2`}>
-          {isRejected ? <X className={`w-5 h-5 ${iconColor}`} /> : <Icon className={`w-5 h-5 ${iconColor}`} />}
+      <div key={stepStatus} className="flex flex-col items-center flex-1 relative z-10">
+        <div className={`w-10 h-10 rounded-full ${bgColor} flex items-center justify-center mb-2 transition-colors`}>
+          {isFailedAtThisStep ? <X className={`w-5 h-5 ${iconColor}`} /> : <Icon className={`w-5 h-5 ${iconColor}`} />}
         </div>
-        <div className="text-[13px] text-gray-900 font-medium mb-1">{label}</div>
-        <div className="text-[12px] text-gray-500">{isCompleted || isRejected ? dateStr : 'YYY-MM'}</div>
+        <div className="text-[13px] text-gray-900 font-medium mb-1 text-center">{defaultLabel}</div>
+        <div className="text-[12px] text-gray-500">{isCompleted || isFailedAtThisStep ? dateStr : 'YYYY-MM'}</div>
       </div>
     );
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f6f8] pt-[76px] flex flex-col px-4">
+    <div className="bg-[#f5f6f8] pt-[76px] flex flex-col px-4">
       <h2 className="text-[24px] font-medium text-gray-900 mt-6 mb-4 px-2">应聘记录</h2>
       
       <div className="space-y-4 pb-12">
@@ -116,33 +153,47 @@ export function CampusApplicationRecordsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-xl p-6 shadow-sm"
           >
-            <h3 className="text-[18px] font-medium text-gray-900 mb-2">{record.job?.title}</h3>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-[18px] font-medium text-gray-900">{record.job?.title}</h3>
+              {record.statusLabel && (
+                <span className={`text-[13px] px-2.5 py-1 rounded-full font-medium ${
+                  record.status === CAMPUS_APPLICATION_STATUS.REJECTED_TO_TALENT_POOL || record.status === 'REJECTED'
+                    ? 'bg-red-50 text-red-600'
+                    : record.status === CAMPUS_APPLICATION_STATUS.OFFER
+                    ? 'bg-emerald-50 text-emerald-600'
+                    : 'bg-blue-50 text-blue-600'
+                }`}>
+                  {record.statusLabel}
+                </span>
+              )}
+            </div>
+            
             <div className="text-[14px] text-gray-600 mb-8">
               {record.job?.city} | {record.job?.category} | {record.job?.projectName}
             </div>
 
             {/* Timeline Area */}
             <div className="flex flex-col gap-8">
-              {/* Top Row */}
+              {/* Top Row: 前3个步骤 */}
               <div className="flex items-start justify-between relative">
                 {/* Horizontal lines */}
                 <div className="absolute top-5 left-[20%] right-[55%] h-[1px] bg-gray-200"></div>
                 <div className="absolute top-5 left-[55%] right-[20%] h-[1px] bg-gray-200"></div>
                 
-                {renderTimelineStatus(record, 'SUBMITTED', '投递成功', Check, true)}
-                {renderTimelineStatus(record, 'RESUME_SCREENING', '简历初筛', User, true)}
-                {renderTimelineStatus(record, 'DEPARTMENT_SCREENING', '用人部门筛选', UserSearch, true)}
+                {FLOW_STEPS.slice(0, 3).map((step, index) => 
+                  renderTimelineStatus(record, step.status, step.defaultLabel, step.icon, index)
+                )}
               </div>
 
-              {/* Bottom Row */}
+              {/* Bottom Row: 后3个步骤 */}
               <div className="flex items-start justify-between relative">
                 {/* Horizontal lines */}
                 <div className="absolute top-5 left-[20%] right-[55%] h-[1px] bg-gray-200"></div>
                 <div className="absolute top-5 left-[55%] right-[20%] h-[1px] bg-gray-200"></div>
                 
-                {renderTimelineStatus(record, 'FIRST_INTERVIEW', '初面', User, false)}
-                {renderTimelineStatus(record, 'FINAL_INTERVIEW', '终面', User, false)}
-                {renderTimelineStatus(record, 'OFFER', 'offer', Mail, false)}
+                {FLOW_STEPS.slice(3, 6).map((step, index) => 
+                  renderTimelineStatus(record, step.status, step.defaultLabel, step.icon, index + 3)
+                )}
               </div>
             </div>
             

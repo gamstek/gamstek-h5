@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, ChevronDown, ChevronLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Logo } from './Logo';
 import { fetchPrivacyNotice, loginWithSms, sendSmsCode, logout } from '../api/campus';
@@ -16,6 +16,7 @@ declare global {
 
 export function CampusLayout() {
   const toast = useToast();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [phone, setPhone] = useState('');
@@ -27,9 +28,18 @@ export function CampusLayout() {
     const handleOpenLogin = () => {
       setIsMenuOpen(true);
     };
+    const handleUnauthorized = () => {
+      setIsLoggedIn(false);
+      setIsMenuOpen(true);
+      toast.error('校招登录已过期，请重新登录');
+    };
     window.addEventListener('open-login-menu', handleOpenLogin);
-    return () => window.removeEventListener('open-login-menu', handleOpenLogin);
-  }, []);
+    window.addEventListener('campus-unauthorized', handleUnauthorized);
+    return () => {
+      window.removeEventListener('open-login-menu', handleOpenLogin);
+      window.removeEventListener('campus-unauthorized', handleUnauthorized);
+    };
+  }, [toast]);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [privacyNotice, setPrivacyNotice] = useState<{version?: string, title: string, content: string} | null>(null);
   const [isPrivacyLoading, setIsPrivacyLoading] = useState(false);
@@ -73,6 +83,8 @@ export function CampusLayout() {
   }, [isMenuOpen]);
 
   useEffect(() => {
+    if (!isMenuOpen || captchaInstance) return;
+
     let script = document.getElementById('aliyun-captcha-script-campus') as HTMLScriptElement;
     if (!script) {
       script = document.createElement('script');
@@ -86,7 +98,7 @@ export function CampusLayout() {
     } else {
       initCaptcha();
     }
-  }, [isMenuOpen]);
+  }, [isMenuOpen, captchaInstance]);
 
   const [countdown, setCountdown] = useState(0);
 
@@ -173,13 +185,7 @@ export function CampusLayout() {
     }
   };
 
-  const handleGetCode = (forceAgreed?: boolean | React.MouseEvent) => {
-    const isAgreed = typeof forceAgreed === 'boolean' ? forceAgreed : agreed;
-    if (!isAgreed) {
-      setPendingAction('getCode');
-      handleOpenPrivacy();
-      return;
-    }
+  const handleGetCode = () => {
     if (!phone) {
       toast.error('请输入手机号');
       return;
@@ -194,18 +200,19 @@ export function CampusLayout() {
   };
 
   const handleLogin = async (forceAgreed?: boolean | React.MouseEvent) => {
-    const isAgreed = typeof forceAgreed === 'boolean' ? forceAgreed : agreed;
-    if (!isAgreed) {
-      setPendingAction('login');
-      handleOpenPrivacy();
-      return;
-    }
     if (!phone) {
       toast.error('请输入手机号');
       return;
     }
     if (!code) {
       toast.error('请输入验证码');
+      return;
+    }
+
+    const isAgreed = typeof forceAgreed === 'boolean' ? forceAgreed : agreed;
+    if (!isAgreed) {
+      setPendingAction('login');
+      handleOpenPrivacy();
       return;
     }
     
@@ -239,8 +246,15 @@ export function CampusLayout() {
   };
 
   const isJobDetailsPage = location.pathname.includes('/job/');
-  const isResumePage = location.pathname.includes('/resume');
-  const isLightMode = isMenuOpen || isScrolled || isJobDetailsPage || isResumePage;
+  const isSubPage = location.pathname.split('/').filter(Boolean).length >= 2;
+  
+  const [pageTitle, setPageTitle] = useState('');
+
+  useEffect(() => {
+    setPageTitle(document.title.split(' | ')[0]);
+  }, [location.pathname]);
+
+  const isLightMode = isMenuOpen || isScrolled || isJobDetailsPage || isSubPage;
 
   return (
     <div className="max-w-md mx-auto bg-white min-h-screen relative shadow-2xl overflow-x-clip font-sans">
@@ -264,28 +278,27 @@ export function CampusLayout() {
           boxShadow: isScrolled && !isMenuOpen ? '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' : 'none'
         }}
         initial={false}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        transition={{ duration: 0.1, ease: 'easeInOut' }}
         className="fixed top-0 left-0 right-0 max-w-md mx-auto w-full z-[100] flex flex-col h-[76px] justify-center"
       >
         <div className="flex items-center justify-between px-6 relative z-20">
-          <Link to="/campus-recruitment" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
-            <div className="font-bold tracking-wider flex flex-col">
-               <motion.span 
-                 animate={{ color: isLightMode ? '#e60012' : '#ffffff' }}
-                 transition={{ duration: 0.3 }}
-                 className="text-2xl leading-tight"
-               >
-                 GAMSTEK
-               </motion.span>
-               <motion.span 
-                 animate={{ color: isLightMode ? '#000000' : '#cccccc' }}
-                 transition={{ duration: 0.3 }}
-                 className="text-[10px] tracking-widest font-medium"
-               >
-                 引 力 波 智 谱
-               </motion.span>
-            </div>
-          </Link>
+          {isSubPage ? (
+            <>
+              <button 
+                onClick={() => navigate(-1)} 
+                className="p-2 -ml-2 text-gray-800 hover:text-gray-900 transition-colors flex items-center"
+              >
+                <ChevronLeft className="w-6 h-6 stroke-[2]" />
+              </button>
+              <h1 className="text-[17px] font-medium text-gray-900 absolute left-1/2 -translate-x-1/2 pointer-events-none">
+                {pageTitle}
+              </h1>
+            </>
+          ) : (
+            <Link to="/campus-recruitment" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
+              <Logo isLightMode={isLightMode} className="w-[120px]" />
+            </Link>
+          )}
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 -mr-2 relative w-10 h-10 flex items-center justify-center">
             <motion.div
               animate={{ rotate: isMenuOpen ? 90 : 0, opacity: isMenuOpen ? 0 : 1, scale: isMenuOpen ? 0.8 : 1 }}
@@ -376,9 +389,9 @@ export function CampusLayout() {
                     <div id="captcha-element-campus"></div>
                     <button 
                       id="campus-login-btn"
-                      onClick={handleLogin}
-                      disabled={!/^\d{11}$/.test(phone) || code.length !== 6 || !agreed}
-                      className={`w-full py-3.5 transition-colors text-white rounded-[2px] text-[16px] font-medium mb-6 ${/^\d{11}$/.test(phone) && code.length === 6 && agreed ? 'bg-[#e60012] hover:bg-[#d40010]' : 'bg-[#ec7d8e] cursor-not-allowed'}`}
+                      onClick={() => handleLogin()}
+                      disabled={!/^\d{11}$/.test(phone) || code.length !== 6}
+                      className={`w-full py-3.5 transition-colors text-white rounded-[2px] text-[16px] font-medium mb-6 ${/^\d{11}$/.test(phone) && code.length === 6 ? 'bg-[#e60012] hover:bg-[#d40010]' : 'bg-[#ec7d8e] cursor-not-allowed'}`}
                     >
                       登 录
                     </button>
@@ -458,8 +471,6 @@ export function CampusLayout() {
                     setIsPrivacyOpen(false);
                     if (pendingAction === 'login') {
                       handleLogin(true);
-                    } else if (pendingAction === 'getCode') {
-                      handleGetCode(true);
                     }
                     setPendingAction(null);
                   }}

@@ -93,6 +93,12 @@ export interface CampusFile {
   createdAt: string;
 }
 
+const handleUnauthorized = () => {
+  localStorage.removeItem('campus_token');
+  localStorage.removeItem('campus_phone');
+  window.dispatchEvent(new CustomEvent('campus-unauthorized'));
+};
+
 export const fetchCampusFiles = async (): Promise<CampusFile[]> => {
   const token = localStorage.getItem('campus_token') || '';
   const response = await fetch('https://admin.gamstek.com/api/campus/files', {
@@ -101,6 +107,10 @@ export const fetchCampusFiles = async (): Promise<CampusFile[]> => {
     }
   });
   const json = await response.json();
+  if (json.code === 401) {
+    handleUnauthorized();
+    return [];
+  }
   if (json.success && json.data) {
     return json.data;
   }
@@ -118,7 +128,11 @@ export const uploadFile = async (file: File) => {
     },
     body: file
   });
-  return response.json();
+  const json = await response.json();
+  if (json.code === 401) {
+    handleUnauthorized();
+  }
+  return json;
 };
 
 export const fetchResume = async () => {
@@ -129,6 +143,10 @@ export const fetchResume = async () => {
     }
   });
   const json = await response.json();
+  if (json.code === 401) {
+    handleUnauthorized();
+    return null;
+  }
   if (json.success && json.data) {
     return json.data;
   }
@@ -145,6 +163,19 @@ export const submitResume = async (payload: any) => {
     },
     body: JSON.stringify(payload)
   });
+  if (response.status === 401) {
+    handleUnauthorized();
+  } else {
+    try {
+      const clone = response.clone();
+      const json = await clone.json();
+      if (json.code === 401) {
+        handleUnauthorized();
+      }
+    } catch (e) {
+      // ignore non-json
+    }
+  }
   return response;
 };
 
@@ -170,6 +201,23 @@ export interface ApplicationRecord {
 
 export const submitApplication = async (jobId: number, privacyAccepted: boolean, noticeVersion: string) => {
   const token = localStorage.getItem('campus_token') || '';
+
+  // 投递前先查询已有投递记录
+  try {
+    const existingApps = await fetchApplications();
+    if (existingApps && existingApps.length > 0) {
+      // 如果找到已有投递记录
+      const activeApp = existingApps[0];
+      const jobTitle = activeApp.job?.title || '该职位';
+      return {
+        success: false,
+        message: `您已投递“${jobTitle}”，招聘流程结束前不能再次投递`
+      };
+    }
+  } catch (err) {
+    console.error('检查已有投递记录失败:', err);
+  }
+
   const response = await fetch('https://admin.gamstek.com/api/campus/applications', {
     method: 'POST',
     headers: {
@@ -178,7 +226,11 @@ export const submitApplication = async (jobId: number, privacyAccepted: boolean,
     },
     body: JSON.stringify({ jobId, privacyAccepted, noticeVersion })
   });
-  return response.json();
+  const json = await response.json();
+  if (json.code === 401) {
+    handleUnauthorized();
+  }
+  return json;
 };
 
 export const fetchApplications = async (): Promise<ApplicationRecord[]> => {
@@ -189,6 +241,10 @@ export const fetchApplications = async (): Promise<ApplicationRecord[]> => {
     }
   });
   const json = await response.json();
+  if (json.code === 401) {
+    handleUnauthorized();
+    return [];
+  }
   if (json.success && json.data) {
     return json.data;
   }
@@ -203,6 +259,10 @@ export const fetchApplicationDetails = async (id: number): Promise<ApplicationRe
     }
   });
   const json = await response.json();
+  if (json.code === 401) {
+    handleUnauthorized();
+    return null;
+  }
   if (json.success && json.data) {
     return json.data;
   }

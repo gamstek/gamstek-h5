@@ -11,6 +11,8 @@ import homeCase1 from '../assets/home/cases/case-1.jpg';
 import homeCase2 from '../assets/home/cases/case-2.jpg';
 import homeCase3 from '../assets/home/cases/case-3.jpg';
 
+const currentYear = new Date().getFullYear();
+
 // Contact Info
 export const captchaConfig = {
   region: 'cn',
@@ -24,10 +26,11 @@ export const captchaConfig = {
 export const contactInfo = {
   phone: '400-0233-929',
   email: 'service@gmastek.cn',
+  hrEmail: 'hr@gamstek.com',
   address: '合肥市高新区孔雀台路1969号量子科仪谷6F',
   qrCodeText: '关注我们获取咨询与服务',
   companyName: 'GAMSTEK',
-  copyright: 'Copyright © 2026 GAMSTEK Co., Ltd',
+  copyright: `Copyright © ${currentYear} GAMSTEK Co., Ltd`,
   icp: '合肥引力波智谱科技有限公司 皖 ICP 备2024066510号-1',
 };
 

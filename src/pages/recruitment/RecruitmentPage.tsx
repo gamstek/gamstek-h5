@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import recruitmentBg from '../../assets/recruitment/bg.png';
+import { contactInfo } from '../../data/config';
 
 const techJobs = [
   {
@@ -99,7 +100,7 @@ const JobCard: React.FC<{ title: string, content: string }> = ({ title, content 
       <div className="flex items-center justify-between mb-4 gap-2">
         <h3 className="text-xl font-bold text-gray-900">{title}</h3>
         <a 
-          href={`mailto:hr@gamstek.com?subject=${encodeURIComponent(`应聘 - ${title}`)}`}
+          href={`mailto:${contactInfo.hrEmail || 'hr@gamstek.com'}?subject=${encodeURIComponent(`应聘 - ${title}`)}`}
           className="shrink-0 bg-[#e60012] text-white text-xs px-3.5 py-1.5 rounded-full font-medium hover:bg-red-700 transition-colors"
         >
           投递简历

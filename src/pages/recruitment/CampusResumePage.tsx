@@ -95,7 +95,7 @@ function DynamicSection({
 }
 
 export function CampusResumePage() {
-  useDocumentTitle('简历投递');
+  useDocumentTitle('我的简历');
   const navigate = useNavigate();
   const toast = useToast();
   useEffect(() => {
