@@ -56,14 +56,14 @@ export function CampusRecruitmentPage() {
 
   return (
     <div className="bg-[#f5f5f5] min-h-screen pb-12 font-sans">
-      {/* Hero Section - 背景图 campus-recruitment/bg.png (750x490)，按同比例自适应 */}
-      <div className="relative w-full aspect-[750/490] overflow-hidden bg-black">
+      {/* Hero Section - 顶部为横向宽图，使用固定高度避免按旧比例过度拉高 */}
+      <div className="relative w-full h-[360px] overflow-hidden bg-black">
         <div className="absolute inset-0 z-0">
            {/* 背景图铺满 */}
            <img 
              src={campusBg} 
              alt="" 
-             className="w-full h-full object-cover"
+             className="w-full h-full object-cover object-center"
            />
            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0a0a0a]"></div>
         </div>
@@ -74,13 +74,13 @@ export function CampusRecruitmentPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-white/90 text-sm tracking-widest mb-4 font-medium"
           >
-            GAMSTEK <span className="text-pink-500">ONE</span> TEAM
+            GAMSTEK <span className="bg-gradient-to-r from-[#ff8fb3] to-[#c77dff] bg-clip-text text-transparent">ONE</span> TEAM
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl font-bold text-white tracking-wider mb-2"
+            className="text-4xl font-bold tracking-wider mb-2 bg-gradient-to-b from-[#f3f0ff] to-[#d7d1ff] bg-clip-text text-transparent"
           >
             引力波智谱
           </motion.h1>
@@ -88,7 +88,7 @@ export function CampusRecruitmentPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="text-[2.5rem] font-bold text-[#8ba3ff] tracking-wider mb-6 leading-tight"
+            className="text-[2.5rem] font-bold tracking-wider mb-6 leading-tight bg-gradient-to-b from-[#eef0ff] to-[#cfd2ff] bg-clip-text text-transparent"
           >
             整机青年计划
           </motion.h2>
@@ -96,9 +96,11 @@ export function CampusRecruitmentPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-[#facc15] text-lg font-medium tracking-widest"
+            className="text-lg font-medium tracking-widest"
           >
-            入场，成为关键<span className="text-[#a78bfa]">变量</span>
+            <span className="bg-gradient-to-r from-[#ffd84d] to-[#f6d64f] bg-clip-text text-transparent">入场，</span>
+            <span className="bg-gradient-to-r from-[#f5f0d8] to-[#ffffff] bg-clip-text text-transparent">成为关键</span>
+            <span className="bg-gradient-to-r from-[#d38cff] to-[#a855f7] bg-clip-text text-transparent">变量</span>
           </motion.div>
         </div>
       </div>

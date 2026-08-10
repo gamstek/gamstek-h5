@@ -295,7 +295,7 @@ export function CampusLayout() {
               </h1>
             </>
           ) : (
-            <Link to="/campus-recruitment" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
               <Logo isLightMode={isLightMode} className="w-[120px]" />
             </Link>
           )}

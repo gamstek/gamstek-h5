@@ -119,8 +119,6 @@ export function HeroCarousel({
               alt={slides[currentIndex].title} 
               className="w-full h-full object-cover opacity-80"
             />
-            {/* Gradient overlay to make text readable and blend edges */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/40 to-black/80"></div>
           </div>
           
           {/* Content */}

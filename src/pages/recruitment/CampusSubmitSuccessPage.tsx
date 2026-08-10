@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { CheckCircle2 } from 'lucide-react';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import successImage from '../../assets/campus-recruitment/success.png';
 
 export function CampusSubmitSuccessPage() {
-  useDocumentTitle('投递成功');
+  useDocumentTitle('校园招聘');
   const navigate = useNavigate();
 
   return (
@@ -16,20 +16,12 @@ export function CampusSubmitSuccessPage() {
         transition={{ duration: 0.5, type: 'spring' }}
         className="w-full flex flex-col items-center mt-20"
       >
-        {/* Placeholder for the illustration - combining icons and shapes to mimic the design */}
-        <div className="relative w-64 h-48 mb-8 flex justify-center items-center">
-           {/* Decorative elements representing the illustration */}
-           <div className="absolute inset-0 bg-[#e6f7f2] rounded-full opacity-40 blur-3xl"></div>
-           <div className="relative z-10 flex items-center justify-center bg-white w-32 h-32 rounded-full shadow-lg">
-             <CheckCircle2 className="w-16 h-16 text-[#10b981]" />
-           </div>
-           
-           {/* Floating elements to mimic the graphic's lively feel */}
-           <div className="absolute top-4 right-10 bg-[#10b981] w-8 h-8 rounded-full flex items-center justify-center z-20 shadow-md">
-             <CheckCircle2 className="w-6 h-6 text-white" />
-           </div>
-           <div className="absolute bottom-8 left-4 bg-blue-100 w-12 h-8 rounded-md -rotate-12 opacity-60"></div>
-           <div className="absolute top-1/2 right-0 bg-red-50 w-10 h-10 rounded-full opacity-60"></div>
+        <div className="w-64 mb-8">
+          <img
+            src={successImage}
+            alt="投递成功"
+            className="w-full h-auto object-contain"
+          />
         </div>
 
         <h2 className="text-[20px] font-medium text-gray-900 mb-12">投递成功</h2>
