@@ -1,4 +1,4 @@
-import { FlaskConical, Soup, Stethoscope, Pill, Factory, LucideIcon } from 'lucide-react';
+import { FlaskConical, Soup, Stethoscope, Pill, Droplets, LucideIcon } from 'lucide-react';
 import React from 'react';
 import homeProductLcmsms from '../assets/home/product-lcmsms.jpg';
 import homeProductFtms from '../assets/home/product-ftms.jpg';
@@ -76,15 +76,16 @@ export const footerLinks = {
   ]
 };
 
-// Cases
-export const caseCategories = ['全部', '食品安全', '环境检测', '公安/司法'];
+// Cases (数据与 https://gamstek.com/technology/ecology 页面一致,分类除"全部"外不可点击)
+export const caseCategories = ['全部', '食品安全', '环境检测', '公安/法医', '药企/CRO', '临床诊断', '化工', '生命科学', '能源'];
 
-export const casesData: Array<{id: number, title: string, description: string, category: string, Icon: LucideIcon}> = [
+export const casesData: Array<{id: number, title: string, description: string, category: string, pdfUrl: string, Icon: LucideIcon}> = [
   {
     id: 1,
     title: 'LC-MS/MS法分析食品中多环芳烃类化合物',
     description: '多环芳烃（PAHs）因强致癌性与生物累积性成为食品安全重点管控污染物。预制菜等食品在烟熏、油炸等加工环节及包装加热迁移过程中易富集PAHs。',
     category: '食品安全',
+    pdfUrl: 'https://gamstek.com/ecology/多环芳烃测.pdf',
     Icon: FlaskConical,
   },
   {
@@ -92,6 +93,7 @@ export const casesData: Array<{id: number, title: string, description: string, c
     title: 'LC-MS/MS法检测坚果中4种黄曲霉毒素',
     description: '黄曲霉毒素是黄曲霉、寄生曲霉等真菌产生的高毒性次级代谢产物，其急性毒性远超氰化物，长期低剂量暴露会增加肝癌等恶性肿瘤风险。',
     category: '食品安全',
+    pdfUrl: 'https://gamstek.com/ecology/黄曲霉素.pdf',
     Icon: Soup,
   },
   {
@@ -99,13 +101,15 @@ export const casesData: Array<{id: number, title: string, description: string, c
     title: 'LC-MS/MS法检测动物性食品中四环素类、磺胺类和喹诺酮类药物残留',
     description: '兽药及兽药添加剂因为其在降低牲畜发病率和死亡率、促进生长和改善肉品品质方面作用明显，已成为现代畜牧业不可缺少的物质基础。',
     category: '食品安全',
+    pdfUrl: 'https://gamstek.com/ecology/磺胺.pdf',
     Icon: Stethoscope,
   },
   {
     id: 4,
     title: 'LC-MS/MS法检测动物性食品中18种β-受体激动剂',
-    description: 'β-受体激动剂属于苯乙醇胺类药物，在生物体内具有“再分配效应”，可使营养组分由脂肪组织向肌肉组织转移，能直接导致体内的脂肪分解代谢增强、蛋白质合成增加、明显...',
+    description: 'β-受体激动剂属于苯乙醇胺类药物，在生物体内具有“再分配效应”，可使营养组分由脂肪组织向肌肉组织转移，能直接导致体内的脂肪分解代谢增强、蛋白质合成增加、明显提高酮体瘦肉率、提高饲料转化率，使得用药个体增重。',
     category: '食品安全',
+    pdfUrl: 'https://gamstek.com/ecology/受体激动剂.pdf',
     Icon: Pill,
   },
   {
@@ -113,7 +117,8 @@ export const casesData: Array<{id: number, title: string, description: string, c
     title: '使用LC-MS/MS系统测定水质中4种硝基酚类化合物',
     description: '硝基酚类物质（如2,4-二硝基酚、2,6-二硝基酚等）通常为工业生产的副产物（如染料、农药、炸药制造），其具有高毒性、难降解性和生物累积性。',
     category: '环境检测',
-    Icon: Factory,
+    pdfUrl: 'https://gamstek.com/ecology/GAMSTEK%20MS%208000%20液质联用系统测定水质中4种硝基酚.pdf',
+    Icon: Droplets,
   }
 ];
 

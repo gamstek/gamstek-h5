@@ -72,7 +72,13 @@ export function CasesPage() {
       {/* Case List */}
       <section className="p-4 space-y-4">
         {filteredCases.map(caseItem => (
-          <div key={caseItem.id} className="bg-white rounded-xl p-5 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-50">
+          <a
+            key={caseItem.id}
+            href={caseItem.pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block bg-white rounded-xl p-5 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-50 active:bg-gray-50 transition-colors"
+          >
             <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center mb-4 text-[#e60012]">
               <caseItem.Icon size={24} strokeWidth={2} />
             </div>
@@ -82,7 +88,7 @@ export function CasesPage() {
             <p className="text-[13px] text-gray-500 leading-relaxed">
               {caseItem.description}
             </p>
-          </div>
+          </a>
         ))}
       </section>
     </div>
