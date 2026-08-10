@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import supportBg from '../../assets/support/bg.png';
 import supportHeroBg from '../../assets/support/hero-bg.jpg';
 import supportBrochure from '../../assets/support/brochure.jpg';
 import supportService from '../../assets/support/service.jpg';
@@ -27,10 +28,15 @@ export function SupportPage() {
 
   return (
     <div className="w-full bg-[#f9fafb] pb-20">
-      {/* Hero Section - 顶部 hero 切图尚未提供，暂用深色渐变占位 */}
-      <div className="relative pt-24 pb-16 px-4 bg-gray-900 overflow-hidden min-h-[400px] flex items-center">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#111] to-[#1a1a1a]"></div>
-        <div className="relative z-10 w-full text-center">
+      {/* Hero Section - 背景图 750x1334 (9:16)，容器按同比例自适应 */}
+      <div className="relative aspect-[9/16] w-full bg-gray-900 overflow-hidden flex items-center justify-center">
+        <img 
+          src={supportBg} 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="relative z-10 w-full text-center px-4 pt-12">
           <motion.h1 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

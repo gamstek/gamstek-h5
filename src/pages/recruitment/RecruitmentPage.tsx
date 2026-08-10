@@ -96,7 +96,15 @@ const JobCard: React.FC<{ title: string, content: string }> = ({ title, content 
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm mb-4 relative overflow-hidden transition-all duration-300">
-      <h3 className="text-xl font-bold text-gray-900 mb-4">{title}</h3>
+      <div className="flex items-center justify-between mb-4 gap-2">
+        <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+        <a 
+          href={`mailto:hr@gamstek.com?subject=${encodeURIComponent(`应聘 - ${title}`)}`}
+          className="shrink-0 bg-[#e60012] text-white text-xs px-3.5 py-1.5 rounded-full font-medium hover:bg-red-700 transition-colors"
+        >
+          投递简历
+        </a>
+      </div>
       <div 
         className={`text-[#333] text-[15px] leading-relaxed whitespace-pre-wrap ${!isExpanded ? 'max-h-[220px] overflow-hidden relative' : ''}`}
       >
@@ -142,7 +150,7 @@ export function RecruitmentPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl font-bold mb-4 tracking-widest text-[#e60012]"
+            className="text-4xl font-bold mb-4 tracking-widest text-white"
             style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
           >
             加入我们

@@ -6,6 +6,7 @@ import companyImg1 from '../../assets/about/company/1@2x.png';
 import companyImg2 from '../../assets/about/company/2@2x.png';
 import companyImg3 from '../../assets/about/company/3@2x.png';
 import companyBg from '../../assets/about/company/bg.png';
+import companyTopBg from '../../assets/about/company/top-bg.png';
 
 export function CompanyIntroPage() {
   useDocumentTitle('公司介绍');
@@ -27,29 +28,29 @@ export function CompanyIntroPage() {
 
   return (
     <div className="bg-black min-h-screen text-white">
-      {/* Hero Section */}
-      <section className="relative h-[360px] w-full overflow-hidden flex flex-col items-center justify-start pt-16">
-        <div className="relative z-10 text-center mt-6">
-          <h1 className="text-4xl font-bold tracking-widest mb-4">{siteConfig.title}</h1>
+      {/* Top Banner & Intro Section - 背景图 top-bg.png (750x1940, 9:23.28)，按比例 aspect-[750/1940] 呈现 */}
+      <section className="relative aspect-[750/1940] w-full overflow-hidden flex flex-col justify-between pt-24 pb-8 px-6">
+        <img 
+          src={companyTopBg} 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>
+
+        {/* Hero Title */}
+        <div className="relative z-10 text-center mt-2 mb-6">
+          <h1 className="text-4xl font-bold tracking-widest mb-3">{siteConfig.title}</h1>
           <p className="text-lg font-light tracking-[0.2em] opacity-90">{siteConfig.subtitle}</p>
         </div>
-        
-        {/* Colorful glowing waves effect at the bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-48 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[100px] bg-gradient-to-r from-blue-700 via-orange-500 to-blue-700 rounded-[100%] blur-[25px] opacity-70 mix-blend-screen" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[60px] bg-gradient-to-r from-blue-400 via-white to-blue-400 rounded-[100%] blur-[15px] opacity-90 mix-blend-overlay" />
-          {/* Grid lines overlay */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] opacity-30" />
-        </div>
-      </section>
 
-      {/* Intro Text Section */}
-      <section className="px-6 py-12 text-[15px] leading-relaxed tracking-wide text-gray-200">
-        {siteConfig.aboutText.map((paragraph, index) => (
-          <p key={index} className="mb-6 indent-8 text-justify">
-            {paragraph}
-          </p>
-        ))}
+        {/* Intro Text Section on top of background */}
+        <div className="relative z-10 text-[14px] leading-relaxed tracking-wide text-gray-100 mb-4">
+          {siteConfig.aboutText.map((paragraph, index) => (
+            <p key={index} className="mb-3 indent-8 text-justify">
+              {paragraph}
+            </p>
+          ))}
+        </div>
       </section>
 
       {/* Core Capabilities */}
