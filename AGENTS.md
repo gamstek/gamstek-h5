@@ -53,7 +53,7 @@ Directory responsibilities: `src/components/` (layout shells + shared UI), `src/
 - **Do not modify** `vite.config.ts` HMR/watch logic (`DISABLE_HMR` env var is intentional — file watching is disabled during agent edits).
 - **Do not edit `src/data/campusJobs.ts`** — it's stale/dead data with an incompatible shape (string ids). Live jobs come from `/api/campus/jobs` (number ids) via the store.
 - **Do not run the root `fix_*.cjs` / `patch_*.cjs` / `rewrite_*.cjs` scripts or `.diff`/`.patch` files** — they are historical one-off source-patching artifacts from the build-out phase. Edit `src/**` directly.
-- Mock login (`11111111111` / code `111111`, simulated token) and Aliyun captcha placeholders (`'xxxxxx'`, always-passing callback) are intentional simulations.
+- Aliyun captcha and SMS authentication flow are integrated via `/api/campus/auth/sms/send` and `/api/campus/auth/sms/login`. Captcha configuration (`prefix`, `sceneId`) is managed centrally in `src/data/config.tsx`.
 - `submitResume` in `src/api/campus.ts` returns the raw `Response` (not parsed JSON) — branch accordingly.
 - All user-facing strings and console error messages are Simplified Chinese — keep them that way. `index.html` still carries AI Studio boilerplate (`lang="en"`, default title); the README/metadata are also untouched boilerplate.
 - `tsc` has `strict` off; loose typing (`payload: any`) is the existing norm.

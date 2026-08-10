@@ -53,6 +53,22 @@ export const fetchPrivacyNotice = async (): Promise<PrivacyNotice | null> => {
   }
 };
 
+export const sendSmsCode = async (phone: string, captchaToken?: string, noticeVersion: string = 'V1.0') => {
+  const res = await fetch('https://admin.gamstek.com/api/campus/auth/sms/send', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      phone,
+      captchaToken,
+      privacyAccepted: true,
+      noticeVersion
+    })
+  });
+  return res.json();
+};
+
 export const loginWithSms = async (phone: string, code: string, privacyAccepted: boolean, noticeVersion: string) => {
   const res = await fetch('https://admin.gamstek.com/api/campus/auth/sms/login', {
     method: 'POST',
@@ -69,6 +85,28 @@ export const loginWithSms = async (phone: string, code: string, privacyAccepted:
   return res.json();
 };
 
+export interface CampusFile {
+  id: number;
+  originalName: string;
+  mime: string;
+  size: number;
+  createdAt: string;
+}
+
+export const fetchCampusFiles = async (): Promise<CampusFile[]> => {
+  const token = localStorage.getItem('campus_token') || '';
+  const response = await fetch('https://admin.gamstek.com/api/campus/files', {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  });
+  const json = await response.json();
+  if (json.success && json.data) {
+    return json.data;
+  }
+  return [];
+};
+
 export const uploadFile = async (file: File) => {
   const token = localStorage.getItem('campus_token') || '';
   const response = await fetch('https://admin.gamstek.com/api/campus/files', {
@@ -81,6 +119,20 @@ export const uploadFile = async (file: File) => {
     body: file
   });
   return response.json();
+};
+
+export const fetchResume = async () => {
+  const token = localStorage.getItem('campus_token') || '';
+  const response = await fetch('https://admin.gamstek.com/api/campus/resume', {
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  });
+  const json = await response.json();
+  if (json.success && json.data) {
+    return json.data;
+  }
+  return null;
 };
 
 export const submitResume = async (payload: any) => {

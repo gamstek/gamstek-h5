@@ -12,6 +12,15 @@ import homeCase2 from '../assets/home/cases/case-2.jpg';
 import homeCase3 from '../assets/home/cases/case-3.jpg';
 
 // Contact Info
+export const captchaConfig = {
+  region: 'cn',
+  prefix: 'z2tn8d',
+  sceneId: 'tb0562pi',
+  mode: 'popup',
+  slideStyle: { width: 360, height: 40 },
+  language: 'cn'
+};
+
 export const contactInfo = {
   phone: '400-0233-929',
   email: 'service@gmastek.cn',

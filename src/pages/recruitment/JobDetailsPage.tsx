@@ -4,8 +4,10 @@ import { motion } from 'motion/react';
 import { useCampusStore } from '../../store/useCampusStore';
 import { submitApplication } from '../../api/campus';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { useToast } from '../../components/Toast';
 
 export function JobDetailsPage() {
+  const toast = useToast();
   const { id } = useParams();
   const { jobs, fetchJobs, isLoading } = useCampusStore();
 
@@ -96,12 +98,12 @@ export function JobDetailsPage() {
               try {
                 const res = await submitApplication(job.id, true, 'V1.0');
                 if (res.success) {
-                  alert('投递成功');
+                  toast.success('投递成功');
                 } else {
-                  alert(res.message || '投递失败');
+                  toast.error(res.message || '投递失败');
                 }
               } catch (e) {
-                alert('网络请求失败');
+                toast.error('网络请求失败');
               }
             }
           }}

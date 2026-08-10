@@ -13,6 +13,7 @@ export function CampusRecruitmentPage() {
   const [isCategoryFilterOpen, setIsCategoryFilterOpen] = useState(false);
   const [isCityFilterOpen, setIsCityFilterOpen] = useState(false);
 
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [selectedProject, setSelectedProject] = useState('全部');
   const [selectedCategory, setSelectedCategory] = useState('全部');
   const [selectedCity, setSelectedCity] = useState('全部');
@@ -38,6 +39,18 @@ export function CampusRecruitmentPage() {
     if (selectedProject !== '全部' && job.projectName !== selectedProject) return false;
     if (selectedCategory !== '全部' && job.category !== selectedCategory) return false;
     if (selectedCity !== '全部' && job.city !== selectedCity) return false;
+    if (searchKeyword.trim()) {
+      const keyword = searchKeyword.trim().toLowerCase();
+      const titleMatch = job.title?.toLowerCase().includes(keyword);
+      const categoryMatch = job.category?.toLowerCase().includes(keyword);
+      const cityMatch = job.city?.toLowerCase().includes(keyword);
+      const projectMatch = job.projectName?.toLowerCase().includes(keyword);
+      const descMatch = job.description?.some(d => d.toLowerCase().includes(keyword));
+      const reqMatch = job.requirements?.some(r => r.toLowerCase().includes(keyword));
+      if (!titleMatch && !categoryMatch && !cityMatch && !projectMatch && !descMatch && !reqMatch) {
+        return false;
+      }
+    }
     return true;
   });
 
@@ -92,13 +105,24 @@ export function CampusRecruitmentPage() {
 
       {/* Search Bar - 用 translate 上移自身高度一半，精确骑跨在 hero 底部与 filters 顶部交界处 */}
       <div className="relative z-20 px-6">
-        <div className="bg-white rounded flex items-center px-4 py-3 shadow-lg -translate-y-1/2">
+        <div className="bg-white rounded h-[46px] flex items-center px-4 shadow-lg -translate-y-1/2">
           <Search className="w-5 h-5 text-gray-400 mr-2 shrink-0" />
           <input 
             type="text" 
-            placeholder="搜索职位" 
-            className="flex-1 bg-transparent border-none outline-none text-[15px] text-gray-900 placeholder:text-gray-400"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            placeholder="搜索职位名称、类别、描述..." 
+            className="flex-1 bg-transparent border-none outline-none text-[15px] text-gray-900 placeholder:text-gray-400 h-full"
           />
+          {searchKeyword && (
+            <button 
+              type="button" 
+              onClick={() => setSearchKeyword('')}
+              className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full ml-2 shrink-0 hover:bg-gray-200"
+            >
+              清除
+            </button>
+          )}
         </div>
       </div>
 

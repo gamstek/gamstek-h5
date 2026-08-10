@@ -19,12 +19,15 @@ import { CampusApplicationRecordsPage } from './pages/recruitment/CampusApplicat
 import { MassClawPage } from './pages/massclaw/MassClawPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
+import { ToastProvider } from './components/Toast';
+
 const ROUTER_BASENAME = import.meta.env.BASE_URL.replace(/\/+$/, '');
 
 export default function App() {
   return (
-    <Router basename={ROUTER_BASENAME}>
-      <Routes>
+    <ToastProvider>
+      <Router basename={ROUTER_BASENAME}>
+        <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="products/ms8100" element={<MS8100Details />} />
@@ -52,5 +55,6 @@ export default function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
+  </ToastProvider>
   );
 }

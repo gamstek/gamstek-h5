@@ -4,9 +4,11 @@ import { motion } from 'motion/react';
 import { PrivacyPolicyModal } from '../../components/PrivacyPolicyModal';
 import { UserAgreementModal } from '../../components/UserAgreementModal';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { useToast } from '../../components/Toast';
 import inquiryProduct from '../../assets/ms8100/hero.jpg';
 
 export function InquiryPage() {
+  const toast = useToast();
   useDocumentTitle('在线咨询');
   const [searchParams] = useSearchParams();
   const productFromUrl = searchParams.get('product') || '';
@@ -41,12 +43,12 @@ export function InquiryPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.agreed) {
-      alert('请先同意隐私政策声明和用户协议');
+      toast.error('请先同意隐私政策声明和用户协议');
       return;
     }
     // Form submission logic would go here
     console.log('Form submitted:', formData);
-    alert('提交成功！我们将尽快与您联系。');
+    toast.success('提交成功！我们将尽快与您联系。');
   };
 
   return (

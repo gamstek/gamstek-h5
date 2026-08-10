@@ -4,8 +4,9 @@ import { ChevronRight, Plus, Trash2, FileText, ArrowUpCircle } from 'lucide-reac
 import { motion } from 'motion/react';
 import { DatePickerDrawer } from '../../components/DatePickerDrawer';
 import { OptionPickerDrawer } from '../../components/OptionPickerDrawer';
-import { uploadFile, submitResume } from '../../api/campus';
+import { uploadFile, submitResume, fetchResume, fetchCampusFiles, CampusFile } from '../../api/campus';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { useToast } from '../../components/Toast';
 
 const SectionTitle = ({ title }: { title: string }) => (
   <div className="px-4 py-4 flex items-center bg-white border-b border-gray-100">
@@ -96,12 +97,131 @@ function DynamicSection({
 export function CampusResumePage() {
   useDocumentTitle('简历投递');
   const navigate = useNavigate();
+  const toast = useToast();
   useEffect(() => {
     window.scrollTo(0, 0);
+    const loadResumeData = async () => {
+      try {
+        const [resumeData, filesData] = await Promise.all([
+          fetchResume(),
+          fetchCampusFiles()
+        ]);
+
+        const fileMap = new Map<number, CampusFile>();
+        if (Array.isArray(filesData)) {
+          filesData.forEach(f => fileMap.set(f.id, f));
+        }
+
+        if (resumeData && resumeData.content) {
+          const content = resumeData.content;
+          if (content.basic) {
+            setBasicInfo({
+              name: content.basic.name || '',
+              email: content.basic.email || ''
+            });
+          }
+          if (content.attachmentFileId) {
+            setResumeFileId(content.attachmentFileId);
+            const fileObj = fileMap.get(content.attachmentFileId);
+            setResumeFileName(fileObj ? fileObj.originalName : '已有已上传简历文件');
+          }
+          if (content.portfolioUrl || content.portfolioAttachmentFileId) {
+            const portfolioId = '1';
+            setPortfolios([portfolioId]);
+            if (content.portfolioUrl) {
+              setPortfolioData({ [portfolioId]: { link: content.portfolioUrl } });
+            }
+            if (content.portfolioAttachmentFileId) {
+              setPortfolioFileIds({ [portfolioId]: content.portfolioAttachmentFileId });
+              const portfolioFileObj = fileMap.get(content.portfolioAttachmentFileId);
+              setPortfolioFileNames({ [portfolioId]: portfolioFileObj ? portfolioFileObj.originalName : '已有作品附件' });
+            }
+          }
+          if (Array.isArray(content.education) && content.education.length > 0) {
+            const eduIds: string[] = [];
+            const eduObj: Record<string, any> = {};
+            content.education.forEach((item: any, idx: number) => {
+              const id = String(idx + 1);
+              eduIds.push(id);
+              eduObj[id] = {
+                school: item.school || '',
+                degree: item.degree || '',
+                major: item.major || '',
+                date: item.startDate && item.endDate ? `${item.startDate} - ${item.endDate}` : ''
+              };
+            });
+            setEducations(eduIds);
+            setEduData(eduObj);
+          }
+          if (Array.isArray(content.workExperiences) && content.workExperiences.length > 0) {
+            const workIds: string[] = [];
+            const workObj: Record<string, any> = {};
+            content.workExperiences.forEach((item: any, idx: number) => {
+              const id = String(idx + 1);
+              workIds.push(id);
+              workObj[id] = {
+                company: item.organization || '',
+                role: item.role || '',
+                date: item.startDate && item.endDate ? `${item.startDate} - ${item.endDate}` : ''
+              };
+            });
+            setWorkExperiences(workIds);
+            setWorkData(workObj);
+          }
+          if (Array.isArray(content.projects) && content.projects.length > 0) {
+            const projIds: string[] = [];
+            const projObj: Record<string, any> = {};
+            content.projects.forEach((item: any, idx: number) => {
+              const id = String(idx + 1);
+              projIds.push(id);
+              projObj[id] = {
+                name: item.organization || '',
+                role: item.role || '',
+                date: item.startDate && item.endDate ? `${item.startDate} - ${item.endDate}` : ''
+              };
+            });
+            setProjects(projIds);
+            setProjectData(projObj);
+          }
+          if (Array.isArray(content.awards) && content.awards.length > 0) {
+            const awardIds: string[] = [];
+            const awardObj: Record<string, any> = {};
+            content.awards.forEach((item: any, idx: number) => {
+              const id = String(idx + 1);
+              awardIds.push(id);
+              awardObj[id] = {
+                name: item.name || '',
+                date: item.date || ''
+              };
+            });
+            setAwards(awardIds);
+            setAwardData(awardObj);
+          }
+          if (Array.isArray(content.languages) && content.languages.length > 0) {
+            const langIds: string[] = [];
+            const langObj: Record<string, any> = {};
+            content.languages.forEach((item: any, idx: number) => {
+              const id = String(idx + 1);
+              langIds.push(id);
+              langObj[id] = {
+                name: item.language || '',
+                proficiency: item.proficiency || ''
+              };
+            });
+            setLanguages(langIds);
+            setLangData(langObj);
+          }
+        }
+      } catch (err) {
+        console.error('获取简历数据失败:', err);
+      }
+    };
+    loadResumeData();
   }, []);
 
   const phone = localStorage.getItem('campus_phone') || '+86 158****0721';
 
+  const [basicInfo, setBasicInfo] = useState<{ name: string; email: string }>({ name: '', email: '' });
   const [educations, setEducations] = useState<string[]>(['1']);
   const [workExperiences, setWorkExperiences] = useState<string[]>(['1']);
   const [projects, setProjects] = useState<string[]>([]);
@@ -113,7 +233,9 @@ export function CampusResumePage() {
     isOpen: boolean;
     section: 'edu' | 'work' | 'project' | 'award';
     id: string;
-  }>({ isOpen: false, section: 'edu', id: '' });
+    value: string;
+    mode?: 'range' | 'single';
+  }>({ isOpen: false, section: 'edu', id: '', value: '', mode: 'range' });
   const [optionPickerConfig, setOptionPickerConfig] = useState<{
     isOpen: boolean;
     section: 'edu_degree' | 'lang_proficiency';
@@ -129,6 +251,7 @@ export function CampusResumePage() {
   const [langData, setLangData] = useState<Record<string, any>>({});
   const [resumeFileId, setResumeFileId] = useState<number | null>(null);
   const [resumeFileName, setResumeFileName] = useState<string>('');
+  const [portfolioData, setPortfolioData] = useState<Record<string, { link: string }>>({});
   const [portfolioFileIds, setPortfolioFileIds] = useState<Record<string, number>>({});
   const [portfolioFileNames, setPortfolioFileNames] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -160,8 +283,8 @@ export function CampusResumePage() {
     setDatePickerConfig(prev => ({ ...prev, isOpen: false }));
   };
 
-  const openDatePicker = (section: 'edu' | 'work' | 'project' | 'award', id: string) => {
-    setDatePickerConfig({ isOpen: true, section, id });
+  const openDatePicker = (section: 'edu' | 'work' | 'project' | 'award', id: string, currentValue: string = '', mode: 'range' | 'single' = 'range') => {
+    setDatePickerConfig({ isOpen: true, section, id, value: currentValue, mode });
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, onSuccess: (id: number, name: string) => void) => {
@@ -172,21 +295,23 @@ export function CampusResumePage() {
       const data = await uploadFile(file);
       if (data?.data?.id) {
         onSuccess(data.data.id, file.name);
+        toast.success('上传成功');
       } else if (data?.id) {
         onSuccess(data.id, file.name);
+        toast.success('上传成功');
       } else {
-        alert('文件上传失败，请重试');
+        toast.error('文件上传失败，请重试');
       }
     } catch (error) {
       console.error('Upload error', error);
-      alert('文件上传失败，请重试');
+      toast.error('文件上传失败，请重试');
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!e.currentTarget.checkValidity()) {
-      alert('请完善必填项');
+      toast.error('请完善必填项');
       return;
     }
     
@@ -282,13 +407,13 @@ export function CampusResumePage() {
       const response = await submitResume(payload);
       
       if (response.ok) {
-        navigate('/campus-recruitment/submit-success');
+        toast.success('简历保存成功');
       } else {
-        alert('提交失败，请重试');
+        toast.error('保存失败，请重试');
       }
     } catch (error) {
       console.error('Submit error', error);
-      alert('提交失败，请重试');
+      toast.error('保存失败，请重试');
     } finally {
       setIsSubmitting(false);
     }
@@ -300,6 +425,8 @@ export function CampusResumePage() {
         isOpen={datePickerConfig.isOpen}
         onClose={() => setDatePickerConfig(prev => ({ ...prev, isOpen: false }))}
         onConfirm={handleDateConfirm}
+        value={datePickerConfig.value}
+        mode={datePickerConfig.mode}
       />
       <OptionPickerDrawer 
         isOpen={optionPickerConfig.isOpen}
@@ -333,9 +460,23 @@ export function CampusResumePage() {
       {/* 基本信息 */}
       <div className="mb-2 bg-white pb-2">
         <SectionTitle title="基本信息" />
-        <FormField label="姓名" name="basic_name" required placeholder="请输入" />
+        <FormField 
+          label="姓名" 
+          name="basic_name" 
+          required 
+          placeholder="请输入" 
+          value={basicInfo.name} 
+          onChange={(e: any) => setBasicInfo(prev => ({ ...prev, name: e.target.value }))} 
+        />
         <FormField label="手机号码" required value={phone} readonly />
-        <FormField label="邮箱" name="basic_email" required placeholder="请输入" />
+        <FormField 
+          label="邮箱" 
+          name="basic_email" 
+          required 
+          placeholder="请输入" 
+          value={basicInfo.email} 
+          onChange={(e: any) => setBasicInfo(prev => ({ ...prev, email: e.target.value }))} 
+        />
       </div>
 
       <DynamicSection 
@@ -344,7 +485,14 @@ export function CampusResumePage() {
         setItems={setEducations} 
         renderItem={(id) => (
           <>
-            <FormField label="校园名称" name={`edu_school_${id}`} required placeholder="请输入" />
+            <FormField 
+              label="校园名称" 
+              name={`edu_school_${id}`} 
+              required 
+              placeholder="请输入" 
+              value={eduData[id]?.school || ''} 
+              onChange={(e: any) => setEduData(prev => ({ ...prev, [id]: { ...prev[id], school: e.target.value } }))} 
+            />
             <FormField 
               label="学历" 
               required 
@@ -354,7 +502,14 @@ export function CampusResumePage() {
               value={eduData[id]?.degree || ''}
               onClick={() => openOptionPicker('edu_degree', id, ['大专', '本科', '硕士', '博士', '其他'], eduData[id]?.degree || '')}
             />
-            <FormField label="专业" name={`edu_major_${id}`} required placeholder="请输入" />
+            <FormField 
+              label="专业" 
+              name={`edu_major_${id}`} 
+              required 
+              placeholder="请输入" 
+              value={eduData[id]?.major || ''} 
+              onChange={(e: any) => setEduData(prev => ({ ...prev, [id]: { ...prev[id], major: e.target.value } }))} 
+            />
             <FormField 
               label="起止时间" 
               required 
@@ -362,7 +517,7 @@ export function CampusResumePage() {
               hasArrow 
               readOnlyInput 
               value={eduData[id]?.date || ''}
-              onClick={() => openDatePicker('edu', id)}
+              onClick={() => openDatePicker('edu', id, eduData[id]?.date || '')}
             />
           </>
         )}
@@ -374,8 +529,22 @@ export function CampusResumePage() {
         setItems={setWorkExperiences} 
         renderItem={(id) => (
           <>
-            <FormField label="公司名称" name={`work_company_${id}`} required placeholder="请输入" />
-            <FormField label="职位名称" name={`work_role_${id}`} required placeholder="请输入" />
+            <FormField 
+              label="公司名称" 
+              name={`work_company_${id}`} 
+              required 
+              placeholder="请输入" 
+              value={workData[id]?.company || ''} 
+              onChange={(e: any) => setWorkData(prev => ({ ...prev, [id]: { ...prev[id], company: e.target.value } }))} 
+            />
+            <FormField 
+              label="职位名称" 
+              name={`work_role_${id}`} 
+              required 
+              placeholder="请输入" 
+              value={workData[id]?.role || ''} 
+              onChange={(e: any) => setWorkData(prev => ({ ...prev, [id]: { ...prev[id], role: e.target.value } }))} 
+            />
             <FormField 
               label="起止时间" 
               required 
@@ -383,7 +552,7 @@ export function CampusResumePage() {
               hasArrow 
               readOnlyInput 
               value={workData[id]?.date || ''}
-              onClick={() => openDatePicker('work', id)}
+              onClick={() => openDatePicker('work', id, workData[id]?.date || '')}
             />
           </>
         )}
@@ -395,8 +564,22 @@ export function CampusResumePage() {
         setItems={setProjects} 
         renderItem={(id) => (
           <>
-            <FormField label="项目名称" name={`project_name_${id}`} required placeholder="请输入" />
-            <FormField label="项目角色" name={`project_role_${id}`} required placeholder="请输入" />
+            <FormField 
+              label="项目名称" 
+              name={`project_name_${id}`} 
+              required 
+              placeholder="请输入" 
+              value={projectData[id]?.name || ''} 
+              onChange={(e: any) => setProjectData(prev => ({ ...prev, [id]: { ...prev[id], name: e.target.value } }))} 
+            />
+            <FormField 
+              label="项目角色" 
+              name={`project_role_${id}`} 
+              required 
+              placeholder="请输入" 
+              value={projectData[id]?.role || ''} 
+              onChange={(e: any) => setProjectData(prev => ({ ...prev, [id]: { ...prev[id], role: e.target.value } }))} 
+            />
             <FormField 
               label="起止时间" 
               required 
@@ -404,7 +587,7 @@ export function CampusResumePage() {
               hasArrow 
               readOnlyInput 
               value={projectData[id]?.date || ''}
-              onClick={() => openDatePicker('project', id)}
+              onClick={() => openDatePicker('project', id, projectData[id]?.date || '')}
             />
           </>
         )}
@@ -416,7 +599,14 @@ export function CampusResumePage() {
         setItems={setPortfolios} 
         renderItem={(id) => (
           <>
-            <FormField label="作品链接" name={`portfolio_link_${id}`} required placeholder="请输入" />
+            <FormField 
+              label="作品链接" 
+              name={`portfolio_link_${id}`} 
+              required 
+              placeholder="请输入" 
+              value={portfolioData[id]?.link || ''}
+              onChange={(e: any) => setPortfolioData(prev => ({ ...prev, [id]: { ...prev[id], link: e.target.value } }))}
+            />
             <div className="py-4 border-b border-gray-100 mx-4 bg-white">
               <div className="text-[15px] text-gray-900 shrink-0 mb-4">
                 作品附件<span className="text-[#e60012] ml-0.5">*</span>
@@ -432,7 +622,7 @@ export function CampusResumePage() {
                 <div className="text-[12px] text-gray-400 text-center leading-relaxed">
                   将文件控制在300MB以内
                 </div>
-                <input required type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={(e) => handleFileUpload(e, (fileId, fileName) => { setPortfolioFileIds(prev => ({...prev, [id]: fileId})); setPortfolioFileNames(prev => ({...prev, [id]: fileName})); })} />
+                <input required={!portfolioFileIds[id]} type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={(e) => handleFileUpload(e, (fileId, fileName) => { setPortfolioFileIds(prev => ({...prev, [id]: fileId})); setPortfolioFileNames(prev => ({...prev, [id]: fileName})); })} />
               </div>
             </div>
           </>
@@ -445,7 +635,14 @@ export function CampusResumePage() {
         setItems={setAwards} 
         renderItem={(id) => (
           <>
-            <FormField label="获奖名称" name={`award_name_${id}`} required placeholder="请输入" />
+            <FormField 
+              label="获奖名称" 
+              name={`award_name_${id}`} 
+              required 
+              placeholder="请输入" 
+              value={awardData[id]?.name || ''} 
+              onChange={(e: any) => setAwardData(prev => ({ ...prev, [id]: { ...prev[id], name: e.target.value } }))} 
+            />
             <FormField 
               label="获奖时间" 
               required 
@@ -453,7 +650,7 @@ export function CampusResumePage() {
               hasArrow 
               readOnlyInput 
               value={awardData[id]?.date || ''}
-              onClick={() => openDatePicker('award', id)}
+              onClick={() => openDatePicker('award', id, awardData[id]?.date || '', 'single')}
             />
           </>
         )}
@@ -497,7 +694,7 @@ export function CampusResumePage() {
           disabled={isSubmitting}
           className="w-48 py-3 bg-[#e60012] text-white text-[16px] font-medium rounded-full shadow-md hover:bg-red-700 transition-colors disabled:opacity-50"
         >
-          {isSubmitting ? '提交中...' : '提交'}
+          {isSubmitting ? '保存中...' : '保存'}
         </button>
       </motion.div>
     </form>

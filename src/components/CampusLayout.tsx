@@ -3,8 +3,10 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Logo } from './Logo';
-import { fetchPrivacyNotice, loginWithSms, logout } from '../api/campus';
+import { fetchPrivacyNotice, loginWithSms, sendSmsCode, logout } from '../api/campus';
+import { captchaConfig } from '../data/config';
 import { Footer } from './Footer';
+import { useToast } from './Toast';
 
 declare global {
   interface Window {
@@ -13,6 +15,7 @@ declare global {
 }
 
 export function CampusLayout() {
+  const toast = useToast();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [phone, setPhone] = useState('');
@@ -28,7 +31,7 @@ export function CampusLayout() {
     return () => window.removeEventListener('open-login-menu', handleOpenLogin);
   }, []);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
-  const [privacyNotice, setPrivacyNotice] = useState<{title: string, content: string} | null>(null);
+  const [privacyNotice, setPrivacyNotice] = useState<{version?: string, title: string, content: string} | null>(null);
   const [isPrivacyLoading, setIsPrivacyLoading] = useState(false);
   const [captchaPassed, setCaptchaPassed] = useState(false);
   const [captchaInstance, setCaptchaInstance] = useState<any>(null);
@@ -76,36 +79,74 @@ export function CampusLayout() {
       script.id = 'aliyun-captcha-script-campus';
       script.src = 'https://o.alicdn.com/captcha-frontend/aliyunCaptcha/AliyunCaptcha.js';
       script.async = true;
-      script.onload = () => initCaptcha();
+      script.onload = () => {
+        initCaptcha();
+      };
       document.head.appendChild(script);
-    } else if (window.initAliyunCaptcha) {
+    } else {
       initCaptcha();
     }
-  }, []);
+  }, [isMenuOpen]);
+
+  const [countdown, setCountdown] = useState(0);
+
+  useEffect(() => {
+    if (countdown <= 0) return;
+    const timer = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [countdown]);
+
+  const phoneRef = React.useRef(phone);
+  useEffect(() => {
+    phoneRef.current = phone;
+  }, [phone]);
+
+  const executeSendSms = async (captchaVerifyParam?: string) => {
+    const currentPhone = phoneRef.current || phone;
+    if (!currentPhone) {
+      toast.error('请输入手机号');
+      return;
+    }
+    try {
+      const res = await sendSmsCode(currentPhone, captchaVerifyParam, privacyNotice?.version || 'V1.0');
+      if (res.success) {
+        toast.success('验证码已发送，请查收短信');
+        setCountdown(60);
+      } else {
+        toast.error(res.message || '短信验证码发送失败');
+      }
+    } catch (err) {
+      toast.error('网络错误，短信验证码发送失败');
+    }
+  };
 
   const initCaptcha = () => {
     if (window.initAliyunCaptcha) {
       window.initAliyunCaptcha({
-        SceneId: 'xxxxxx',
-        prefix: 'xxxxxx',
-        mode: 'popup',
+        SceneId: captchaConfig.sceneId,
+        prefix: captchaConfig.prefix,
+        mode: captchaConfig.mode,
         element: '#captcha-element-campus',
         
         captchaVerifyCallback: async (captchaVerifyParam: string) => {
           console.log('captchaVerifyParam:', captchaVerifyParam);
+          await executeSendSms(captchaVerifyParam);
           return { captchaResult: true, bizResult: true };
         },
         onBizResultCallback: (bizResult: boolean) => {
           if (bizResult) {
-          setCaptchaPassed(true);
-          // Here we would trigger the actual SMS sending API
-          alert('验证码已发送，请查收短信 (模拟)');
-        }
+            setCaptchaPassed(true);
+          }
         },
-        getInstance: (instance: any) => setCaptchaInstance(instance),
-        slideStyle: { width: 360, height: 40 },
-        language: 'cn',
-        region: 'cn'
+        getInstance: (instance: any) => {
+          console.log('Captcha instance initialized:', instance);
+          setCaptchaInstance(instance);
+        },
+        slideStyle: captchaConfig.slideStyle,
+        language: captchaConfig.language,
+        region: captchaConfig.region
       });
     }
   };
@@ -132,7 +173,7 @@ export function CampusLayout() {
     }
   };
 
-  const handleGetCode = (forceAgreed = false) => {
+  const handleGetCode = (forceAgreed?: boolean | React.MouseEvent) => {
     const isAgreed = typeof forceAgreed === 'boolean' ? forceAgreed : agreed;
     if (!isAgreed) {
       setPendingAction('getCode');
@@ -140,19 +181,19 @@ export function CampusLayout() {
       return;
     }
     if (!phone) {
-      alert('请输入手机号');
+      toast.error('请输入手机号');
       return;
     }
-    if (phone === '11111111111') {
-      alert('模拟发送成功，验证码: 111111');
-      return;
-    }
-    if (captchaInstance) {
+    if (captchaInstance && typeof captchaInstance.show === 'function') {
+      // 显示图形/滑块验证码弹窗，用户验证通过后由 SDK 回调 captchaVerifyCallback 触发 executeSendSms(captchaVerifyParam)
       captchaInstance.show();
+    } else {
+      console.warn('Aliyun Captcha instance not ready, fallback sending directly');
+      executeSendSms();
     }
   };
 
-  const handleLogin = async (forceAgreed = false) => {
+  const handleLogin = async (forceAgreed?: boolean | React.MouseEvent) => {
     const isAgreed = typeof forceAgreed === 'boolean' ? forceAgreed : agreed;
     if (!isAgreed) {
       setPendingAction('login');
@@ -160,18 +201,11 @@ export function CampusLayout() {
       return;
     }
     if (!phone) {
-      alert('请输入手机号');
+      toast.error('请输入手机号');
       return;
     }
     if (!code) {
-      alert('请输入验证码');
-      return;
-    }
-
-    if (phone === '11111111111' && code === '111111') {
-      setIsLoggedIn(true);
-      localStorage.setItem('campus_token', 'simulated_token');
-      localStorage.setItem('campus_phone', '11111111111');
+      toast.error('请输入验证码');
       return;
     }
     
@@ -181,13 +215,12 @@ export function CampusLayout() {
         setIsLoggedIn(true);
         localStorage.setItem('campus_token', data.data.token);
         localStorage.setItem('campus_phone', data.data.candidate.phone);
-        // We keep the actual input phone in state so we don't mess up if they logout, 
-        // but maybe we update it to masked phone for display, or just let display handle masking
+        toast.success('登录成功');
       } else {
-        alert(data.message || '登录失败');
+        toast.error(data.message || '登录失败');
       }
     } catch (err) {
-      alert('网络错误，请稍后再试');
+      toast.error('网络错误，请稍后再试');
     }
   };
 
@@ -330,11 +363,13 @@ export function CampusLayout() {
                         className="flex-1 px-4 py-3.5 outline-none text-[15px] placeholder:text-gray-300 text-gray-900 bg-transparent w-full"
                       />
                       <button 
-                        onClick={handleGetCode} 
-                        disabled={!/^\d{11}$/.test(phone)}
-                        className={`px-6 py-3.5 text-[15px] font-medium min-w-[120px] transition-colors whitespace-nowrap ${/^\d{11}$/.test(phone) ? 'text-gray-700 bg-gray-200 hover:bg-gray-300' : 'text-gray-400 bg-gray-100 cursor-not-allowed'}`}
+                        id="get-code-btn-campus"
+                        type="button"
+                        onClick={() => handleGetCode()} 
+                        disabled={!/^\d{11}$/.test(phone) || countdown > 0}
+                        className={`px-6 py-3.5 text-[15px] font-medium min-w-[120px] transition-colors whitespace-nowrap ${/^\d{11}$/.test(phone) && countdown === 0 ? 'text-gray-700 bg-gray-200 hover:bg-gray-300' : 'text-gray-400 bg-gray-100 cursor-not-allowed'}`}
                       >
-                        获取验证码
+                        {countdown > 0 ? `${countdown}s 后重新获取` : '获取验证码'}
                       </button>
                     </div>
 
