@@ -7,6 +7,11 @@ import ftmsIonOptics from '../../assets/ftms/ion-optics.jpg';
 import ftmsMagnet from '../../assets/ftms/magnet.jpg';
 import ftmsControlSystem from '../../assets/ftms/control-system.jpg';
 
+import img1 from '../../assets/ftms/img.png';
+import img2 from '../../assets/ftms/img2.png';
+import img3 from '../../assets/ftms/img3.png';
+import pImg from '../../assets/ftms/p.png';
+
 export function FTMSDetails() {
   useDocumentTitle('FTMS/FTMS+');
   const navigate = useNavigate();
@@ -18,7 +23,15 @@ export function FTMSDetails() {
     <div className="bg-[#111] text-white min-h-screen pt-20">
       
       {/* Hero Section */}
-      <div className="relative pt-12 pb-16 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a] flex flex-col items-center text-center overflow-hidden">
+      <div className="relative h-[640px] px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a] flex flex-col items-center justify-center text-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={pImg} 
+            alt="FTMS System" 
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-black/45"></div>
+        </div>
         <div className="relative z-10 w-full max-w-md">
           <motion.h1 
             initial={{ y: 20, opacity: 0 }}
@@ -49,27 +62,10 @@ export function FTMSDetails() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
             onClick={() => navigate('/inquiry?product=FTMS')}
-            className="bg-white text-black px-8 py-2.5 rounded-full font-medium hover:bg-gray-100 transition-colors mb-12 shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+            className="bg-white text-black px-8 py-2.5 rounded-full font-medium hover:bg-gray-100 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)]"
           >
             购买咨询
           </motion.button>
-          
-          <motion.div 
-            initial={{ y: 40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="w-full px-4 relative"
-          >
-            <img 
-              src={ftmsHero} 
-              alt="FTMS System" 
-              className="w-full max-w-sm mx-auto object-contain drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)] rounded-lg"
-            />
-            {/* Robot placeholder */}
-            <div className="absolute -bottom-4 right-2 w-16 h-16 bg-white rounded-full flex items-center justify-center p-1 shadow-lg border-2 border-gray-200">
-               <img src="https://api.dicebear.com/7.x/bottts/svg?seed=GAMSTEK" alt="Robot" className="w-full h-full rounded-full" />
-            </div>
-          </motion.div>
         </div>
       </div>
 
@@ -83,7 +79,7 @@ export function FTMSDetails() {
             <h4 className="font-bold text-[15px] mb-1 text-gray-100 tracking-wider">极致分辨率</h4>
             <p className="text-[13px] text-gray-400 mb-auto">洞察细微之差</p>
             <div className="w-16 h-16 mt-4 opacity-80 text-red-500">
-               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+               <img src={ftmsHero} alt="Resolution" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" />
             </div>
           </div>
           
@@ -92,7 +88,7 @@ export function FTMSDetails() {
             <h4 className="font-bold text-[15px] mb-1 text-gray-100 tracking-wider">亚ppm级质量精度</h4>
             <p className="text-[13px] text-gray-400 mb-auto">锁定分子指纹</p>
             <div className="w-16 h-16 mt-4 opacity-80 text-red-500">
-               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="m7.5 15.5 4.5-8.5"/><path d="m16.5 15.5-4.5-8.5"/><path d="m5 19h14"/></svg>
+               <img src={ftmsIonOptics} alt="Mass Accuracy" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" />
             </div>
           </div>
 
@@ -101,7 +97,7 @@ export function FTMSDetails() {
             <h4 className="font-bold text-[15px] mb-1 text-gray-100 tracking-wider">灵活的多级鉴定</h4>
             <p className="text-[13px] text-gray-400 mb-auto">（MS^n）能力</p>
             <div className="w-16 h-16 mt-4 opacity-80 text-red-500">
-               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                <img src={ftmsMagnet} alt="Multi-stage Identification" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" />
             </div>
           </div>
 
@@ -110,7 +106,7 @@ export function FTMSDetails() {
             <h4 className="font-bold text-[15px] mb-1 text-gray-100 tracking-wider">智能工作流与高速</h4>
             <p className="text-[13px] text-gray-400 mb-auto">数据采集</p>
             <div className="w-16 h-16 mt-4 opacity-80 text-red-500">
-               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+                <img src={ftmsControlSystem} alt="Intelligent Workflow" className="w-full h-full object-cover rounded shadow-lg border border-gray-600 mix-blend-screen" />
             </div>
           </div>
           
@@ -124,16 +120,16 @@ export function FTMSDetails() {
         
         <div className="space-y-16 w-full max-w-sm">
           <div>
-            <img src={ftmsIonOptics} alt="ESI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
-            <p className="text-xl font-medium tracking-wider"><span className="text-[#00a8e8]">E</span>SI</p>
+            <img src={img1} alt="ESI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
+            {/* <p className="text-xl font-medium tracking-wider"><span className="text-[#00a8e8]">E</span>SI</p> */}
           </div>
           <div>
-            <img src={ftmsIonOptics} alt="APCI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
-            <p className="text-xl font-medium tracking-wider"><span className="text-[#00a8e8]">AP</span>CI</p>
+            <img src={img2} alt="APCI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
+            {/* <p className="text-xl font-medium tracking-wider"><span className="text-[#00a8e8]">AP</span>CI</p> */}
           </div>
           <div>
-            <img src={ftmsIonOptics} alt="NanoESI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
-            <p className="text-xl font-medium tracking-wider"><span className="text-[#00a8e8]">Nano</span>ESI</p>
+            <img src={img3} alt="NanoESI" className="w-full rounded-lg mb-4 mix-blend-screen opacity-90" />
+            {/* <p className="text-xl font-medium tracking-wider"><span className="text-[#00a8e8]">Nano</span>ESI</p> */}
           </div>
         </div>
       </div>
