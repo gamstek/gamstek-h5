@@ -94,6 +94,9 @@ export interface CampusFile {
 }
 
 const handleUnauthorized = () => {
+  // 多个并发请求可能同时返回 401。第一个请求清除 token 后，
+  // 后续请求不再重复派发登录过期事件。
+  if (!localStorage.getItem('campus_token')) return;
   localStorage.removeItem('campus_token');
   localStorage.removeItem('campus_phone');
   window.dispatchEvent(new CustomEvent('campus-unauthorized'));

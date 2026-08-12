@@ -30,6 +30,11 @@ export function CampusLayout() {
     };
     const handleUnauthorized = () => {
       setIsLoggedIn(false);
+      setPhone('');
+      setCode('');
+      setAgreed(false);
+      setPendingAction(null);
+      setCountdown(0);
       setIsMenuOpen(true);
       toast.error('校招登录已过期，请重新登录');
     };

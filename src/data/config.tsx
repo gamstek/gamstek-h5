@@ -4,9 +4,9 @@ import homeProductLcmsms from '../assets/home/product-lcmsms.jpg';
 import homeProductFtms from '../assets/home/product-ftms.jpg';
 import homeProductMassclaw from '../assets/home/product-massclaw.jpg';
 import homeProductSupport from '../assets/home/product-support.jpg';
-import carouselSlide1 from '../assets/home/carousel/slide-1.png';
-import carouselSlide2 from '../assets/home/carousel/slide-2.png';
-import carouselSlide3 from '../assets/home/carousel/slide-3.png';
+import carouselSlide1 from '../assets/home/carousel/slide-1.jpg';
+import carouselSlide2 from '../assets/home/carousel/slide-2.jpg';
+import carouselSlide3 from '../assets/home/carousel/slide-3.jpg';
 import homeCase1 from '../assets/home/cases/case-1.jpg';
 import homeCase2 from '../assets/home/cases/case-2.jpg';
 import homeCase3 from '../assets/home/cases/case-3.jpg';
@@ -53,7 +53,7 @@ export const headerLinks = {
     { label: 'MS8000', href: '/products/ms8000' },
     { label: 'MS7000', href: '#' },
     { label: 'MS6000', href: '#' },
-    { label: 'MassClaw', href: '/massclaw' },
+    { label: 'MassClaw', href: '', disabled: true },
   ],
   support: [
     { label: '下载中心', href: '/support#downloads' },
@@ -75,7 +75,7 @@ export const footerLinks = {
     { label: 'MS8000', href: '/products/ms8000' },
     { label: 'MS7000', href: '#' },
     { label: 'MS6000', href: '#' },
-    { label: 'MassClaw', href: '/massclaw' },
+    { label: 'MassClaw', href: '', disabled: true },
   ],
   support: [
     { label: '下载中心', href: '/support#downloads' },
@@ -161,7 +161,7 @@ export const homeProducts = [
   {
     title: "LC-MS/MS",
     subtitle: "三重四极杆串联质谱联用仪",
-    links: [{ label: "了解更多 >", href: "/products/ms8100" }, { label: "购买咨询 >", href: "#" }],
+    links: [{ label: "了解更多 >", href: "/products/ms8100" }, { label: "购买咨询 >", href: "/inquiry?product=LC-MS%2FMS" }],
     image: homeProductLcmsms,
     // 图片实际比例 690x792，卡片高度按此比例自适应
     imageClassName: "aspect-[690/792]"
@@ -169,21 +169,21 @@ export const homeProducts = [
   {
     title: "FTMS / FTMS+",
     subtitle: "全新高分辨质谱仪",
-    links: [{ label: "了解更多 >", href: "/products/ftms" }, { label: "购买咨询 >", href: "#" }],
+    links: [{ label: "了解更多 >", href: "/products/ftms" }, { label: "购买咨询 >", href: "/inquiry?product=FTMS%20%2F%20FTMS%2B" }],
     image: homeProductFtms,
     imageClassName: "aspect-[690/792]"
   },
   {
     title: "MassClaw",
     subtitle: "解谱智能体",
-    links: [{ label: "了解更多 >", href: "/massclaw" }],
+    links: [{ label: "了解更多 >", href: "", disabled: true }],
     image: homeProductMassclaw,
     imageClassName: "aspect-[690/792]"
   },
   {
     title: "服务与支持",
     subtitle: "帮助客户更高效地运用科学获得成功",
-    links: [{ label: "立即获取 >", href: "#" }],
+    links: [{ label: "立即获取 >", href: "/support" }],
     image: homeProductSupport,
     imageClassName: "aspect-[690/792]"
   }

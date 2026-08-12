@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useNewsStore } from '../../store/useNewsStore';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
-import newsBg from '../../assets/news/bg.png';
+import newsBg from '../../assets/news/bg.jpg';
 
 export function NewsPage() {
   useDocumentTitle('新闻动态');

@@ -2,12 +2,15 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
-import heroImage from '../../assets/ms8000/details/hero.png';
+import heroImage from '../../assets/ms8000/details/hero.jpg';
 import quadrupoleImage from '../../assets/ms8000/details/quadrupole.png';
 import ionSourceImage from '../../assets/ms8000/details/ion-source.png';
 import performanceImage from '../../assets/ms8000/details/performance.png';
 import massnovaMonitor from '../../assets/ms8000/details/massnova-monitor.png';
 import massnovaAdmin from '../../assets/ms8000/details/massnova-admin.png';
+import stabilityCardImage from '../../assets/ms8000/hero.jpg';
+import antipollutionCardImage from '../../assets/ms8000/performance.jpg';
+import coreComponentCardImage from '../../assets/ms8000/software.jpg';
 
 const quadrupoleFeatures = [
   '精密装配，综合误差优于 ±1 μm',
@@ -94,33 +97,30 @@ export function MS8000Details() {
         </div>
       </section>
 
-      <section className="bg-[#15171c] px-[15px] py-[46px]">
-        <h2 className="text-center text-[18px] font-medium">核心亮点</h2>
-        <article className="mt-[36px] overflow-hidden rounded-[9px] border border-[#242933] bg-gradient-to-br from-[#10141b] to-[#171d29] px-[21px] pt-[24px] pb-[18px]">
-          <div className="grid grid-cols-[0.9fr_1.1fr] items-center gap-[18px]">
-            <div>
-              <h3 className="text-[13px] font-medium">运行稳定可靠</h3>
-              <p className="mt-[13px] text-[9px] leading-[1.65] text-[#b9bec7]">超长连续稳定运行<br />护航高通量检测</p>
-            </div>
-            <div className="relative h-[76px] border-b border-l border-[#4a5363]">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent_24%,rgba(72,82,99,0.24)_25%,transparent_26%,transparent_49%,rgba(72,82,99,0.24)_50%,transparent_51%,transparent_74%,rgba(72,82,99,0.24)_75%,transparent_76%)]" />
-              <svg viewBox="0 0 200 80" className="absolute inset-0 h-full w-full" preserveAspectRatio="none">
-                <path d="M0 55 C18 55,18 50,36 52 S65 58,82 52 S110 48,128 53 S156 58,174 52 S190 50,200 51" fill="none" stroke="#009fe8" strokeWidth="2" />
-              </svg>
-            </div>
+      <section className="bg-[#111] px-[16px] pt-[52px] pb-[55px]">
+        <h2 className="text-center text-[20px] font-normal">核心亮点</h2>
+        <article className="relative mt-[39px] aspect-[391/195] overflow-hidden rounded-[11px] border border-[#272b33] bg-[#121723]">
+          <img src={stabilityCardImage} alt="运行稳定可靠折线图" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute left-[25px] top-[55px] z-10">
+            <h3 className="text-[17px] font-normal">运行稳定可靠</h3>
+            <p className="mt-[20px] text-[12px] leading-[1.8] text-[#e2e3e5]">超长连续稳定运行<br />护航高通量检测</p>
           </div>
         </article>
 
-        <div className="mt-[10px] grid grid-cols-2 gap-[10px]">
-          <article className="relative aspect-[1/1.2] overflow-hidden rounded-[9px] border border-[#242933] bg-gradient-to-br from-[#10141b] to-[#171d29] px-[9px] pt-[23px] text-center">
-            <h3 className="text-[12px] font-medium">抗污染能力强</h3>
-            <p className="mt-[12px] text-[8px] leading-[1.65] text-[#b9bec7]">超强抗污染设计，从容应对<br />复杂基质无需频繁清洗<br />维护，降低使用成本</p>
-            <div className="absolute inset-x-[24%] bottom-[17px] h-[66px] -skew-x-12 border-l-2 border-r-2 border-[#048bc5] bg-gradient-to-r from-[#078fd0]/10 via-[#178fc2]/45 to-transparent shadow-[0_8px_18px_rgba(0,102,255,0.18)]" />
+        <div className="mt-[7px] grid grid-cols-2 gap-[8px]">
+          <article className="relative aspect-[192/313] overflow-hidden rounded-[11px] border border-[#272b33] bg-[#121723] text-center">
+            <img src={antipollutionCardImage} alt="抗污染能力结构示意" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-x-0 top-[47px] z-10">
+              <h3 className="text-[17px] font-normal">抗污染能力强</h3>
+              <p className="mt-[17px] text-[12px] leading-[1.8] text-[#e2e3e5]">超强抗污染设计，从容应<br />对复杂基质无需频繁清<br />洗维护，降低使用成本</p>
+            </div>
           </article>
-          <article className="relative aspect-[1/1.2] overflow-hidden rounded-[9px] border border-[#242933] bg-gradient-to-br from-[#10141b] to-[#171d29] px-[8px] pt-[23px] text-center">
-            <h3 className="text-[12px] font-medium">核心部件可控</h3>
-            <p className="mt-[12px] text-[8px] leading-[1.65] text-[#b9bec7]">核心部件完全自研，摆脱<br />进口依赖，保障仪器长期<br />稳定运行与高效售后响应</p>
-            <img src={quadrupoleImage} alt="自主可控核心部件" className="absolute inset-x-0 bottom-[-2px] h-[48%] w-full object-cover object-[center_64%]" />
+          <article className="relative aspect-[192/313] overflow-hidden rounded-[11px] border border-[#272b33] bg-[#121723] text-center">
+            <img src={coreComponentCardImage} alt="自主可控核心部件" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-x-0 top-[47px] z-10">
+              <h3 className="text-[17px] font-normal">核心部件可控</h3>
+              <p className="mt-[17px] text-[12px] leading-[1.8] text-[#e2e3e5]">核心部件完全自研，摆脱<br />进口依赖，保障仪器长期<br />稳定运行与高效售后响应</p>
+            </div>
           </article>
         </div>
       </section>

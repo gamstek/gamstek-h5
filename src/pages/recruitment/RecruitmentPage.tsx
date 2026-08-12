@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
-import recruitmentBg from '../../assets/recruitment/bg.png';
+import recruitmentBg from '../../assets/recruitment/bg.jpg';
 import { contactInfo } from '../../data/config';
 
 const techJobs = [

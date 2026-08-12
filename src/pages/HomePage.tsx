@@ -15,7 +15,7 @@ const SectionTitle = ({ title }: { title: string }) => (
 interface ProductCardProps {
   title: string;
   subtitle: string;
-  links?: { label: string; href: string }[];
+  links?: { label: string; href: string; disabled?: boolean }[];
   image: string;
   imageClassName?: string;
 }
@@ -35,7 +35,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <p className="text-gray-600 mb-6">{subtitle}</p>
       {links && (
         <div className="flex gap-6 text-sm text-gray-700">
-          {links.map((link, idx) => (
+          {links.map((link, idx) => link.disabled ? (
+            <span key={idx} aria-disabled="true" className="cursor-not-allowed text-gray-400">
+              {link.label}
+            </span>
+          ) : (
             <Link key={idx} to={link.href} className="hover:text-black transition-colors">
               {link.label}
             </Link>

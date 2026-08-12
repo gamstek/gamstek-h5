@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
-import supportBg from '../../assets/support/bg.png';
+import supportBg from '../../assets/support/bg.jpg';
 import supportHeroBg from '../../assets/support/hero-bg.jpg';
 import supportBrochure from '../../assets/support/brochure.jpg';
 import supportService from '../../assets/support/service.jpg';

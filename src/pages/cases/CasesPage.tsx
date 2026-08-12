@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { caseCategories, casesData } from '../../data/config';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
-import casesBg from '../../assets/cases/bg.png';
+import casesBg from '../../assets/cases/bg.jpg';
 
 export function CasesPage() {
   useDocumentTitle('应用案例');

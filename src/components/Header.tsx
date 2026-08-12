@@ -43,7 +43,8 @@ export function Header() {
     );
   };
 
-  const isLightMode = isMenuOpen || isScrolled;
+  const hasDarkProductHero = /^\/products\/(ms8100|ms8000|ftms)\/?$/.test(location.pathname);
+  const isLightMode = isMenuOpen || isScrolled || !hasDarkProductHero;
 
   return (
     <>
@@ -122,7 +123,9 @@ export function Header() {
                           className="overflow-hidden"
                         >
                           <div className="flex flex-col gap-4 pb-6 pt-1 text-base text-gray-500">
-                            {headerLinks.products.map((link, idx) => (
+                            {headerLinks.products.map((link, idx) => link.disabled ? (
+                              <span key={idx} aria-disabled="true" className="cursor-not-allowed text-gray-300">{link.label}</span>
+                            ) : (
                               <Link key={idx} to={link.href} onClick={() => setIsMenuOpen(false)} className="hover:text-gray-900 transition-colors">{link.label}</Link>
                             ))}
                           </div>

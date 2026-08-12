@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { contactInfo, footerLinks } from '../data/config';
+import wechatQr from '../assets/common/wechat-qr.png';
 
 export function Footer() {
   const [openSection, setOpenSection] = useState<string | null>(null);
@@ -27,7 +28,9 @@ export function Footer() {
           </button>
           {openSection === 'products' && (
             <div className="flex flex-col gap-3 pb-4 text-gray-400 text-sm">
-              {footerLinks.products.map((link, idx) => (
+              {footerLinks.products.map((link, idx) => link.disabled ? (
+                <span key={idx} aria-disabled="true" className="cursor-not-allowed text-gray-600">{link.label}</span>
+              ) : (
                 <Link key={idx} to={link.href} className="hover:text-white transition-colors">{link.label}</Link>
               ))}
             </div>
@@ -99,7 +102,7 @@ export function Footer() {
              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8.5 14.5c-2.8 0-5-1.9-5-4.2s2.2-4.2 5-4.2 5 1.9 5 4.2-2.2 4.2-5 4.2zm6.5 4.5c-2.3 0-4.2-1.6-4.2-3.5s1.9-3.5 4.2-3.5 4.2 1.6 4.2 3.5-1.9 3.5-4.2 3.5z"/></svg>
              <span className="text-[10px]">官方微信</span>
           </div>
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=GAMSTEK_WECHAT&color=000000&bgcolor=ffffff" alt="WeChat QR" className="w-16 h-16 rounded shadow-sm border-2 border-white" />
+          <img src={wechatQr} alt="微信公众号二维码" className="w-16 h-16 rounded shadow-sm border-2 border-white" />
         </div>
       </div>
 
