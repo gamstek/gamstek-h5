@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import supportBg from '../../assets/support/bg.jpg';
@@ -72,9 +72,9 @@ export function SupportPage() {
              <h3 className="text-xl font-medium text-gray-900 mb-6 leading-tight">
                三重四极杆<br/>串联质谱联用仪系列
              </h3>
-             <button className="bg-[#cc0000] text-white px-8 py-2.5 rounded-full font-medium hover:bg-red-700 transition-colors">
+             <Link to="/inquiry" className="inline-block bg-[#cc0000] text-white px-8 py-2.5 rounded-full font-medium hover:bg-red-700 transition-colors">
                下载手册
-             </button>
+             </Link>
            </div>
         </div>
       </div>

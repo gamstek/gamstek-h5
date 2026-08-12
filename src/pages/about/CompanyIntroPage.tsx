@@ -107,7 +107,7 @@ export function CompanyIntroPage() {
           <p className="text-[16px] text-gray-800 leading-loose mb-10 font-medium whitespace-pre-line">
             {siteConfig.joinUsText}
           </p>
-          <Link to="#" className="inline-block bg-[#e60012] text-white px-8 py-3 rounded-full text-[15px] font-medium hover:bg-red-700 transition-colors shadow-sm">
+          <Link to="/recruitment" className="inline-block bg-[#e60012] text-white px-8 py-3 rounded-full text-[15px] font-medium hover:bg-red-700 transition-colors shadow-sm">
             查看所有职位
           </Link>
         </div>
