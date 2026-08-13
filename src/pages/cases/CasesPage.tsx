@@ -17,7 +17,7 @@ export function CasesPage() {
 
   return (
     <div className="bg-[#f5f5f7] min-h-screen">
-      <section className="relative aspect-[9/16] w-full">
+      <section className="relative aspect-[750/844] w-full">
         <img 
           src={casesBg} 
           alt="Laboratory" 
@@ -25,10 +25,10 @@ export function CasesPage() {
         />
         <div className="absolute inset-0 bg-black/40" />
         
-        <div className="absolute inset-0 flex flex-col items-center justify-between py-12 text-white">
-          <div className="text-center mt-12 px-4">
-            <h1 className="text-3xl font-bold mb-3 tracking-wide">引力波智谱应用中心</h1>
-            <p className="text-base font-medium opacity-90">帮助客户更高效地运用科学，获得成功</p>
+        <div className="absolute inset-0 flex flex-col items-center justify-center py-12 text-white">
+          <div className="text-center px-4">
+            <h1 className="text-[28px] font-bold mb-3 tracking-wide">引力波智谱应用中心</h1>
+            <p className="text-[15px] font-medium opacity-90">帮助客户更高效地运用科学，获得成功</p>
           </div>
         </div>
       </section>

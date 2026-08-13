@@ -87,7 +87,7 @@ export function NotFoundPage() {
         </div>
 
         <Link 
-          to="/support"
+          to="/support#service"
           className="bg-[#e60012] text-white text-[16px] font-medium py-3.5 px-12 rounded-full shadow-lg hover:bg-red-700 transition-colors tracking-widest inline-block"
         >
           联系客服

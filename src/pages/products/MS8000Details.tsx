@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { FeatureList } from '../../components/FeatureList';
 import heroImage from '../../assets/ms8000/details/hero.jpg';
 import quadrupoleImage from '../../assets/ms8000/details/quadrupole.png';
 import ionSourceImage from '../../assets/ms8000/details/ion-source.png';
@@ -26,19 +27,6 @@ const ionSourceFeatures = [
   '无需卸真空，拆卸方便',
 ];
 
-function FeatureList({ items }: { items: string[] }) {
-  return (
-    <ul className="space-y-[9px] text-[11px] leading-[1.55] text-[#d8d9dd]">
-      {items.map((item) => (
-        <li key={item} className="flex items-start gap-[9px]">
-          <span className="mt-[7px] h-[3px] w-[3px] shrink-0 rounded-full bg-[#e60012]" />
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 export function MS8000Details() {
   useDocumentTitle('MS8000系列');
   const navigate = useNavigate();
@@ -53,44 +41,63 @@ export function MS8000Details() {
         <img src={heroImage} alt="MS8000 系列三重四极杆串联质谱仪" className="absolute inset-0 h-full w-full object-cover object-bottom" />
         <div className="absolute inset-x-0 top-0 h-[67%] bg-black" />
         <img src={performanceImage} alt="" className="absolute inset-x-0 top-[15%] h-auto w-full mix-blend-screen" />
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55 }}
-          className="relative z-10 flex flex-col items-center pt-[54px] text-center"
-        >
-          <h1 className="text-[24px] font-medium tracking-[0.02em]">MS8000系列</h1>
-          <p className="mt-[8px] text-[11px] tracking-[0.05em] text-white/75">三重四极杆串联质谱联用仪</p>
-          <button
+        <div className="relative z-10 flex flex-col items-center pt-[54px] text-center">
+          <motion.h1
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="text-[28px] font-semibold tracking-[0.02em]"
+          >
+            MS8000系列
+          </motion.h1>
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="mt-[8px] text-[21px] font-medium tracking-[0.04em]"
+          >
+            LC-MS/MS
+          </motion.p>
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.15 }}
+            className="mt-[8px] mb-8 text-[15px] tracking-[0.05em] text-white/75"
+          >
+            三重四极杆串联质谱联用仪
+          </motion.p>
+          <motion.button
             type="button"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
             onClick={() => navigate('/inquiry?product=MS8000')}
-            className="mt-[25px] rounded-full bg-white px-[29px] py-[8px] text-[11px] font-medium text-[#111] transition-transform active:scale-95"
+            className="bg-white text-black px-[28px] py-[8px] text-[12px] rounded-full font-medium hover:bg-gray-100 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)]"
           >
             购买咨询
-          </button>
-        </motion.div>
+          </motion.button>
+        </div>
       </section>
 
       <section className="relative aspect-[750/1200] w-full overflow-hidden bg-[#252830]">
         <img src={quadrupoleImage} alt="MS8000 四极杆结构" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-x-[15%] top-[10%] z-10">
-          <h2 className="text-center text-[17px] font-medium">四极杆</h2>
-          <div className="mt-[30px]"><FeatureList items={quadrupoleFeatures} /></div>
+          <h2 className="text-center text-[21px] font-medium">四极杆</h2>
+          <div className="mt-[30px]"><FeatureList size="sm" dotOffset color="#e60012" items={quadrupoleFeatures} /></div>
         </div>
       </section>
 
       <section className="relative aspect-[750/1200] w-full overflow-hidden bg-[#080a0e]">
         <img src={ionSourceImage} alt="MS8000 离子源结构" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-x-[15%] top-[10%] z-10">
-          <h2 className="text-center text-[17px] font-medium">离子源</h2>
-          <div className="mt-[30px]"><FeatureList items={ionSourceFeatures} /></div>
+          <h2 className="text-center text-[21px] font-medium">离子源</h2>
+          <div className="mt-[30px]"><FeatureList size="sm" dotOffset color="#e60012" items={ionSourceFeatures} /></div>
         </div>
       </section>
 
       <section className="relative bg-[#090a0d] text-center">
         <img src={performanceImage} alt="MS8000 超强整机性能" className="block h-auto w-full" />
         <div className="absolute inset-x-0 top-[10%] z-10">
-          <h2 className="text-[17px] font-medium">超强整机性能</h2>
+          <h2 className="text-[21px] font-medium">超强整机性能</h2>
           <p className="mt-[22px] text-[10px] leading-[1.8] text-[#d0d2d6]">
             灵敏度达到国际先进水平，以卓越性能<br />赋能痕量分析极限突破
           </p>
@@ -98,7 +105,7 @@ export function MS8000Details() {
       </section>
 
       <section className="bg-[#111] px-[16px] pt-[52px] pb-[55px]">
-        <h2 className="text-center text-[20px] font-normal">核心亮点</h2>
+        <h2 className="text-center text-[21px] font-normal">核心亮点</h2>
         <article className="relative mt-[39px] aspect-[391/195] overflow-hidden rounded-[11px] border border-[#272b33] bg-[#121723]">
           <img src={stabilityCardImage} alt="运行稳定可靠折线图" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute left-[25px] top-[55px] z-10">
@@ -126,11 +133,11 @@ export function MS8000Details() {
       </section>
 
       <section className="bg-gradient-to-b from-[#17191e] to-[#07080a] px-[14px] pt-[57px] pb-[60px]">
-        <h2 className="text-center text-[19px] font-medium">MassNova 1.0</h2>
+        <h2 className="text-center text-[21px] font-medium">MassNova 1.0</h2>
         <img src={massnovaMonitor} alt="MassNova 1.0 实时监测与定量分析界面" className="mt-[38px] block h-auto w-full" />
-        <div className="mx-auto mt-[20px] w-fit"><FeatureList items={['设备实时状态监测', '定量分析自动积分，便于数据统计']} /></div>
+        <div className="mx-auto mt-[20px] w-fit"><FeatureList size="sm" dotOffset color="#e60012" items={['设备实时状态监测', '定量分析自动积分，便于数据统计']} /></div>
         <img src={massnovaAdmin} alt="MassNova 1.0 调谐与管理界面" className="mt-[45px] block h-auto w-full" />
-        <div className="mx-auto mt-[18px] w-fit"><FeatureList items={['Mass 自动调谐功能', '日志分类查看功能', '用户角色管理功能']} /></div>
+        <div className="mx-auto mt-[18px] w-fit"><FeatureList size="sm" dotOffset color="#e60012" items={['Mass 自动调谐功能', '日志分类查看功能', '用户角色管理功能']} /></div>
       </section>
     </main>
   );

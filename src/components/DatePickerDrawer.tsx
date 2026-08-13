@@ -45,7 +45,7 @@ const Wheel = ({ options, value, onChange }: { options: number[], value: number,
       ref={containerRef}
       onScroll={handleScroll}
       className="h-[220px] overflow-y-auto snap-y snap-mandatory hide-scrollbar flex flex-col flex-1"
-      style={{ WebkitOverflowScrolling: 'touch' }}
+      style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' }}
     >
       <div className="h-[88px] shrink-0 pointer-events-none"></div>
       {options.map((opt) => (

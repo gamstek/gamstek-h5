@@ -43,8 +43,13 @@ export function Header() {
     );
   };
 
-  const hasDarkProductHero = /^\/products\/(ms8100|ms8000|ftms)\/?$/.test(location.pathname);
-  const isLightMode = isMenuOpen || isScrolled || !hasDarkProductHero;
+  const hasDarkHero = /^\/products\/(ms8100|ms8000|ftms)\/?$/.test(location.pathname)
+    || location.pathname === '/cases'
+    || location.pathname === '/support'
+    || location.pathname === '/recruitment'
+    || location.pathname === '/about'
+    || location.pathname === '/news';
+  const isLightMode = isMenuOpen || isScrolled || !hasDarkHero;
 
   return (
     <>
@@ -73,7 +78,7 @@ export function Header() {
       >
         <div className="flex items-center justify-between px-6 relative z-20">
           <Link to="/" className="flex flex-col" onClick={() => setIsMenuOpen(false)}>
-            <Logo isLightMode={isLightMode} className="w-[120px]" />
+            <Logo isLightMode={isLightMode} className="w-[85px]" />
           </Link>
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 -mr-2 relative w-10 h-10 flex items-center justify-center">
             <motion.div
@@ -123,8 +128,8 @@ export function Header() {
                           className="overflow-hidden"
                         >
                           <div className="flex flex-col gap-4 pb-6 pt-1 text-base text-gray-500">
-                            {headerLinks.products.map((link, idx) => link.disabled ? (
-                              <span key={idx} aria-disabled="true" className="cursor-not-allowed text-gray-300">{link.label}</span>
+                            {headerLinks.products.map((link, idx) => link.external ? (
+                              <a key={idx} href={link.href} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="hover:text-gray-900 transition-colors">{link.label}</a>
                             ) : (
                               <Link key={idx} to={link.href} onClick={() => setIsMenuOpen(false)} className="hover:text-gray-900 transition-colors">{link.label}</Link>
                             ))}

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
+import { FeatureList } from '../../components/FeatureList';
 import ms8100Bg from '../../assets/ms8100/bg.jpg';
 import quadrupoleImage from '../../assets/ms8100/details/quadrupole.png';
 import ionSourceImage from '../../assets/ms8100/details/ion-source.png';
@@ -72,19 +73,6 @@ const products = [
   { name: 'MS6000', image: ms6000Image, range: ['5–1250 amu'], source: 'ESI' },
 ];
 
-function FeatureList({ items, color = '#e60012' }: { items: string[]; color?: string }) {
-  return (
-    <ul className="space-y-[9px] text-[12px] leading-[1.55] text-[#d8d9dc]">
-      {items.map((item) => (
-        <li key={item} className="flex items-start gap-[9px]">
-          <span className="mt-[7px] h-[3px] w-[3px] shrink-0 rounded-full" style={{ backgroundColor: color }} />
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 export function MS8100Details() {
   useDocumentTitle('MS8100');
   const navigate = useNavigate();
@@ -98,43 +86,61 @@ export function MS8100Details() {
       <section className="relative aspect-[750/1200] min-h-[600px] w-full overflow-hidden">
         <img src={ms8100Bg} alt="MS8100 三重四极杆质谱仪" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-x-0 top-0 h-[48%] bg-gradient-to-b from-black/65 via-black/15 to-transparent" />
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative z-10 flex flex-col items-center pt-[66px] text-center"
-        >
-          <h1 className="text-[24px] font-semibold tracking-[0.02em]">MS8100</h1>
-          <p className="mt-[8px] text-[21px] font-medium tracking-[0.04em]">LC-MS/MS</p>
-          <p className="mt-[13px] text-[11px] tracking-[0.12em] text-white/70">三重四极杆串联质谱联用仪</p>
-          <button
+        <div className="relative z-10 flex flex-col items-center pt-[110px] text-center">
+          <motion.h1
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="text-[28px] font-semibold tracking-[0.02em]"
+          >
+            MS8100
+          </motion.h1>
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="mt-[8px] text-[21px] font-medium tracking-[0.04em]"
+          >
+            LC-MS/MS
+          </motion.p>
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.15 }}
+            className="mt-[13px] mb-8 text-[15px] tracking-[0.12em] text-white"
+          >
+            三重四极杆串联质谱联用仪
+          </motion.p>
+          <motion.button
             type="button"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
             onClick={() => navigate('/inquiry?product=MS8100')}
-            className="mt-[25px] rounded-full bg-white px-[28px] py-[9px] text-[12px] font-medium text-[#111] transition-transform active:scale-95"
+            className="bg-white text-black px-[28px] py-[8px] text-[12px] rounded-full font-medium hover:bg-gray-100 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)]"
           >
             购买咨询
-          </button>
-        </motion.div>
+          </motion.button>
+        </div>
       </section>
 
       <section className="relative aspect-[750/1200] w-full overflow-hidden bg-[#202329]">
         <img src={quadrupoleImage} alt="MS8100 四极杆结构" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-x-[15.5%] top-[9%] z-10">
-          <h2 className="text-center text-[17px] font-medium tracking-[0.08em]">四极杆</h2>
-          <div className="mt-[30px]"><FeatureList items={quadrupoleFeatures} color="#00aee9" /></div>
+          <h2 className="text-center text-[21px] font-medium tracking-[0.08em]">四极杆</h2>
+          <div className="mt-[30px]"><FeatureList items={quadrupoleFeatures} /></div>
         </div>
       </section>
 
       <section className="relative aspect-[750/1200] w-full overflow-hidden bg-[#0b0d11]">
         <img src={ionSourceImage} alt="MS8100 离子源结构" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-x-[15.5%] top-[9%] z-10">
-          <h2 className="text-center text-[17px] font-medium tracking-[0.08em]">离子源</h2>
+          <h2 className="text-center text-[21px] font-medium tracking-[0.08em]">离子源</h2>
           <div className="mt-[30px]"><FeatureList items={ionSourceFeatures} /></div>
         </div>
       </section>
 
       <section className="bg-[#090a0e] px-[15px] py-[29px]">
-        <h2 className="text-center text-[22px] font-medium tracking-[0.03em]">核心亮点</h2>
+        <h2 className="text-center text-[21px] font-medium tracking-[0.03em]">核心亮点</h2>
         <div className="mt-[44px] grid grid-cols-2 gap-x-[9px] gap-y-[10px]">
           {highlights.map((item) => (
             <article
@@ -154,7 +160,7 @@ export function MS8100Details() {
       </section>
 
       <section className="bg-[#17191e] px-[20px] py-[58px] text-center">
-        <h2 className="text-[17px] font-medium tracking-[0.04em]">超凡稳定性与重现性</h2>
+        <h2 className="text-[21px] font-medium tracking-[0.04em]">超凡稳定性与重现性</h2>
         <h3 className="mt-[35px] text-[12px] font-medium text-[#e1e3e8]">血清基质中全氟稳定性实验</h3>
         <p className="mx-auto mt-[14px] max-w-[340px] text-left text-[9px] leading-[1.8] text-[#a9adb5]">
           血清按照 1:4 甲醇沉淀蛋白后离心，加入全氟 PFOA、PFOS 连续进样 1000 针，峰面积 RSD 分别为 3.25%（PFOA）和 1.99%（PFOS）。
@@ -163,7 +169,7 @@ export function MS8100Details() {
       </section>
 
       <section className="bg-[#111318] px-[17px] py-[57px]">
-        <h2 className="text-center text-[18px] font-medium tracking-[0.08em]">产品对比</h2>
+        <h2 className="text-center text-[21px] font-medium tracking-[0.08em]">产品对比</h2>
         <div className="mt-[38px] overflow-hidden border border-[#00a4c8]/70 text-[9px] text-[#d5d8de]">
           <div className="grid grid-cols-[1.25fr_1fr_0.9fr] border-b border-[#00a4c8]/55 bg-[#151a20] py-[9px] text-center">
             <span>产品</span><span>质量范围</span><span>标配离子源</span>
@@ -186,11 +192,11 @@ export function MS8100Details() {
       </section>
 
       <section className="bg-gradient-to-b from-[#111318] to-[#07080a] px-[14px] pt-[59px] pb-[62px]">
-        <h2 className="text-center text-[19px] font-medium tracking-[0.02em]">MassNova 2.0</h2>
+        <h2 className="text-center text-[21px] font-medium tracking-[0.02em]">MassNova 2.0</h2>
         <img src={massnovaDashboard} alt="MassNova 2.0 工作台界面" className="mt-[38px] w-full" />
-        <FeatureList items={['软件布局更简洁明确', '用户体验显著提升']} />
+        <div className="mx-auto mt-[20px] w-fit"><FeatureList items={['软件布局更简洁明确', '用户体验显著提升']} /></div>
         <img src={massnovaMethod} alt="MassNova 2.0 方法编辑界面" className="mt-[44px] w-full" />
-        <div className="mt-[16px]"><FeatureList items={['更全面的谱图库功能', '更加优化的方法建立途径']} /></div>
+        <div className="mx-auto mt-[16px] w-fit"><FeatureList items={['更全面的谱图库功能', '更加优化的方法建立途径']} /></div>
       </section>
     </main>
   );

@@ -28,8 +28,8 @@ export function Footer() {
           </button>
           {openSection === 'products' && (
             <div className="flex flex-col gap-3 pb-4 text-gray-400 text-sm">
-              {footerLinks.products.map((link, idx) => link.disabled ? (
-                <span key={idx} aria-disabled="true" className="cursor-not-allowed text-gray-600">{link.label}</span>
+              {footerLinks.products.map((link, idx) => link.external ? (
+                <a key={idx} href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">{link.label}</a>
               ) : (
                 <Link key={idx} to={link.href} className="hover:text-white transition-colors">{link.label}</Link>
               ))}

@@ -31,7 +31,7 @@ export function HeroCarousel({
   interval = 5000,
   className = 'aspect-[9/16] w-full',
   contentClassName = 'pt-32',
-  titleClassName = 'text-[2.5rem]',
+  titleClassName = 'text-[28px]',
 }: HeroCarouselProps & { className?: string; contentClassName?: string; titleClassName?: string }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<{ stop: () => void } | null>(null);
@@ -138,25 +138,25 @@ export function HeroCarousel({
             <motion.h1 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.5 }} className={`${titleClassName} opacity-0 font-bold text-white mb-3 tracking-wider text-center`}>
               {slide.title}
             </motion.h1>
-            <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }} className="opacity-0 text-lg font-medium text-white mb-2 tracking-widest text-center">
+            <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }} className="opacity-0 text-[15px] font-medium text-white mb-2 tracking-widest text-center">
               {slide.subtitle}
             </motion.p>
-            <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4, duration: 0.5 }} className="opacity-0 text-sm text-gray-300 mb-8 tracking-widest text-center">
+            <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4, duration: 0.5 }} className="opacity-0 text-[15px] text-white mb-8 tracking-widest text-center">
               {slide.description}
             </motion.p>
           </div>
 
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5, duration: 0.5 }} className="opacity-0 flex gap-4">
-            <button onClick={() => navigate(slide.primaryLink || `/inquiry?product=${encodeURIComponent(slide.title)}`)} className="bg-white text-black px-8 py-2.5 rounded-full font-medium text-sm hover:bg-gray-100 transition-colors w-32 shadow-lg">
+            <button onClick={() => navigate(slide.primaryLink || `/inquiry?product=${encodeURIComponent(slide.title)}`)} className="bg-white text-black px-5 py-2 rounded-full font-medium text-sm hover:bg-gray-100 transition-colors w-28 shadow-lg">
               {slide.primaryButtonText || '购买咨询'}
             </button>
             {!slide.hideSecondaryButton && (
               slide.detailsLink ? (
-                <Link to={slide.detailsLink} className="border border-white text-white px-8 py-2.5 rounded-full font-medium text-sm hover:bg-white/10 transition-colors w-32 shadow-lg backdrop-blur-sm bg-black/20 text-center flex items-center justify-center">
+                <Link to={slide.detailsLink} className="border border-white text-white px-5 py-2 rounded-full font-medium text-sm hover:bg-white/10 transition-colors w-28 shadow-lg backdrop-blur-sm bg-black/20 text-center flex items-center justify-center">
                   {slide.secondaryButtonText || '了解更多'}
                 </Link>
               ) : (
-                <button className="border border-white text-white px-8 py-2.5 rounded-full font-medium text-sm hover:bg-white/10 transition-colors w-32 shadow-lg backdrop-blur-sm bg-black/20">
+                <button className="border border-white text-white px-5 py-2 rounded-full font-medium text-sm hover:bg-white/10 transition-colors w-28 shadow-lg backdrop-blur-sm bg-black/20">
                   {slide.secondaryButtonText || '了解更多'}
                 </button>
               )

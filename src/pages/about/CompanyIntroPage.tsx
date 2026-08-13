@@ -38,13 +38,13 @@ export function CompanyIntroPage() {
         <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>
 
         {/* Hero Title */}
-        <div className="relative z-10 text-center mt-2 mb-6">
+        <div className="relative z-10 text-center mt-30 mb-6">
           <h1 className="text-4xl font-bold tracking-widest mb-3">{siteConfig.title}</h1>
           <p className="text-lg font-light tracking-[0.2em] opacity-90">{siteConfig.subtitle}</p>
         </div>
 
         {/* Intro Text Section on top of background */}
-        <div className="relative z-10 text-[14px] leading-relaxed tracking-wide text-gray-100 mb-4">
+        <div className="relative z-10 text-[15px] px-6 leading-relaxed tracking-wide text-gray-100 mb-8">
           {siteConfig.aboutText.map((paragraph, index) => (
             <p key={index} className="mb-3 indent-8 text-justify">
               {paragraph}

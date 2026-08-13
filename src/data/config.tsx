@@ -25,7 +25,7 @@ export const captchaConfig = {
 
 export const contactInfo = {
   phone: '400-0233-929',
-  email: 'service@gmastek.cn',
+  email: 'service@gamstek.com',
   hrEmail: 'hr@gamstek.com',
   address: '合肥市高新区孔雀台路1969号量子科仪谷6F',
   qrCodeText: '关注我们获取咨询与服务',
@@ -53,7 +53,7 @@ export const headerLinks = {
     { label: 'MS8000', href: '/products/ms8000' },
     { label: 'MS7000', href: '#' },
     { label: 'MS6000', href: '#' },
-    { label: 'MassClaw', href: '', disabled: true },
+    { label: 'MassClaw', href: 'https://mp.weixin.qq.com/s/Y81jVYGrWOCoBdHB_kHuqg', external: true },
   ],
   support: [
     { label: '下载中心', href: '/support#downloads' },
@@ -75,7 +75,7 @@ export const footerLinks = {
     { label: 'MS8000', href: '/products/ms8000' },
     { label: 'MS7000', href: '#' },
     { label: 'MS6000', href: '#' },
-    { label: 'MassClaw', href: '', disabled: true },
+    { label: 'MassClaw', href: 'https://mp.weixin.qq.com/s/Y81jVYGrWOCoBdHB_kHuqg', external: true },
   ],
   support: [
     { label: '下载中心', href: '/support#downloads' },
@@ -84,7 +84,8 @@ export const footerLinks = {
   about: [
     { label: '公司介绍', href: '/about' },
     { label: '核心能力', href: '/about#capabilities' },
-    { label: '人才发展', href: '/recruitment' },
+    { label: '社会招聘', href: '/recruitment' },
+    { label: '校园招聘', href: '/campus-recruitment' },
   ]
 };
 
@@ -176,7 +177,7 @@ export const homeProducts = [
   {
     title: "MassClaw",
     subtitle: "解谱智能体",
-    links: [{ label: "了解更多 >", href: "", disabled: true }],
+    links: [{ label: "了解更多 >", href: "https://mp.weixin.qq.com/s/Y81jVYGrWOCoBdHB_kHuqg", external: true }],
     image: homeProductMassclaw,
     imageClassName: "aspect-[690/792]"
   },

@@ -33,16 +33,15 @@ export function NewsPage() {
 
   return (
     <div className="bg-[#f5f5f7] min-h-screen pb-12">
-      {/* Hero Section - 背景图 750x1334 (9:16)，容器按同比例自适应 */}
-      <section className="relative aspect-[9/16] w-full bg-[#050505] overflow-hidden flex flex-col items-center justify-center text-white pt-12">
+      <section className="relative aspect-[750/844] w-full bg-[#050505] overflow-hidden flex flex-col items-center justify-center text-white pt-12">
         <img 
           src={newsBg} 
           alt="News Background" 
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="relative z-10 text-center mb-10">
-          <h1 className="text-3xl font-bold tracking-widest mb-4">新闻中心</h1>
-          <p className="text-sm font-medium tracking-wide opacity-90">为您提供官方发布的第一手资讯</p>
+          <h1 className="text-[28px] font-bold tracking-widest mb-4">新闻中心</h1>
+          <p className="text-[15px] font-medium tracking-wide opacity-90">为您提供官方发布的第一手资讯</p>
         </div>
       </section>
 

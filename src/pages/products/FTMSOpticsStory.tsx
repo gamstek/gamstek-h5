@@ -34,7 +34,7 @@ export function FTMSOpticsStory() {
   return (
     <section ref={sectionRef} className="relative h-[700svh] bg-[#0a0a0a]">
       <div className="sticky top-[76px] h-[calc(100svh-76px)] overflow-hidden px-3 flex flex-col items-center">
-        <h3 className="shrink-0 pt-10 text-[18px] font-normal tracking-normal">先进的离子光学系统</h3>
+        <h3 className="shrink-0 pt-20 text-[21px] font-normal tracking-normal absolute">先进的离子光学系统</h3>
 
         <div className="relative flex-1 w-full max-w-md flex items-center justify-center">
           <AnimatePresence initial={false}>

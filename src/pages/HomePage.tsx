@@ -15,7 +15,7 @@ const SectionTitle = ({ title }: { title: string }) => (
 interface ProductCardProps {
   title: string;
   subtitle: string;
-  links?: { label: string; href: string; disabled?: boolean }[];
+  links?: { label: string; href: string; disabled?: boolean; external?: boolean }[];
   image: string;
   imageClassName?: string;
 }
@@ -39,6 +39,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <span key={idx} aria-disabled="true" className="cursor-not-allowed text-gray-400">
               {link.label}
             </span>
+          ) : link.external ? (
+            <a key={idx} href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">
+              {link.label}
+            </a>
           ) : (
             <Link key={idx} to={link.href} className="hover:text-black transition-colors">
               {link.label}
@@ -68,7 +72,7 @@ export function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <HeroCarousel slides={homeCarouselSlides} />
+      <HeroCarousel slides={homeCarouselSlides} interval={30000000} />
 
       {/* Products Section */}
       <section className="px-4 py-8 space-y-4">
@@ -115,8 +119,8 @@ export function HomePage() {
                 className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col block hover:shadow-md transition-shadow"
               >
                 {news.coverUrl && (
-                  <div className="h-[140px] w-full bg-gray-100 relative overflow-hidden">
-                    <img src={news.coverUrl} alt={news.title} className="w-full h-full object-cover" />
+                  <div className="h-[140px] w-full bg-gray-100 overflow-hidden flex items-center justify-center">
+                    <img src={news.coverUrl} alt={news.title} className="block w-full h-full object-contain" />
                   </div>
                 )}
                 <div className="p-4 flex-1 flex flex-col justify-between">

@@ -452,6 +452,9 @@ export function CampusResumePage() {
             <div className="text-[12px] text-gray-400 text-center leading-relaxed">
               支持格式：PDF、DOC、DOCX、PPT、PPTX、PNG、JPG、JPEG、HTML
             </div>
+            <div className="text-[12px] text-gray-400 text-center leading-relaxed mt-1">
+              将文件控制在10MB以内
+            </div>
             <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={(e) => handleFileUpload(e, (id, name) => { setResumeFileId(id); setResumeFileName(name); })} />
           </div>
         </div>

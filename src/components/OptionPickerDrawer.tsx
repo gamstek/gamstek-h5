@@ -37,7 +37,7 @@ export function OptionPickerDrawer({ isOpen, onClose, options, value, onSelect, 
             </div>
 
             {/* Options */}
-            <div className="max-h-[300px] overflow-y-auto">
+            <div className="max-h-[300px] overflow-y-auto" style={{ touchAction: 'pan-y', overscrollBehavior: 'contain' }}>
               {options.map((opt) => (
                 <div 
                   key={opt}
