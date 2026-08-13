@@ -54,7 +54,7 @@ export function CompanyIntroPage() {
       </section>
 
       {/* Core Capabilities */}
-      <section id="capabilities" className="bg-[#f8f9fa] text-gray-900 py-16 px-6">
+      <section id="capabilities" className="bg-[#fff] text-gray-900 py-16 px-2">
         <h2 className="text-2xl font-medium text-center mb-10">核心能力</h2>
         
         <div className="space-y-6 max-w-sm mx-auto">

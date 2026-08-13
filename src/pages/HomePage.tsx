@@ -72,7 +72,7 @@ export function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <HeroCarousel slides={homeCarouselSlides} interval={30000000} />
+      <HeroCarousel slides={homeCarouselSlides} interval={3000} />
 
       {/* Products Section */}
       <section className="px-4 py-8 space-y-4">

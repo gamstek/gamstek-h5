@@ -376,8 +376,15 @@ export function CampusLayout() {
                       <input 
                         type="text" 
                         value={code}
-                        onChange={(e) => setCode(e.target.value)}
+                        onChange={(e) => {
+                          // 键盘自动填充可能一次性填入超过 6 位（如叠加成 123456123456），只保留最后 6 位数字
+                          const digits = e.target.value.replace(/\D/g, '');
+                          setCode(digits.slice(-6));
+                        }}
                         placeholder="验证码" 
+                        autoComplete="one-time-code"
+                        inputMode="numeric"
+                        maxLength={6}
                         className="flex-1 px-4 py-3.5 outline-none text-[15px] placeholder:text-gray-300 text-gray-900 bg-transparent w-full"
                       />
                       <button 
@@ -385,7 +392,7 @@ export function CampusLayout() {
                         type="button"
                         onClick={() => handleGetCode()} 
                         disabled={!/^\d{11}$/.test(phone) || countdown > 0}
-                        className={`px-6 py-3.5 text-[15px] font-medium min-w-[120px] transition-colors whitespace-nowrap ${/^\d{11}$/.test(phone) && countdown === 0 ? 'text-gray-700 bg-gray-200 hover:bg-gray-300' : 'text-gray-400 bg-gray-100 cursor-not-allowed'}`}
+                        className={`w-[150px] shrink-0 px-4 py-3.5 text-[15px] font-medium transition-colors whitespace-nowrap ${/^\d{11}$/.test(phone) && countdown === 0 ? 'text-gray-700 bg-gray-200 hover:bg-gray-300' : 'text-gray-400 bg-gray-100 cursor-not-allowed'}`}
                       >
                         {countdown > 0 ? `${countdown}s 后重新获取` : '获取验证码'}
                       </button>

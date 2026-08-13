@@ -17,6 +17,8 @@ export interface HeroSlide {
   primaryLink?: string;
   // 图片本身已含文字时置 true，隐藏叠加的标题/副标题/描述/按钮
   hideContent?: boolean;
+  // 单张图内容容器自定义类名（覆盖全局默认 contentClassName，用于调整本图按钮位置）
+  contentClassName?: string;
 }
 
 interface HeroCarouselProps {
@@ -133,15 +135,15 @@ export function HeroCarousel({
       </div>
 
       {offset === 0 && (
-        <div className={`absolute inset-0 flex flex-col items-center justify-start px-4 z-10 ${contentClassName}`}>
+        <div className={`absolute inset-0 flex flex-col items-center justify-start px-4 z-10 ${slide.contentClassName || contentClassName}`}>
           <div className={slide.hideContent ? 'invisible' : ''}>
-            <motion.h1 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.5 }} className={`${titleClassName} opacity-0 font-bold text-white mb-3 tracking-wider text-center`}>
+            <motion.h1 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0, duration: 0.5 }} className={`${titleClassName} opacity-0 font-bold text-white mb-3 tracking-wider text-center`}>
               {slide.title}
             </motion.h1>
-            <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }} className="opacity-0 text-[15px] font-medium text-white mb-2 tracking-widest text-center">
+            <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1, duration: 0.5 }} className="opacity-0 text-[15px] font-medium text-white mb-2 tracking-widest text-center">
               {slide.subtitle}
             </motion.p>
-            <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4, duration: 0.5 }} className="opacity-0 text-[15px] text-white mb-8 tracking-widest text-center">
+            <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.5 }} className="opacity-0 text-[15px] text-white mb-8 tracking-widest text-center">
               {slide.description}
             </motion.p>
           </div>

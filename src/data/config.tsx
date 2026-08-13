@@ -203,6 +203,8 @@ export const homeCarouselSlides = [
     hideSecondaryButton: true,
     // 图片本身已含标题文字，隐藏叠加的 HTML 文字与按钮
     hideContent: true,
+    // 按钮位置下移（图片为 9:16 竖图，用百分比相对宽度计算更稳）
+    contentClassName: 'pt-[50%]',
   },
   {
     id: 'ms8100',

@@ -34,7 +34,7 @@ export function SupportPage() {
           alt="" 
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40"></div>
+        {/* <div className="absolute inset-0 bg-black/40"></div> */}
         <div className="relative z-10 w-full text-center px-4 pt-12">
           <motion.h1 
             initial={{ y: 20, opacity: 0 }}

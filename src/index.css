@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+/* 修复 iOS Safari 聚焦输入框时页面自动放大的问题
+   触发条件：聚焦时输入框字号 < 16px。此处仅对 iOS 生效，聚焦时临时提到 16px */
+@supports (-webkit-touch-callout: none) {
+  input:focus,
+  select:focus,
+  textarea:focus {
+    font-size: 16px;
+  }
+}
