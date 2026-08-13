@@ -48,7 +48,8 @@ export function Header() {
     || location.pathname === '/support'
     || location.pathname === '/recruitment'
     || location.pathname === '/about'
-    || location.pathname === '/news';
+    || location.pathname === '/news'
+    || location.pathname === '/';
   const isLightMode = isMenuOpen || isScrolled || !hasDarkHero;
 
   return (
