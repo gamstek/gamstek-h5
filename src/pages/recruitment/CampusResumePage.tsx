@@ -308,6 +308,23 @@ export function CampusResumePage() {
     }
   };
 
+  const handleResumeFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    if (!extension || !['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg'].includes(extension)) {
+      toast.error('仅支持上传 PDF、DOC、DOCX、PNG、JPG、JPEG 文件');
+      e.target.value = '';
+      return;
+    }
+
+    handleFileUpload(e, (id, name) => {
+      setResumeFileId(id);
+      setResumeFileName(name);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!e.currentTarget.checkValidity()) {
@@ -455,7 +472,7 @@ export function CampusResumePage() {
             <div className="text-[12px] text-gray-400 text-center leading-relaxed mt-1">
               将文件控制在10MB以内
             </div>
-            <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={(e) => handleFileUpload(e, (id, name) => { setResumeFileId(id); setResumeFileName(name); })} />
+            <input type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleResumeFileUpload} />
           </div>
         </div>
       </div>

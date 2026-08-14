@@ -105,6 +105,12 @@ export function CampusLayout() {
     }
   }, [isMenuOpen, captchaInstance]);
 
+  // 验证码弹窗由阿里云 SDK 插入到 React 树外，关闭菜单/路由后退时需要主动收起它。
+  useEffect(() => {
+    if (isMenuOpen || !captchaInstance || typeof captchaInstance.hide !== 'function') return;
+    captchaInstance.hide();
+  }, [isMenuOpen, captchaInstance]);
+
   const [countdown, setCountdown] = useState(0);
 
   useEffect(() => {
