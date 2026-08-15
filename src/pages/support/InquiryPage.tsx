@@ -64,6 +64,10 @@ export function InquiryPage() {
       toast.error('请选择地区');
       return;
     }
+    if (!/^1\d{10}$/.test(formData.phone.trim())) {
+      toast.error('请输入正确的手机号码');
+      return;
+    }
     if (!formData.productModel) {
       toast.error('请选择产品型号');
       return;
@@ -150,7 +154,7 @@ export function InquiryPage() {
 
           <div>
             <label className="block text-[15px] text-[#333] mb-2">联系电话<span className="text-[#cc0000]">*</span></label>
-            <input type="tel" name="phone" placeholder="请输入联系电话" value={formData.phone} onChange={handleChange} required className="w-full px-4 py-3 bg-white border border-gray-300 rounded focus:outline-none focus:border-gray-500 text-[15px]" />
+            <input type="tel" name="phone" placeholder="请输入联系电话" value={formData.phone} onChange={handleChange} required pattern="1\d{10}" maxLength={11} inputMode="numeric" className="w-full px-4 py-3 bg-white border border-gray-300 rounded focus:outline-none focus:border-gray-500 text-[15px]" />
           </div>
 
           <div>

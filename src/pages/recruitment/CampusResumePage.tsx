@@ -325,6 +325,28 @@ export function CampusResumePage() {
     });
   };
 
+  const handlePortfolioFileUpload = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    if (!extension || !['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg'].includes(extension)) {
+      toast.error('仅支持上传 PDF、DOC、DOCX、PNG、JPG、JPEG 文件');
+      e.target.value = '';
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('作品附件大小不能超过10MB');
+      e.target.value = '';
+      return;
+    }
+
+    handleFileUpload(e, (fileId, fileName) => {
+      setPortfolioFileIds(prev => ({ ...prev, [id]: fileId }));
+      setPortfolioFileNames(prev => ({ ...prev, [id]: fileName }));
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!e.currentTarget.checkValidity()) {
@@ -466,8 +488,14 @@ export function CampusResumePage() {
               </div>
             </div>
             <div className="text-[15px] text-gray-900 mb-2">{resumeFileName || '上传并解析附件简历'}</div>
-            <div className="text-[12px] text-gray-400 text-center leading-relaxed">
+            <div className="hidden">
               支持格式：PDF、DOC、DOCX、PPT、PPTX、PNG、JPG、JPEG、HTML
+            </div>
+            <div className="hidden">
+              支持格式：PDF、DOC、DOCX、PNG、JPG、JPEG
+            </div>
+            <div className="text-[12px] text-gray-400 text-center leading-relaxed">
+              支持格式：PDF、DOC、DOCX、PNG、JPG、JPEG
             </div>
             <div className="text-[12px] text-gray-400 text-center leading-relaxed mt-1">
               将文件控制在10MB以内
@@ -631,7 +659,7 @@ export function CampusResumePage() {
               <div className="text-[15px] text-gray-900 shrink-0 mb-4">
                 作品附件<span className="text-[#e60012] ml-0.5">*</span>
               </div>
-              <div className="bg-white border border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center relative">
+              <div className="bg-white border border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center relative [&>div:nth-of-type(3)]:hidden">
                 <div className="relative mb-3">
                   <FileText className="w-10 h-10 text-gray-400 stroke-[1.5]" />
                   <div className="absolute -bottom-1 -right-1 bg-white rounded-full">
@@ -640,9 +668,12 @@ export function CampusResumePage() {
                 </div>
                 <div className="text-[14px] text-gray-900 mb-1">{portfolioFileNames[id] || '上传作品'}</div>
                 <div className="text-[12px] text-gray-400 text-center leading-relaxed">
-                  将文件控制在300MB以内
+                  支持格式：PDF、DOC、DOCX、PNG、JPG、JPEG
                 </div>
-                <input required={!portfolioFileIds[id]} type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={(e) => handleFileUpload(e, (fileId, fileName) => { setPortfolioFileIds(prev => ({...prev, [id]: fileId})); setPortfolioFileNames(prev => ({...prev, [id]: fileName})); })} />
+                <div className="text-[12px] text-gray-400 text-center leading-relaxed">
+                  文件大小控制在10MB以内
+                </div>
+                <input required={!portfolioFileIds[id]} type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={(e) => handlePortfolioFileUpload(e, id)} />
               </div>
             </div>
           </>

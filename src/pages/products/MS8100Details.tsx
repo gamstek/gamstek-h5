@@ -73,8 +73,12 @@ const products = [
   { name: 'MS6000', image: ms6000Image, range: ['5–1250 amu'], source: 'ESI' },
 ];
 
-export function MS8100Details() {
-  useDocumentTitle('MS8100');
+export interface MS8100DetailsProps {
+  productName?: 'MS8100' | 'MS7000' | 'MS6000';
+}
+
+export function MS8100Details({ productName = 'MS8100' }: MS8100DetailsProps) {
+  useDocumentTitle(productName);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,7 +96,7 @@ export function MS8100Details() {
             animate={{ y: 0, opacity: 1 }}
             className="text-[28px] font-semibold tracking-[0.02em]"
           >
-            MS8100
+            {productName}
           </motion.h1>
           <motion.p
             initial={{ y: 20, opacity: 0 }}
@@ -115,7 +119,7 @@ export function MS8100Details() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            onClick={() => navigate('/inquiry?product=MS8100')}
+            onClick={() => navigate(`/inquiry?product=${productName}`)}
             className="bg-white text-black px-[28px] py-[8px] text-[12px] rounded-full font-medium hover:bg-gray-100 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)]"
           >
             购买咨询

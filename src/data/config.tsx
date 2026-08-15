@@ -51,8 +51,8 @@ export const headerLinks = {
     { label: 'FTMS/FTMS+', href: '/products/ftms' },
     { label: 'MS8100', href: '/products/ms8100' },
     { label: 'MS8000', href: '/products/ms8000' },
-    { label: 'MS7000', href: '#' },
-    { label: 'MS6000', href: '#' },
+    { label: 'MS7000', href: '/products/ms7000' },
+    { label: 'MS6000', href: '/products/ms6000' },
     { label: 'MassClaw', href: 'https://mp.weixin.qq.com/s/Y81jVYGrWOCoBdHB_kHuqg', external: true },
   ],
   support: [
@@ -73,8 +73,8 @@ export const footerLinks = {
     { label: 'FTMS/FTMS+', href: '/products/ftms' },
     { label: 'MS8100', href: '/products/ms8100' },
     { label: 'MS8000', href: '/products/ms8000' },
-    { label: 'MS7000', href: '#' },
-    { label: 'MS6000', href: '#' },
+    { label: 'MS7000', href: '/products/ms7000' },
+    { label: 'MS6000', href: '/products/ms6000' },
     { label: 'MassClaw', href: 'https://mp.weixin.qq.com/s/Y81jVYGrWOCoBdHB_kHuqg', external: true },
   ],
   support: [

@@ -31,6 +31,8 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="products/ms8100" element={<MS8100Details />} />
+          <Route path="products/ms7000" element={<MS8100Details productName="MS7000" />} />
+          <Route path="products/ms6000" element={<MS8100Details productName="MS6000" />} />
           <Route path="products/ms8000" element={<MS8000Details />} />
           <Route path="products/ftms" element={<FTMSDetails />} />
           <Route path="cases" element={<CasesPage />} />

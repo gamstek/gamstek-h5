@@ -80,11 +80,11 @@ export function Footer() {
         <div className="space-y-3 text-xs text-gray-400">
           <p className="flex items-center">
             <span className="w-12 text-gray-500">电话 :</span> 
-            <span className="text-base text-gray-300 font-medium">{contactInfo.phone}</span>
+            <a href={`tel:${contactInfo.phone}`} className="text-base text-gray-300 font-medium hover:text-white transition-colors">{contactInfo.phone}</a>
           </p>
           <p className="flex items-start">
             <span className="w-12 text-gray-500">邮箱 :</span> 
-            <span>{contactInfo.email}</span>
+            <a href={`mailto:${contactInfo.email}`} className="hover:text-white transition-colors">{contactInfo.email}</a>
           </p>
           <p className="flex items-start">
             <span className="w-12 text-gray-500 shrink-0">地址 :</span> 
