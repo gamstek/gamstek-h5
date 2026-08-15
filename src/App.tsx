@@ -1,23 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { Layout } from './components/Layout';
 import { CampusLayout } from './components/CampusLayout';
-import { HomePage } from './pages/HomePage';
-import { MS8100Details } from './pages/products/MS8100Details';
-import { MS8000Details } from './pages/products/MS8000Details';
-import { FTMSDetails } from './pages/products/FTMSDetails';
-import { CasesPage } from './pages/cases/CasesPage';
-import { NewsPage } from './pages/about/NewsPage';
-import { CompanyIntroPage } from './pages/about/CompanyIntroPage';
-import { SupportPage } from './pages/support/SupportPage';
-import { InquiryPage } from './pages/support/InquiryPage';
-import { RecruitmentPage } from './pages/recruitment/RecruitmentPage';
-import { CampusRecruitmentPage } from './pages/recruitment/CampusRecruitmentPage';
-import { JobDetailsPage } from './pages/recruitment/JobDetailsPage';
-import { CampusResumePage } from './pages/recruitment/CampusResumePage';
-import { CampusSubmitSuccessPage } from './pages/recruitment/CampusSubmitSuccessPage';
-import { CampusApplicationRecordsPage } from './pages/recruitment/CampusApplicationRecordsPage';
-import { MassClawPage } from './pages/massclaw/MassClawPage';
-import { NotFoundPage } from './pages/NotFoundPage';
+
+const HomePage = lazy(() => import('./pages/HomePage').then(({ HomePage }) => ({ default: HomePage })));
+const MS8100Details = lazy(() => import('./pages/products/MS8100Details').then(({ MS8100Details }) => ({ default: MS8100Details })));
+const MS8000Details = lazy(() => import('./pages/products/MS8000Details').then(({ MS8000Details }) => ({ default: MS8000Details })));
+const FTMSDetails = lazy(() => import('./pages/products/FTMSDetails').then(({ FTMSDetails }) => ({ default: FTMSDetails })));
+const CasesPage = lazy(() => import('./pages/cases/CasesPage').then(({ CasesPage }) => ({ default: CasesPage })));
+const NewsPage = lazy(() => import('./pages/about/NewsPage').then(({ NewsPage }) => ({ default: NewsPage })));
+const CompanyIntroPage = lazy(() => import('./pages/about/CompanyIntroPage').then(({ CompanyIntroPage }) => ({ default: CompanyIntroPage })));
+const SupportPage = lazy(() => import('./pages/support/SupportPage').then(({ SupportPage }) => ({ default: SupportPage })));
+const InquiryPage = lazy(() => import('./pages/support/InquiryPage').then(({ InquiryPage }) => ({ default: InquiryPage })));
+const RecruitmentPage = lazy(() => import('./pages/recruitment/RecruitmentPage').then(({ RecruitmentPage }) => ({ default: RecruitmentPage })));
+const CampusRecruitmentPage = lazy(() => import('./pages/recruitment/CampusRecruitmentPage').then(({ CampusRecruitmentPage }) => ({ default: CampusRecruitmentPage })));
+const JobDetailsPage = lazy(() => import('./pages/recruitment/JobDetailsPage').then(({ JobDetailsPage }) => ({ default: JobDetailsPage })));
+const CampusResumePage = lazy(() => import('./pages/recruitment/CampusResumePage').then(({ CampusResumePage }) => ({ default: CampusResumePage })));
+const CampusSubmitSuccessPage = lazy(() => import('./pages/recruitment/CampusSubmitSuccessPage').then(({ CampusSubmitSuccessPage }) => ({ default: CampusSubmitSuccessPage })));
+const CampusApplicationRecordsPage = lazy(() => import('./pages/recruitment/CampusApplicationRecordsPage').then(({ CampusApplicationRecordsPage }) => ({ default: CampusApplicationRecordsPage })));
+const MassClawPage = lazy(() => import('./pages/massclaw/MassClawPage').then(({ MassClawPage }) => ({ default: MassClawPage })));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(({ NotFoundPage }) => ({ default: NotFoundPage })));
 
 import { ToastProvider } from './components/Toast';
 
@@ -27,6 +29,7 @@ export default function App() {
   return (
     <ToastProvider>
       <Router basename={ROUTER_BASENAME}>
+        <Suspense fallback={<div className="min-h-screen bg-white" />}>
         <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -55,7 +58,8 @@ export default function App() {
         
         {/* 404 Fallback */}
         <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+        </Routes>
+        </Suspense>
     </Router>
   </ToastProvider>
   );
