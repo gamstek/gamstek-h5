@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { useCampusStore } from '../../store/useCampusStore';
-import { submitApplication } from '../../api/campus';
+import { fetchResume, submitApplication } from '../../api/campus';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { useToast } from '../../components/Toast';
 
 export function JobDetailsPage() {
   const toast = useToast();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { jobs, fetchJobs, isLoading } = useCampusStore();
 
@@ -96,6 +97,23 @@ export function JobDetailsPage() {
               window.dispatchEvent(new Event('open-login-menu'));
             } else {
               try {
+                const resumeData = await fetchResume();
+                const content = resumeData?.content;
+                const basicComplete = Boolean(content?.basic?.name?.trim() && content?.basic?.email?.trim());
+                const educationComplete = Array.isArray(content?.education)
+                  && content.education.length > 0
+                  && content.education.every((item: any) => item.school && item.degree && item.major && item.startDate && item.endDate);
+                const languageComplete = Array.isArray(content?.languages)
+                  && content.languages.length > 0
+                  && content.languages.every((item: any) => item.language && item.proficiency);
+                const attachmentComplete = Boolean(content?.attachmentFileId);
+
+                if (!basicComplete || !educationComplete || !languageComplete || !attachmentComplete) {
+                  toast.error('请先完善简历后再投递');
+                  navigate('/campus-recruitment/resume');
+                  return;
+                }
+
                 const res = await submitApplication(job.id, true, 'V1.0');
                 if (res.success) {
                   toast.success('投递成功');

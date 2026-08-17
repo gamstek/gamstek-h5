@@ -45,15 +45,20 @@ function DynamicSection({
   title, 
   items, 
   setItems, 
-  renderItem 
+  renderItem,
+  minItems = 0
 }: { 
   title: string, 
   items: string[], 
   setItems: React.Dispatch<React.SetStateAction<string[]>>,
-  renderItem: (id: string, index: number) => React.ReactNode
+  renderItem: (id: string, index: number) => React.ReactNode,
+  minItems?: number
 }) {
   const handleAdd = () => setItems([...items, Date.now().toString() + Math.random()]);
-  const handleRemove = (idToRemove: string) => setItems(items.filter(id => id !== idToRemove));
+  const handleRemove = (idToRemove: string) => {
+    if (items.length <= minItems) return;
+    setItems(items.filter(id => id !== idToRemove));
+  };
 
   if (items.length === 0) {
     return (
@@ -79,7 +84,12 @@ function DynamicSection({
           {renderItem(id, index)}
           <div className="py-4 flex items-center justify-center relative bg-white">
             <div className="flex items-center w-full">
-              <button type="button" onClick={() => handleRemove(id)} className="flex-1 flex items-center justify-center text-gray-600 text-[15px]">
+              <button
+                type="button"
+                onClick={() => handleRemove(id)}
+                disabled={items.length <= minItems}
+                className={`flex-1 flex items-center justify-center text-[15px] ${items.length <= minItems ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600'}`}
+              >
                 <Trash2 className="w-4 h-4 mr-1" /> 删除
               </button>
               <div className="w-[1px] h-4 bg-gray-200"></div>
@@ -227,7 +237,7 @@ export function CampusResumePage() {
   const [projects, setProjects] = useState<string[]>([]);
   const [portfolios, setPortfolios] = useState<string[]>([]);
   const [awards, setAwards] = useState<string[]>([]);
-  const [languages, setLanguages] = useState<string[]>([]);
+  const [languages, setLanguages] = useState<string[]>(['1']);
 
   const [datePickerConfig, setDatePickerConfig] = useState<{
     isOpen: boolean;
@@ -356,6 +366,10 @@ export function CampusResumePage() {
     
     if (educations.length === 0 || educations.some(id => !eduData[id]?.degree || !eduData[id]?.date)) {
       toast.error('请完善教育经历');
+      return;
+    }
+    if (languages.length === 0 || languages.some(id => !langData[id]?.name || !langData[id]?.proficiency)) {
+      toast.error('请完善语言能力');
       return;
     }
 
@@ -536,6 +550,7 @@ export function CampusResumePage() {
         title="教育经历" 
         items={educations} 
         setItems={setEducations} 
+        minItems={1}
         renderItem={(id) => (
           <>
             <FormField 
@@ -716,6 +731,7 @@ export function CampusResumePage() {
         title="语言能力" 
         items={languages} 
         setItems={setLanguages} 
+        minItems={1}
         renderItem={(id) => (
           <>
             <FormField 
