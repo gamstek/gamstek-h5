@@ -222,7 +222,7 @@ export function CampusResumePage() {
   const phone = localStorage.getItem('campus_phone') || '+86 158****0721';
 
   const [basicInfo, setBasicInfo] = useState<{ name: string; email: string }>({ name: '', email: '' });
-  const [educations, setEducations] = useState<string[]>([]);
+  const [educations, setEducations] = useState<string[]>(['1']);
   const [workExperiences, setWorkExperiences] = useState<string[]>([]);
   const [projects, setProjects] = useState<string[]>([]);
   const [portfolios, setPortfolios] = useState<string[]>([]);
@@ -354,6 +354,11 @@ export function CampusResumePage() {
       return;
     }
     
+    if (educations.length === 0 || educations.some(id => !eduData[id]?.degree || !eduData[id]?.date)) {
+      toast.error('请完善教育经历');
+      return;
+    }
+
     setIsSubmitting(true);
     const formData = new FormData(e.currentTarget);
     
