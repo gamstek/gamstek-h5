@@ -222,8 +222,8 @@ export function CampusResumePage() {
   const phone = localStorage.getItem('campus_phone') || '+86 158****0721';
 
   const [basicInfo, setBasicInfo] = useState<{ name: string; email: string }>({ name: '', email: '' });
-  const [educations, setEducations] = useState<string[]>(['1']);
-  const [workExperiences, setWorkExperiences] = useState<string[]>(['1']);
+  const [educations, setEducations] = useState<string[]>([]);
+  const [workExperiences, setWorkExperiences] = useState<string[]>([]);
   const [projects, setProjects] = useState<string[]>([]);
   const [portfolios, setPortfolios] = useState<string[]>([]);
   const [awards, setAwards] = useState<string[]>([]);
