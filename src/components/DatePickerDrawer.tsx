@@ -8,6 +8,7 @@ export interface DatePickerDrawerProps {
   value?: string; // 支持传入初始值，如 "2026-02 - 2026-08" 或 "2026-08-05"
   mode?: 'range' | 'single'; // 'range': 范围选择（默认），'single': 单个时间选择（如获奖时间）
   title?: string;
+  allowFuture?: boolean; // 允许结束时间选择未来日期（如教育经历的预计毕业时间）
 }
 
 const Wheel = ({ options, value, onChange }: { options: number[], value: number, onChange: (v: number) => void }) => {
@@ -62,7 +63,7 @@ const Wheel = ({ options, value, onChange }: { options: number[], value: number,
   );
 }
 
-export function DatePickerDrawer({ isOpen, onClose, onConfirm, value, mode = 'range', title }: DatePickerDrawerProps) {
+export function DatePickerDrawer({ isOpen, onClose, onConfirm, value, mode = 'range', title, allowFuture = false }: DatePickerDrawerProps) {
   const [activeTab, setActiveTab] = useState<'start' | 'end'>('start');
   
   const today = new Date();
@@ -119,18 +120,19 @@ export function DatePickerDrawer({ isOpen, onClose, onConfirm, value, mode = 'ra
     if (newEndYear === startYear && newEndMonth < startMonth) {
       newEndMonth = startMonth;
     }
-    if (newEndYear > currentYear) {
+    if (!allowFuture && newEndYear > currentYear) {
       newEndYear = currentYear;
     }
-    if (newEndYear === currentYear && newEndMonth > currentMonth) {
+    if (!allowFuture && newEndYear === currentYear && newEndMonth > currentMonth) {
       newEndMonth = currentMonth;
     }
 
     if (newEndYear !== endYear) setEndYear(newEndYear);
     if (newEndMonth !== endMonth) setEndMonth(newEndMonth);
-  }, [startYear, startMonth, endYear, endMonth, currentYear, currentMonth]);
+  }, [startYear, startMonth, endYear, endMonth, currentYear, currentMonth, allowFuture]);
 
-  const baseYears = Array.from({length: 50}, (_, i) => currentYear - 49 + i);
+  const maxEndYear = allowFuture ? currentYear + 6 : currentYear;
+  const baseYears = Array.from({length: allowFuture ? 56 : 50}, (_, i) => currentYear - 49 + i);
   const allMonths = Array.from({length: 12}, (_, i) => i + 1);
 
   // 计算选定年月的天数
@@ -158,12 +160,11 @@ export function DatePickerDrawer({ isOpen, onClose, onConfirm, value, mode = 'ra
     return true;
   });
 
-  // END constraints: cannot be less than start date, cannot exceed current date
-  const endYearOptions = baseYears.filter(y => y >= startYear && y <= currentYear);
+  // END constraints: cannot be less than start date; cannot exceed current date unless allowFuture
+  const endYearOptions = baseYears.filter(y => y >= startYear && y <= maxEndYear);
   const endMonthOptions = allMonths.filter(m => {
-    if (endYear === startYear && endYear === currentYear) return m >= startMonth && m <= currentMonth;
     if (endYear === startYear) return m >= startMonth;
-    if (endYear === currentYear) return m <= currentMonth;
+    if (!allowFuture && endYear === currentYear) return m <= currentMonth;
     return true;
   });
 

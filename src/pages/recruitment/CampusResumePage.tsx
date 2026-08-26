@@ -485,6 +485,7 @@ export function CampusResumePage() {
         onConfirm={handleDateConfirm}
         value={datePickerConfig.value}
         mode={datePickerConfig.mode}
+        allowFuture={datePickerConfig.section === 'edu'}
       />
       <OptionPickerDrawer 
         isOpen={optionPickerConfig.isOpen}
