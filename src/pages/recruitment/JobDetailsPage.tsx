@@ -114,7 +114,7 @@ export function JobDetailsPage() {
                   return;
                 }
 
-                const res = await submitApplication(job.id, true, 'V1.0');
+                const res = await submitApplication(job.id, true, 'V1.0', job.projectName);
                 if (res.success) {
                   toast.success('投递成功');
                 } else {

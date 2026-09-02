@@ -202,20 +202,49 @@ export interface ApplicationRecord {
   history?: ApplicationHistory[];
 }
 
-export const submitApplication = async (jobId: number, privacyAccepted: boolean, noticeVersion: string) => {
+// 招聘流程已结束（终止）的状态：流程结束后允许再次投递
+const TERMINAL_STATUSES = new Set(['REJECTED', 'REJECTED_TO_TALENT_POOL']);
+// 单个项目下最多允许投递的岗位数（含已结束的投递）
+const MAX_APPLICATIONS_PER_PROJECT = 3;
+
+export const submitApplication = async (jobId: number, privacyAccepted: boolean, noticeVersion: string, projectName: string = '') => {
   const token = localStorage.getItem('campus_token') || '';
 
   // 投递前先查询已有投递记录
   try {
     const existingApps = await fetchApplications();
     if (existingApps && existingApps.length > 0) {
-      // 如果找到已有投递记录
-      const activeApp = existingApps[0];
-      const jobTitle = activeApp.job?.title || '该职位';
-      return {
-        success: false,
-        message: `您已投递“${jobTitle}”，招聘流程结束前不能再次投递`
-      };
+      // 拿到 Offer 后，所有项目都不允许再投递
+      const hasOffer = existingApps.some(app => app.status === 'OFFER');
+      if (hasOffer) {
+        return {
+          success: false,
+          message: '您已获得 Offer，不能继续投递其他岗位'
+        };
+      }
+
+      // 只统计同一项目下的投递记录
+      const projectApps = projectName
+        ? existingApps.filter(app => app.job?.projectName === projectName)
+        : [];
+
+      // 同一项目下累计投递（含已结束）最多 3 次
+      if (projectApps.length >= MAX_APPLICATIONS_PER_PROJECT) {
+        return {
+          success: false,
+          message: `您在该项目下最多可投递${MAX_APPLICATIONS_PER_PROJECT}个岗位`
+        };
+      }
+
+      // 同一项目下同一时间只能有一个进行中的投递
+      const activeApp = projectApps.find(app => !TERMINAL_STATUSES.has(app.status));
+      if (activeApp) {
+        const jobTitle = activeApp.job?.title || '该职位';
+        return {
+          success: false,
+          message: `您已投递“${jobTitle}”，该项目下招聘流程结束前不能再次投递`
+        };
+      }
     }
   } catch (err) {
     console.error('检查已有投递记录失败:', err);
