@@ -16,7 +16,7 @@ const REGION_OPTIONS = [
   '内蒙古', '广西', '西藏', '宁夏', '新疆', '香港', '澳门',
 ];
 
-const PRODUCT_OPTIONS = ['MS8100', 'MS8000', 'FTMS / FTMS PRO', 'MS7000', 'MS6000'];
+const PRODUCT_OPTIONS = ['MS8100', 'MS8000', 'FTMS / FTMS Pro', 'MS7000', 'MS6000'];
 
 export function InquiryPage() {
   const toast = useToast();

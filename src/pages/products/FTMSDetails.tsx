@@ -18,7 +18,7 @@ import ftmsSystem from '../../assets/ftms/systems/control-system.png';
 import ftmsSoftware from '../../assets/ftms/systems/software.png';
 
 export function FTMSDetails() {
-  useDocumentTitle('FTMS/FTMS PRO');
+  useDocumentTitle('FTMS/FTMS Pro');
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,7 +43,7 @@ export function FTMSDetails() {
             animate={{ y: 0, opacity: 1 }}
             className="mb-4 text-[28px] font-semibold tracking-[0.02em]"
           >
-            FTMS / FTMS PRO
+            FTMS / FTMS Pro
           </motion.h1>
           <motion.p 
             initial={{ y: 20, opacity: 0 }}
@@ -66,7 +66,7 @@ export function FTMSDetails() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            onClick={() => navigate('/inquiry?product=FTMS%20%2F%20FTMS%20PRO')}
+            onClick={() => navigate('/inquiry?product=FTMS%20%2F%20FTMS%20Pro')}
             className="bg-white text-black px-[28px] py-[8px] text-[12px] rounded-full font-medium hover:bg-gray-100 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)]"
           >
             购买咨询
