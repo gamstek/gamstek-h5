@@ -18,7 +18,7 @@ import ftmsSystem from '../../assets/ftms/systems/control-system.png';
 import ftmsSoftware from '../../assets/ftms/systems/software.png';
 
 export function FTMSDetails() {
-  useDocumentTitle('FTMS/FTMS+');
+  useDocumentTitle('FTMS/FTMS PRO');
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,7 +43,7 @@ export function FTMSDetails() {
             animate={{ y: 0, opacity: 1 }}
             className="mb-4 text-[28px] font-semibold tracking-[0.02em]"
           >
-            FTMS / FTMS+
+            FTMS / FTMS PRO
           </motion.h1>
           <motion.p 
             initial={{ y: 20, opacity: 0 }}
@@ -66,7 +66,7 @@ export function FTMSDetails() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            onClick={() => navigate('/inquiry?product=FTMS')}
+            onClick={() => navigate('/inquiry?product=FTMS%20%2F%20FTMS%20PRO')}
             className="bg-white text-black px-[28px] py-[8px] text-[12px] rounded-full font-medium hover:bg-gray-100 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)]"
           >
             购买咨询
@@ -176,6 +176,54 @@ export function FTMSDetails() {
           <p className="mt-7 px-10 text-justify text-[15px] leading-[26px] text-white">
             FTMS软件进一步构建了完整的数据采集与方法管理能力。软件支持单TOF全扫描、实时TOF离子流图采集、Cell模式全扫描，并集成SIM、MRM、MS/MS快速采集以及DIA应用方法编辑等功能，可根据不同研究任务构建灵活的数据采集方案
           </p>
+        </div>
+      </section>
+
+      {/* FTMS Pro 相关技术参数 */}
+      <section className="bg-[#111] px-4 pb-20 pt-16">
+        <h3 className="mb-8 text-center text-[22px] font-medium tracking-[0.01em]">
+          FTMS Pro 相关技术参数
+        </h3>
+        <div className="mx-auto max-w-md overflow-hidden border border-[#00789a]">
+          <table className="w-full table-fixed border-collapse text-[15px] leading-[1.8] text-[#f2f2f2]">
+            <caption className="sr-only">FTMS Pro 相关技术参数</caption>
+            <colgroup>
+              <col className="w-[41%]" />
+              <col className="w-[59%]" />
+            </colgroup>
+            <thead>
+              <tr className="bg-[#073846] text-[16px] font-normal">
+                <th scope="col" className="border-r border-[#00789a] px-3 py-1 font-normal">技术指标</th>
+                <th scope="col" className="px-3 py-1 font-normal">参数</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#00789a]">
+              <tr>
+                <th scope="row" className="border-r border-[#00789a] px-4 py-2 text-center align-middle font-normal">离子源</th>
+                <td className="px-4 py-2 align-top">加热温度 ≥650 ℃；<br />主动废气排放</td>
+              </tr>
+              <tr>
+                <th scope="row" className="border-r border-[#00789a] px-4 py-2 text-center align-middle font-normal">四极杆</th>
+                <td className="px-4 py-2 align-top">质量范围 40–8000 m/z；<br />隔离范围 100–6000 m/z；<br />隔离效率 &gt;60%</td>
+              </tr>
+              <tr>
+                <th scope="row" className="border-r border-[#00789a] px-4 py-2 text-center align-middle font-normal">TOF 分辨率</th>
+                <td className="px-4 py-2 align-top">≥100,000 FWHM；<br />扫描速度 5 / 10 / 20 / 50 Hz</td>
+              </tr>
+              <tr>
+                <th scope="row" className="border-r border-[#00789a] px-4 py-2 text-center align-middle font-normal">FTICR 分辨率</th>
+                <td className="px-4 py-2 align-top">≥10,000,000 FWHM @ m/z 407</td>
+              </tr>
+              <tr>
+                <th scope="row" className="border-r border-[#00789a] px-4 py-2 text-center align-middle font-normal">质量范围</th>
+                <td className="px-4 py-2 align-top">TOF：5–40,000 Da；<br />FTICR：100–10,000 m/z</td>
+              </tr>
+              <tr>
+                <th scope="row" className="border-r border-[#00789a] px-4 py-2 text-center align-middle font-normal">质量准确度<br />采集速率</th>
+                <td className="px-4 py-2 align-top">&lt;500 ppb；<br />MS / MS/MS ≥100 Hz</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </div>

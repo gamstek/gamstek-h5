@@ -48,7 +48,7 @@ export const siteConfig = {
 // Header Links
 export const headerLinks = {
   products: [
-    { label: 'FTMS/FTMS+', href: '/products/ftms' },
+    { label: 'FTMS/FTMS PRO', href: '/products/ftms' },
     { label: 'MS8100', href: '/products/ms8100' },
     { label: 'MS8000', href: '/products/ms8000' },
     { label: 'MS7000', href: '/products/ms7000' },
@@ -70,7 +70,7 @@ export const headerLinks = {
 // Footer Links
 export const footerLinks = {
   products: [
-    { label: 'FTMS/FTMS+', href: '/products/ftms' },
+    { label: 'FTMS/FTMS PRO', href: '/products/ftms' },
     { label: 'MS8100', href: '/products/ms8100' },
     { label: 'MS8000', href: '/products/ms8000' },
     { label: 'MS7000', href: '/products/ms7000' },
@@ -168,9 +168,9 @@ export const homeProducts = [
     imageClassName: "aspect-[690/792]"
   },
   {
-    title: "FTMS / FTMS+",
+    title: "FTMS / FTMS PRO",
     subtitle: "全新高分辨质谱仪",
-    links: [{ label: "了解更多 >", href: "/products/ftms" }, { label: "购买咨询 >", href: "/inquiry?product=FTMS%20%2F%20FTMS%2B" }],
+    links: [{ label: "了解更多 >", href: "/products/ftms" }, { label: "购买咨询 >", href: "/inquiry?product=FTMS%20%2F%20FTMS%20PRO" }],
     image: homeProductFtms,
     imageClassName: "aspect-[690/792]"
   },
@@ -216,7 +216,7 @@ export const homeCarouselSlides = [
   },
   {
     id: 'ftms',
-    title: 'FTMS / FTMS+',
+    title: 'FTMS / FTMS PRO',
     subtitle: '突破分辨率天花板',
     description: '全新高分辨质谱仪',
     image: carouselSlide3,
