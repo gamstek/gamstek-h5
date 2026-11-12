@@ -99,7 +99,7 @@ export function MS8000Details() {
         <div className="absolute inset-x-0 top-[10%] z-10">
           <h2 className="text-[21px] font-medium">超强整机性能</h2>
           <p className="mt-[22px] text-[10px] leading-[1.8] text-[#d0d2d6]">
-            灵敏度达到国际先进水平，以卓越性能<br />赋能痕量分析极限突破
+            采用电子倍增检测器设计，灵敏度达到国际先进水平，以卓越性能赋能衡量分析极限突破 <br />可采用氮气发生器作为雾化气和碰撞气的气源
           </p>
         </div>
       </section>
